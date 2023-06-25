@@ -1,0 +1,465 @@
+---
+title: "PROPUESTA 2"
+author: "Nicolas Silva"
+date: "2023-06-01"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Podriamos añadir Perú a la base de forma manual y crear la nueva, no me fastidiaría en lo absoluto.
+
+
+```{r}
+library(rio)
+library(dplyr)
+library(tidyverse)
+library(car)
+library(countrycode)
+library(polycor)
+library(psych)
+library(GPArotation)
+library(lavaan)
+library(semPlot)
+WVS = import("WVS.csv")
+```
+
+
+```{r}
+WVS_A <- WVS%>%select(B_COUNTRY,Q58:Q63,Q64:Q82, Q83:Q89)
+WVS_A <- WVS_A %>% 
+  mutate(across(everything(), ~if_else(. %in% c(-1, -2, -3, -4, -5), NA_integer_, .)))
+WVS_A <- na.omit(WVS_A)
+```
+
+CONFIANZA EN LAS INSTITUCIONES 
+
+```{r}
+WVS_pais <- WVS_A %>%
+  group_by(B_COUNTRY) %>%
+  summarize(across(Q64:Q89, mean, na.rm = TRUE))
+WVS_pais=round(WVS_pais)
+
+```
+
+```{r}
+WVS_pais <- WVS_pais%>%rename(Codigo=B_COUNTRY, confianza_religion=Q64,confianza_FFAA=Q65,confianza_prensa= Q66,confianza_television= Q67, confianza_sindicatos = Q68, confianza_policia = Q69, confianza_justicia = Q70, confianza_gobierno = Q71, confianza_partidos = Q72, confianza_parlamento = Q73, confianza_serviciocivil = Q74, confianza_universidades = Q75, confianza_elecciones = Q76, confianza_granempresa = Q77, confianza_bancos =Q78, confianza_org_ambiental =Q79, confianza_org_mujeres = Q80, confianza_org_humanitaria = Q81, confianza_org_regional_relevante = Q82, confianza_onu = Q83, confianza_fmi = Q84, confianza_cci = Q85, confianza_otan = Q86, confianza_bm =Q87, confianza_oms =Q88, confianza_omc =Q89)
+```
+
+```{r}
+WVS_pais$Codigo <- as.character(WVS_pais$Codigo)
+data=import("all.csv")
+WVS_pais$Nombre <- data$name[match(WVS_pais$Codigo, data$`country-code`)]
+```
+
+```{r}
+WVS_pais$Nombre <- ifelse(WVS_pais$Codigo == 909, "Northern Ireland", WVS_pais$Nombre)
+```
+
+Cargamos la subdata:
+
+```{r}
+subdata_1=WVS_pais[,c(2:27)]
+subdata_1
+```
+
+Ordenamos de manera ascendente:
+
+1.- confianza_religion
+
+```{r}
+subdata_1$confianza_religion= recode(subdata_1$confianza_religion, "1=4;2=3;3=2;4=1")
+table(subdata_1$confianza_religion)
+```
+
+2.- confianza_FFAA
+
+```{r}
+subdata_1$confianza_FFAA= recode(subdata_1$confianza_FFAA, "1=4;2=3;3=2;4=1")
+table(subdata_1$confianza_FFAA)
+```
+
+3.-confianza_prensa
+
+```{r}
+subdata_1$confianza_prensa= recode(subdata_1$confianza_prensa, "1=4;2=3;3=2;4=1")
+table(subdata_1$confianza_prensa)
+```
+
+4.-confianza_television
+
+```{r}
+subdata_1$confianza_television= recode(subdata_1$confianza_television, "1=4;2=3;3=2;4=1")
+table(subdata_1$confianza_religion)
+```
+
+5.-confianza_sindicatos
+
+```{r}
+subdata_1$confianza_sindicatos= recode(subdata_1$confianza_sindicatos, "1=4;2=3;3=2;4=1")
+table(subdata_1$confianza_sindicatos)
+```
+
+6.- confianza_policia
+
+```{r}
+subdata_1$confianza_policia= recode(subdata_1$confianza_policia, "1=4;2=3;3=2;4=1")
+table(subdata_1$confianza_policia)
+```
+
+7.- confianza_justicia
+
+```{r}
+subdata_1$confianza_justicia= recode(subdata_1$confianza_justicia, "1=4;2=3;3=2;4=1")
+table(subdata_1$confianza_justicia)
+```
+
+8.-confianza_gobierno
+
+```{r}
+subdata_1$confianza_gobierno= recode(subdata_1$confianza_gobierno, "1=4;2=3;3=2;4=1")
+table(subdata_1$confianza_gobierno)
+```
+
+9.-confianza_partidos
+
+```{r}
+subdata_1$confianza_partidos= recode(subdata_1$confianza_partidos, "1=4;2=3;3=2;4=1")
+table(subdata_1$confianza_partidos)
+```
+
+10.-confianza_parlamento
+
+```{r}
+subdata_1$confianza_parlamento= recode(subdata_1$confianza_parlamento, "1=4;2=3;3=2;4=1")
+table(subdata_1$confianza_parlamento)
+```
+
+11.- confianza_serviciocivil
+
+```{r}
+subdata_1$confianza_serviciocivil= recode(subdata_1$confianza_serviciocivil, "1=4;2=3;3=2;4=1")
+table(subdata_1$confianza_serviciocivil)
+```
+
+12.-confianza_universidades
+
+```{r}
+subdata_1$confianza_universidades= recode(subdata_1$confianza_universidades, "1=4;2=3;3=2;4=1")
+table(subdata_1$confianza_universidades)
+```
+
+13.- confianza_elecciones
+
+```{r}
+subdata_1$confianza_elecciones= recode(subdata_1$confianza_elecciones, "1=4;2=3;3=2;4=1")
+table(subdata_1$confianza_elecciones)
+```
+
+14.- confianza_granempresa
+
+```{r}
+subdata_1$confianza_granempresa= recode(subdata_1$confianza_granempresa, "1=4;2=3;3=2;4=1")
+table(subdata_1$confianza_granempresa)
+```
+
+15.-confianza_bancos
+
+```{r}
+subdata_1$confianza_bancos= recode(subdata_1$confianza_bancos, "1=4;2=3;3=2;4=1")
+table(subdata_1$confianza_bancos)
+```
+
+16.- confianza_org_ambiental
+
+```{r}
+subdata_1$confianza_org_ambiental= recode(subdata_1$confianza_org_ambiental, "1=4;2=3;3=2;4=1")
+table(subdata_1$confianza_org_ambiental)
+```
+
+17.- confianza_org_mujeres
+
+```{r}
+subdata_1$confianza_org_mujeres= recode(subdata_1$confianza_org_mujeres, "1=4;2=3;3=2;4=1")
+table(subdata_1$confianza_org_mujeres)
+```
+
+18.-confianza_org_humanitaria
+
+```{r}
+subdata_1$confianza_org_humanitaria= recode(subdata_1$confianza_org_humanitaria, "1=4;2=3;3=2;4=1")
+table(subdata_1$confianza_org_humanitaria)
+```
+
+19.-confianza_org_regional_relevante
+
+```{r}
+subdata_1$confianza_org_regional_relevante= recode(subdata_1$confianza_org_regional_relevante, "1=4;2=3;3=2;4=1")
+table(subdata_1$confianza_org_regional_relevante)
+```
+
+20.-confianza_onu
+
+```{r}
+subdata_1$confianza_onu= recode(subdata_1$confianza_onu, "1=4;2=3;3=2;4=1")
+table(subdata_1$confianza_onu)
+```
+
+21.-confianza_fmi
+
+```{r}
+subdata_1$confianza_fmi= recode(subdata_1$confianza_fmi, "1=4;2=3;3=2;4=1")
+table(subdata_1$confianza_fmi)
+```
+
+22.-confianza_cci
+
+```{r}
+subdata_1$confianza_cci= recode(subdata_1$confianza_cci, "1=4;2=3;3=2;4=1")
+table(subdata_1$confianza_cci)
+
+```
+
+23.-confianza_otan
+
+```{r}
+subdata_1$confianza_otan= recode(subdata_1$confianza_otan, "1=4;2=3;3=2;4=1")
+table(subdata_1$confianza_otan)
+```
+
+24.-confianza_bm
+
+```{r}
+subdata_1$confianza_bm= recode(subdata_1$confianza_bm, "1=4;2=3;3=2;4=1")
+table(subdata_1$confianza_bm)
+```
+
+25.- confianza_oms
+
+```{r}
+subdata_1$confianza_oms= recode(subdata_1$confianza_oms, "1=4;2=3;3=2;4=1")
+table(subdata_1$confianza_oms)
+
+```
+
+26.-confianza_omc
+
+```{r}
+subdata_1$confianza_omc= recode(subdata_1$confianza_omc, "1=4;2=3;3=2;4=1")
+table(subdata_1$confianza_omc)
+```
+
+***APLICACION DEL ANÁLISIS FACTORIAL EXPLORATORIO Y CONFIRMATORIO***
+
+```{r}
+
+poly_cor1 = polychoric(subdata_1)
+poly_cor1
+
+```
+
+```{r}
+corMatrix=poly_cor1$rho 
+cor.plot(corMatrix,
+          numbers=T, #Se muestren los numeros de las correlaciones
+          upper=F, #Que aparezca la segunda parte
+          main= "Matriz de correlaciones",#Titulo
+          show.legend=T)#Mostrar leyenda
+```
+
+KMO:
+
+```{r}
+psych::KMO(subdata_1) 
+```
+
+0.83 -\> mayor a 0.8 es excelente
+
+```{r}
+cortest.bartlett(corMatrix,n=nrow(subdata_1))$p.value>0.05
+```
+
+Se rechaza H0 -\> bien
+
+Grafico de sedimentación
+
+```{r}
+fa.parallel(corMatrix, fm="pa", fa="fa", main = "Scree Plot")
+```
+
+Autovalores:
+
+```{r}
+eigenf = eigen(cor(subdata_1, use="complete"))
+eigenf$values
+```
+
+5 factores deberíamos tener de acuerdo con R.
+
+```{r}
+factorial_exp1 <- fa(subdata_1,nfactors = 5,rotate="varimax", fm="minres")
+factorial_exp1
+```
+
+Diagrama
+
+```{r}
+fa.diagram(factorial_exp1)
+```
+
+```{r}
+print(factorial_exp1$loadings,cutoff = 0.4)
+```
+
+## Evaluamos el Análisis Factorial Exploratorio solicitado
+
+-   ¿Qué variables aportaron mas a los factores?
+
+```{r}
+sort(factorial_exp1$communality)
+```
+
+-   **¿Qué variables contribuyen a mas de un factor?**
+
+```{r}
+sort(factorial_exp1$complexity)
+```
+
+-   ¿Qué variables observables tiene un componente "único" más grande?
+
+```{r}
+sort(factorial_exp1$uniquenesses)
+```
+
+En caso una variable observable comparte en más de un factor la consideraremos en donde tiene una mayor carga factorial.
+
+**Analisis confirmatorio**
+
+```{r}
+Modelo_confir1 = "FAC1 =~confianza_television + confianza_sindicatos+confianza_granempresa+confianza_org_regional_relevante+confianza_onu+confianza_bm+confianza_oms+confianza_omc+confianza_otan+ confianza_cci+confianza_fmi
+                FAC2 =~ confianza_universidades+confianza_org_ambiental+confianza_org_mujeres+confianza_org_humanitaria
+                FAC3 =~ confianza_prensa+confianza_gobierno+confianza_partidos+confianza_parlamento+confianza_elecciones+confianza_serviciocivil
+                FAC4 =~ confianza_FFAA
+                FAC5 =~confianza_religion"
+
+Modelo_confir1
+```
+
+```{r}
+modelo=cfa(Modelo_confir1, data=subdata_1)
+summary(modelo,fit.measures=F)
+```
+
+peligroso -\>
+
+```         
+  FAC4 =~                                             
+    confianza_FFAA    1.000                           
+    confianza_polc    2.661    1.452    1.832    0.067
+    confianza_jstc    4.672    2.721    1.717    0.086
+```
+
+Vemos que existe dos valores con mucho p-value.
+
+```{r}
+Modelo_confir2 = "Confianza en Organizaciones Internacionales =~confianza_org_regional_relevante+confianza_onu+confianza_bm+confianza_oms+confianza_omc+confianza_otan+ confianza_cci+confianza_fmi
+                 Confianza en los Medios de Comunicación y Fuentes de Información  =~ confianza_television + confianza_prensa
+                Confianza en las Instituciones Políticas y Legales =~ confianza_gobierno+confianza_partidos+confianza_parlamento+confianza_elecciones+confianza_serviciocivil
+              Confianza en las instituciones de seguridad  =~ confianza_FFAA
+                Confianza en Instituciones Educativas y Espirituales =~confianza_religion+ confianza_universidades
+Confianza en Instituciones Sociales=~ confianza_sindicatos + confianza_granempresa+
+confianza_org_ambiental+confianza_org_mujeres+confianza_org_humanitaria"
+```
+
+
+
+
+
+
+
+```{r}
+modelo2=cfa(Modelo_confir2, data=subdata_1)
+summary(modelo2,fit.measures=F)
+```
+
+CONFIANZA INTERPERSONAL
+
+Seleccionamos la data y ordenamos
+
+```{r}
+WVS_interpersonal <- WVS_A %>%
+  group_by(B_COUNTRY) %>%
+  summarize(across(Q58:Q63, mean, na.rm = TRUE))
+WVS_interpersonal=round(WVS_interpersonal)
+```
+Aqui estamos colocando nombres a las variables
+```{r}
+WVS_interpersonal <- WVS_interpersonal%>%rename(codigo= B_COUNTRY,familia=Q58, barrio=Q59, conocidos=Q60, rconocidos=Q61, preligion=Q62, nacionalidad=Q63 )
+```
+
+aqui colocando nombre a los países según su código
+```{r}
+str(WVS_interpersonal$codigo)
+WVS_interpersonal$codigo <-as.character(WVS_interpersonal$codigo)
+WVS_interpersonal$pais <-data$name[match(WVS_interpersonal$codigo, data$`country-code`)]
+```
+ aqui, debido a que tenemos NA en el codigo 909, agregamos Irlanda del Norte
+
+```{r}
+WVS_interpersonal$pais <- ifelse(WVS_interpersonal$codigo==909, "Northern Ireland", WVS_interpersonal$pais)
+```
+EHHHHH
+```{r}
+subdata_2<- WVS_interpersonal[,c(2:7)]
+```
+
+ASCENDENTE
+
+1. Variable familia 
+```{r}
+subdata_2$familia= recode(subdata_2$familia, "1=4;2=3;3=2;4=1")
+table(subdata_2$familia)
+```
+2. varibale barrio
+```{r}
+subdata_2$barrio= recode(subdata_2$barrio, "1=4;2=3;3=2;4=1")
+table(subdata_2$barrio)
+```
+3. variable conocidos
+```{r}
+subdata_2$conocidos= recode(subdata_2$conocidos, "1=4;2=3;3=2;4=1")
+table(subdata_2$conocidos)
+```
+4. variable recien conocidos
+```{r}
+subdata_2$rconocidos= recode(subdata_2$rconocidos, "1=4;2=3;3=2;4=1")
+table(subdata_2$rconocidos)
+```
+5. variable personas de otras religiones
+```{r}
+subdata_2$preligion= recode(subdata_2$preligion, "1=4;2=3;3=2;4=1")
+table(subdata_2$preligion)
+```
+6. variable personas de otra nacionalidad
+```{r}
+subdata_2$nacionalidad= recode(subdata_2$nacionalidad, "1=4;2=3;3=2;4=1")
+table(subdata_2$nacionalidad)
+```
+
+
+APLICACIÓN DE ANÁLISIS FACTORIAL Y CONFIRMATORIO PARA  INTERPERSONAL 
+
+```{r}
+poly_cor2 = polychoric(subdata_2)
+poly_cor2
+```
+
+```{r}
+any(is.na(subdata_2))
+```
+
+
+
+
