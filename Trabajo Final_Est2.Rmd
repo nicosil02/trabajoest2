@@ -15,7 +15,7 @@ texto
 
 ## 1.1. Pregunta de investigación
 
-texto
+cómo se agrupan los países según su confianza en las instituciones y confianza interpersonal
 
 ## 1.2. Hipótesis
 
@@ -26,6 +26,7 @@ texto
 ## 2.1. Base de datos:
 
 Abrimos las librerías:
+La presente investigación se basa en el "2017-2021 World Values Survey Wave 7". Esta base tiene como propósito recolectar los cambios en creencias, valores y motivaciones de las personas en casi 100 países que continen casi el 90% de la población del mundo. Esta investigación utilizará la versión más actual del cuestionario que corresponde a l ala sétima ola de WVS, cada ola significando un número más grande de sociedades que se han cubierto. El cuestionario WVS-7 consta de 290 preguntas y mide los valores culturales, las actitudes y las creencias sobre el género, la familia y la religión, las actitudes y la experiencia de la pobreza, la educación, la salud y la seguridad, la tolerancia social y la confianza, las actitudes hacia instituciones multilaterales, diferencias culturales y similitudes entre religiones y sociedades. A diferencia de previas olas, la WVS-7 incluye nuevos temas como la justicia, principios morales, corrupción, rendición de cuentas y riesgo, migración, seguridad nacional y gobernanza global. La recopilación de estos criterios de encuesta se encuentran al margen de la contriubucuón de los Objetivos de Desarrollo Sostenible y las metas definidas por la agenda post-2015 de la ONU.
 
 ```{r message=FALSE, warning=FALSE}
 library(rio)
