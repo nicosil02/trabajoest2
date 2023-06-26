@@ -39,6 +39,9 @@ library(GPArotation)
 library(lavaan)
 library(semPlot)
 library(rmdformats)
+library(dendextend)
+library(factoextra)
+library(ggdendro)
 options(scipen = 999)
 ```
 
@@ -601,13 +604,34 @@ WVS_pais$F6_ConfianzaenInstitucionesSociales = normalize(WVS_pais$F6_Confianzaen
                                         range = c(1, 4))
 ```
 
+```{r}
+WVS_pais[, 35:40] <- round(WVS_pais[, 35:40])
+
+```
+
 Explicar los niveles de los factores --\> texto
 
 ## 3.3. Análisis de Conglomerados - No Jerárquicos
 
+Ahora aplicaremos el análisis de conglomerados K-means (No Jerárquico) para encontrar subgrupos de países que sean homogéneos entre sí y heterogéneos respecto a los otros grupos según los factores generados previamente
+
+Asignamos el nombre de los países como primera columna para poder identificarlos en el proceso de crear los subgrupos.
+
+```{r}
+rownames(WVS_pais) = WVS_pais[,34]
+```
+
+```{r}
+WVS_factores1 <- WVS_pais%>%select(F1_ConfianzaenlasOI,F2_ConfianzaenlosMediosdeComunicación,F3_ConfianzaenlasInstitucionesPolíticasyLegales,F4_Confianzaenlasinstitucionesdeseguridad,F5_ConfianzaenInstitucionesEducativasyEspirituales, F6_ConfianzaenInstitucionesSociales)
+```
+
+```{r}
+MATRI_dist <- get_dist(WVS_factores1, method = "euclidean", stand = TRUE)
+```
+
 ## 3.4. Mapas
 
-# 4.- Presentación y análisis de resultados - Confianza interpersonal 
+# 4.- Presentación y análisis de resultados - Confianza interpersonal
 
 Trabajo con 6 variables.
 
