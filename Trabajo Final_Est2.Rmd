@@ -43,6 +43,7 @@ library(dendextend)
 library(factoextra)
 library(ggdendro)
 options(scipen = 999)
+library(NbClust)
 ```
 
 Cargamos la base de datos:
@@ -81,7 +82,6 @@ Para mayor comodidad y representatividad, agrupamos la data por país y converti
 WVS_pais<- WVS_A %>%
   group_by(B_COUNTRY) %>%
   summarize(across(Q58:Q89, mean, na.rm = TRUE))
-WVS_pais <- round(WVS_pais)
 ```
 
 Renombramos las variables:
@@ -605,14 +605,11 @@ WVS_pais$F6_ConfianzaenInstitucionesSociales = normalize(WVS_pais$F6_Confianzaen
                                         range = c(1, 4))
 ```
 
-```{r}
-WVS_pais[, 35:40] <- round(WVS_pais[, 35:40])
 
-```
 
 Explicar los niveles de los factores --\> texto
 
-## 3.3. Análisis de Conglomerados - No Jerárquicos
+## 3.3. Análisis de Conglomerados Jerárquicos
 
 Ahora aplicaremos el análisis de conglomerados K-means (No Jerárquico) para encontrar subgrupos de países que sean homogéneos entre sí y heterogéneos respecto a los otros grupos según los factores generados previamente
 
@@ -628,7 +625,52 @@ WVS_factores1 <- WVS_pais%>%select(F1_ConfianzaenlasOI,F2_ConfianzaenlosMediosde
 
 ```{r}
 MATRI_dist <- get_dist(WVS_factores1, method = "euclidean", stand = TRUE)
+
 ```
+
+Elaboramos matriz de distancias
+
+```{r}
+fviz_dist(MATRI_dist, gradient = list(low = "blue", mid = "white", high = "red"))
+```
+Calculo de clúster
+
+```{r}
+resnumclust=NbClust(WVS_factores1, distance = "euclidean", min.nc= 2, max.nc= 10, 
+                       method = "ward.D")
+```
+
+```{r}
+res1 <- hcut(WVS_factores1, k = 3, stand = TRUE, hc_method = "ward.D")
+```
+Dendograma
+```{r}
+fviz_dend(res1, rect = T, cex = 0.5)
+```
+Grafico
+```{r}
+fviz_cluster(res1, data = WVS_factores1)
+```
+Agregamos a nuestra base
+```{r}
+WVS_pais$clus_instituciones=as.factor(res1$cluster)
+```
+
+Vemos las características de los grupos
+```{r}
+table(WVS_pais$clus_instituciones)
+```
+Observamos características
+```{r}
+clust_car=WVS_factores1 %>%
+  mutate(Cluster = res1$cluster) %>%
+  group_by(Cluster) %>%
+  summarise_all("mean")
+clust_car
+
+```
+Variables latentes:
+
 
 ## 3.4. Mapas
 
@@ -643,10 +685,10 @@ APLICACIÓN DE ANÁLISIS FACTORIAL Y CONFIRMATORIO PARA INTERPERSONAL
 ```{r}
 str(subdata_2)
 ```
+
 ```{r}
 subdata_2=as.data.frame(subdata_2)
 ```
-
 
 ```{r}
 subdata_2 <- subdata_2[complete.cases(subdata_2),]
@@ -655,6 +697,7 @@ corMatrix=hetcor(subdata_2)$correlations
 
 
 ```
+
 ```{r}
 cor.plot(corMatrix,
           numbers=T, #Se muestren los numeros de las correlaciones
@@ -666,7 +709,7 @@ cor.plot(corMatrix,
 ```{r}
 psych::KMO(subdata_2)
 ```
+
 ```{r}
 cortest.bartlett(corMatrix,n=nrow(subdata_2))$p.value>0.05
 ```
-
