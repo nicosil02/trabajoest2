@@ -501,11 +501,13 @@ texto
 sort(factorial_exp1$uniquenesses)
 ```
 
-texto
+texto Explicar por qué esto es insuficiente.
 
 ## 3.2. Análisis Factorial Confirmatorio
 
 ### **Analisis confirmatorio**
+
+Explicar
 
 ```{r}
 Modelo_confir1 = "FAC1 =~confianza_bm+confianza_fmi+confianza_omc+confianza_onu+confianza_org_regional_relevante+confianza_cci+confianza_granempresa+confianza_bancos+confianza_otan
@@ -605,8 +607,6 @@ WVS_pais$F6_ConfianzaenInstitucionesSociales = normalize(WVS_pais$F6_Confianzaen
                                         range = c(1, 4))
 ```
 
-
-
 Explicar los niveles de los factores --\> texto
 
 ## 3.3. Análisis de Conglomerados Jerárquicos
@@ -633,6 +633,7 @@ Elaboramos matriz de distancias
 ```{r}
 fviz_dist(MATRI_dist, gradient = list(low = "blue", mid = "white", high = "red"))
 ```
+
 Calculo de clúster
 
 ```{r}
@@ -643,24 +644,33 @@ resnumclust=NbClust(WVS_factores1, distance = "euclidean", min.nc= 2, max.nc= 10
 ```{r}
 res1 <- hcut(WVS_factores1, k = 3, stand = TRUE, hc_method = "ward.D")
 ```
+
 Dendograma
+
 ```{r}
 fviz_dend(res1, rect = T, cex = 0.5)
 ```
+
 Grafico
+
 ```{r}
 fviz_cluster(res1, data = WVS_factores1)
 ```
+
 Agregamos a nuestra base
+
 ```{r}
 WVS_pais$clus_instituciones=as.factor(res1$cluster)
 ```
 
 Vemos las características de los grupos
+
 ```{r}
 table(WVS_pais$clus_instituciones)
 ```
+
 Observamos características
+
 ```{r}
 clust_car=WVS_factores1 %>%
   mutate(Cluster = res1$cluster) %>%
@@ -669,12 +679,12 @@ clust_car=WVS_factores1 %>%
 clust_car
 
 ```
-Variables latentes:
 
+Explicación Valdría la pensa alternar el cluster 2 y 3 para que exista un orden visible.
 
 ## 3.4. Mapas
 
-# 4.- Presentación y análisis de resultados - Confianza interpersonal
+# 4. Presentación y análisis de resultados - Confianza interpersonal
 
 Trabajo con 6 variables.
 
@@ -682,34 +692,140 @@ Trabajo con 6 variables.
 
 APLICACIÓN DE ANÁLISIS FACTORIAL Y CONFIRMATORIO PARA INTERPERSONAL
 
+Revisamos la estructura de nuestra subdata configurada previamente:
+
 ```{r}
 str(subdata_2)
 ```
+
+Encontramos nuestro "data.frame" en formato tibble, lo cual no nos permite aplicar el análisis factorial. Lo convertimos adecuadamente en un data.frame.
 
 ```{r}
 subdata_2=as.data.frame(subdata_2)
 ```
 
+A pesar de haber limpiado la data previamente, al cambiar de formato, nos sercioramos de eliminar los NA's:
+
 ```{r}
 subdata_2 <- subdata_2[complete.cases(subdata_2),]
 subdata_2=na.omit(subdata_2)
-corMatrix=hetcor(subdata_2)$correlations
-
-
 ```
 
+Creamos nuestra matriz de correlación:
+
 ```{r}
-cor.plot(corMatrix,
+
+corMatrix2=hetcor(subdata_2)$correlations
+corMatrix
+```
+
+Creamos un objeto con la matriz de correlaciones:
+
+```{r}
+cor.plot(corMatrix2,
           numbers=T, #Se muestren los numeros de las correlaciones
           upper=F, #Que aparezca la segunda parte
           main= "Matriz de correlaciones",#Titulo
           show.legend=T)#Mostrar leyenda
 ```
 
+Verificamos que los datos se puedan factorizar:
+
+Test de Kaiser-Meyer-Olkin factor adequacyf
+
 ```{r}
 psych::KMO(subdata_2)
 ```
 
+Observamos que los resultados se encuentran entre 0.46 a 0.83. Asímismo, el Overall MSA es de 0.73, de modo que, al ser mayor a 0.5 y 0.7, los datos de todas nuestras variables son factorizables.
+
+Verificamos si la matriz de correlaciones es adecuada:
+
+Test de Bartlett
+
 ```{r}
-cortest.bartlett(corMatrix,n=nrow(subdata_2))$p.value>0.05
+cortest.bartlett(corMatrix2,n=nrow(subdata_2))$p.value>0.05
+```
+
+H0= Matriz de correlación es igual a la matriz de identidad
+
+Ha= Matriz de correlación NO es igual a la matriz de identidad (\<0.05)
+
+Con el "FALSE" se rechaza la H0 y se asume un valor menor a 0.05, que indica que la matriz de correlación es igual que la matriz de identidad. Por ende, se adopta la Ha, que indica que la mtriz es adecuada.
+
+Determinamos la cantidad de factores a desarrollar Gráfico de sedimentación
+
+Elaboramos este gráfico para determinar en cuántos factores podemos redimencionar nuestra base de datos.
+
+```{r}
+fa.parallel(corMatrix2, fm="pa", fa="fa", main = "Scree Plot")
+```
+
+Eigen values - Autovalores
+
+```{r}
+eigenf2 = eigen(cor(subdata_2, use="complete"))
+eigenf$values
+```
+
+Elegimos 2.
+
+Solicitamos el número de componentes:
+
+Rotamos para acomodar las variables latentes de tal manera que se correlacionen con un grupo de datos y no con otro.
+
+```{r}
+factorial_exp2 <- fa(subdata_2,nfactors = 2,rotate="varimax", fm="minres")
+factorial_exp2
+```
+
+Diagramamos
+
+Observamos qué variables conforman cada uno de los factores así como cuando aporta cada una a estos componentes.
+
+```{r}
+fa.diagram(factorial_exp2)
+```
+
+```{r}
+print(factorial_exp2$loadings,cutoff = 0.6)
+```
+
+Evaluamos el Análisis Factorial Exploratorio solicitado ¿Qué variables aportaron mas a los factores?
+
+```{r}
+sort(factorial_exp2$communality)
+```
+
+Texto ¿Qué variables contribuyen a mas de un factor?
+
+```{r}
+sort(factorial_exp2$complexity)
+```
+
+texto ¿Qué variables tiene un componente "único" más grande?
+
+```{r}
+sort(factorial_exp2$uniquenesses)
+```
+
+texto
+
+Explicar que vamos a corroborarlo
+
+## 4.2. Análisis Factorial Confirmatorio
+
+texto
+
+```{r}
+Modelo_confir3 = "FAC1 =~ nacionalidad + preligion + rconocidos + conocidos
+                FAC2 =~ barrio + familia"
+Modelo_confir3
+```
+
+Lo que se realizaría es indicar el nombre de cada facrtor, y qué variables las integran, solo indicamos el nombre de estas variables, en el siguiente comando indicaríamos la base (editar)
+
+```{r}
+modelo_inter=cfa(Modelo_confir3, data=subdata_2)
+summary(modelo_inter,fit.measures=F)
 ```
