@@ -811,21 +811,6 @@ sort(factorial_exp2$uniquenesses)
 
 texto
 
-Explicar que vamos a corroborarlo
+Explicar por qué es suficiente este resultado y no vamos a hacer AFC
 
-## 4.2. Análisis Factorial Confirmatorio
-
-texto
-
-```{r}
-Modelo_confir3 = "FAC1 =~ nacionalidad + preligion + rconocidos + conocidos
-                FAC2 =~ barrio + familia"
-Modelo_confir3
-```
-
-Lo que se realizaría es indicar el nombre de cada facrtor, y qué variables las integran, solo indicamos el nombre de estas variables, en el siguiente comando indicaríamos la base (editar)
-
-```{r}
-modelo_inter=cfa(Modelo_confir3, data=subdata_2)
-summary(modelo_inter,fit.measures=F)
-```
+## 4.2. Análisis de Conglomerados Jerárquicos
