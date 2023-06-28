@@ -56,7 +56,7 @@ Decir qué base vamos a usar, sus características, de qué años, etc. Si bien 
 
 Basarse del trabajo modelo que tenemos ayuda
 
-También mencionar que variables vamos a usar y a qué categoría pertenecen (confianza instituciones y confianza interpersonal)
+También mencionar que variables vamos a usar y a qué categoría pertenecen (confianza instituciones y confianza interpersonal). **TAMBIEN TENEMOS QUE DESCRIBIRLAS.**
 
 Seleccionamos las variables que se utilizarán:
 
