@@ -38,7 +38,7 @@ library(psych)
 library(GPArotation)
 library(lavaan)
 library(semPlot)
-library(rmdformats)
+
 library(dendextend)
 library(factoextra)
 library(ggdendro)
@@ -813,4 +813,102 @@ texto
 
 Explicar por qué es suficiente este resultado y no vamos a hacer AFC
 
+
+```{r}
+factorial_confinst<-as.data.frame(factorial_exp2$scores)
+head(factorial_confinst)
+summary(factorial_confinst)
+```
+
+
+```{r}
+WVS_pais$confinsti_lejana<- factorial_confinst$MR1
+WVS_pais$confinsti_cercana<- factorial_confinst$MR2
+```
+ texto: describir cada factor 
+ 
+ 
+ 
+
+```{r}
+#install.packages("BBmisc")
+library(BBmisc)
+WVS_pais$confinsti_lejana = normalize(WVS_pais$confinsti_lejana, 
+                                        method = "range", 
+                                        margin=2, # by column
+                                        range = c(0, 4))
+ WVS_pais$confinsti_cercana= normalize(WVS_pais$confinsti_cercana, 
+                                        method = "range", 
+                                        margin=2, # by column
+                                        range = c(0, 4))
+
+```
+
+
+
 ## 4.2. Análisis de Conglomerados Jerárquicos
+
+
+```{r}
+WVS_factores2 <- WVS_pais%>%select(confinsti_lejana, confinsti_cercana)
+```
+
+
+```{r}
+dist_inter <- get_dist(WVS_factores2, method = "euclidean", stand = TRUE)
+```
+
+
+```{r}
+fviz_dist(dist_inter,gradient = list(low="blue", mid="white", high ="red"))
+```
+
+explicar pq uisamos euclidean
+
+```{r}
+
+interclust=NbClust(WVS_factores2, distance = "euclidean", min.nc= 2, max.nc= 10, 
+                       method = "ward.D")
+```
+El gráfico nos indica 6 combinaciones para la cantida de cortes. En ese sentido, se decidió elegir 3 cortes para facilitar la comparación con la confianza en las instituciones.
+
+```{r}
+
+dendointer <- hcut(WVS_factores2, k = 3, stand = TRUE, hc_method = "ward.D")
+
+```
+
+
+```{r}
+
+fviz_dend(dendointer, rect = T, cex = 0.5)
+```
+```{r}
+fviz_cluster(dendointer, data = WVS_factores2)
+```
+
+Agregamos a nuestra base
+
+```{r}
+WVS_pais$clus_interpersonal=as.factor(dendointer$cluster)
+```
+
+Vemos las características de los grupos
+
+```{r}
+table(WVS_pais$clus_interpersonal)
+```
+
+Observamos características
+
+```{r}
+clus_carac=WVS_factores2 %>%
+  mutate(Cluster2 = dendointer$cluster ) %>%
+  group_by(Cluster2) %>%
+  summarise_all("mean")
+clus_carac
+
+```
+
+
+
