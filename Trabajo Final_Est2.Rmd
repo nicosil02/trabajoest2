@@ -35,7 +35,7 @@ Para los fines de esta investigación se ha decidido utilizar la categoría de "
 
 Las primera sección de esta categoría, entre Q58-Q63, pregunta la confianza que personas sienten hacia varios grupos interpersonales como la familia, vecindario, conocidos, personas que conocen por primera vez, personas de otras religiones y extranjeros. Las respuestas varían en 4 grados desde "Confío completamente", "Confío parcialmente", "No confío demasiado" hasta "No confío en absoluto".
 
-La segunda sección de esta categoría, entre Q63-Q89, pregunta la confianza que personas sienten hacia instituciones de varias dimensiones como: las Iglesias, las Fuerzas Armadas, la prensa, la Televisión, sindicatos, la policía, las cortes, el gobierno, partidos políticos, parlamento, servicio civil, universidades, elecciones, compañias grandes, bancos, organizaciones ambientales, organizaciones de mujeres, organizaciones humanitarias/caridad, organización regional relevante, las Naciones Unidas, el Fondo Internacional Monetario, Corte Penal Internacional, La Organización del Tratado del Atlántico Norte, el Banco Mundial, el Banco Mundial, la Organización Internacional de Trabajo. Las respuestas varían en 4 grados desde "Sustrancialmente", "Un montón", "No mucho", "Nada en absoluto".
+La segunda sección de esta categoría, entre Q63-Q89, pregunta la confianza que personas sienten hacia instituciones de varias dimensiones como: las Iglesias, las Fuerzas Armadas, la prensa, la Televisión, sindicatos, la policía, las cortes, el gobierno, partidos políticos, parlamento, servicio civil, universidades, elecciones, compañias grandes, bancos, organizaciones ambientales, organizaciones de mujeres, organizaciones humanitarias/caridad, organización regional relevante, las Naciones Unidas, el Fondo Internacional Monetario, Corte Penal Internacional, La Organización del Tratado del Atlántico Norte, el Banco Mundial, la Organización Mundial de la salud y la Organización Mundial del Comercio . Las respuestas varían en 4 grados desde "Sustrancialmente", "Un montón", "No mucho", "Nada en absoluto".
 
 
 
@@ -71,7 +71,7 @@ library(ggplot2)
 library(sf)
 ```
 
-Cargamos la base de datos:
+**Cargamos la base de datos:**
 
 ```{r}
 WVS = import("WVS.rdata")
@@ -83,7 +83,7 @@ Basarse del trabajo modelo que tenemos ayuda
 
 También mencionar que variables vamos a usar y a qué categoría pertenecen (confianza instituciones y confianza interpersonal). **TAMBIEN TENEMOS QUE DESCRIBIRLAS.**
 
-Seleccionamos las variables que se utilizarán:
+**Seleccionamos las variables que se utilizarán:**
 
 ```{r}
 WVS_A <- WVS%>%select(B_COUNTRY,Q58:Q82, Q83:Q89)
@@ -91,7 +91,7 @@ WVS_A <- WVS%>%select(B_COUNTRY,Q58:Q82, Q83:Q89)
 
 ```
 
-Limpiamos la base, eliminando los valores correspondientes a respuesta no contabilizables y los valores perdidos.
+**Limpiamos la base, eliminando los valores correspondientes a respuesta no contabilizables y los valores perdidos.**
 
 ```{r}
 WVS_A <- WVS_A %>% 
@@ -109,7 +109,7 @@ WVS_pais<- WVS_A %>%
   summarize(across(Q58:Q89, mean, na.rm = TRUE))
 ```
 
-Renombramos las variables:
+**Renombramos las variables:**
 
 ```{r}
 WVS_pais <- WVS_pais%>%rename(Codigo=B_COUNTRY, familia=Q58, barrio=Q59, conocidos=Q60, rconocidos=Q61, preligion=Q62, nacionalidad=Q63, confianza_religion=Q64,confianza_FFAA=Q65,confianza_prensa= Q66,confianza_television= Q67, confianza_sindicatos = Q68, confianza_policia = Q69, confianza_justicia = Q70, confianza_gobierno = Q71, confianza_partidos = Q72, confianza_parlamento = Q73, confianza_serviciocivil = Q74, confianza_universidades = Q75, confianza_elecciones = Q76, confianza_granempresa = Q77, confianza_bancos =Q78, confianza_org_ambiental =Q79, confianza_org_mujeres = Q80, confianza_org_humanitaria = Q81, confianza_org_regional_relevante = Q82, confianza_onu = Q83, confianza_fmi = Q84, confianza_cci = Q85, confianza_otan = Q86, confianza_bm =Q87, confianza_oms =Q88, confianza_omc =Q89)
@@ -128,9 +128,9 @@ WVS_pais$Nombre <- ifelse(WVS_pais$Codigo == 909, "Northern Ireland", WVS_pais$N
 
 ```
 
-Asignamos una subdata tanto para trabajar la confianza en las instituciones como la interpersonal
+**Asignamos una subdata tanto para trabajar la confianza en las instituciones como la interpersonal**
 
-**a)Confianza interpersonal**
+[**A) Confianza interpersonal**]{.underline}
 
 ```{r}
 subdata_1=WVS_pais[,c(8:33)]
@@ -139,63 +139,63 @@ subdata_1
 
 Ordenamos de manera ascendente para hacer más comprensible la información.
 
-1.- confianza_religion
+1.   Confianza en las iglesias
 
 ```{r}
 subdata_1$confianza_religion= recode(subdata_1$confianza_religion, "1=4;2=3;3=2;4=1")
 table(subdata_1$confianza_religion)
 ```
 
-2.- confianza_FFAA
+2.  Confianza en las Fuerzas Armadas
 
 ```{r}
 subdata_1$confianza_FFAA= recode(subdata_1$confianza_FFAA, "1=4;2=3;3=2;4=1")
 table(subdata_1$confianza_FFAA)
 ```
 
-3.-confianza_prensa
+3.  Confianza en la prensa
 
 ```{r}
 subdata_1$confianza_prensa= recode(subdata_1$confianza_prensa, "1=4;2=3;3=2;4=1")
 table(subdata_1$confianza_prensa)
 ```
 
-4.-confianza_television
+4.  Confianza en la televisión
 
 ```{r}
 subdata_1$confianza_television= recode(subdata_1$confianza_television, "1=4;2=3;3=2;4=1")
 table(subdata_1$confianza_religion)
 ```
 
-5.-confianza_sindicatos
+5.  Confianza en los sindicatos
 
 ```{r}
 subdata_1$confianza_sindicatos= recode(subdata_1$confianza_sindicatos, "1=4;2=3;3=2;4=1")
 table(subdata_1$confianza_sindicatos)
 ```
 
-6.- confianza_policia
+6.  Confianza en la policía  
 
 ```{r}
 subdata_1$confianza_policia= recode(subdata_1$confianza_policia, "1=4;2=3;3=2;4=1")
 table(subdata_1$confianza_policia)
 ```
 
-7.- confianza_justicia
+7.  Confianza en las cortes de justicia
 
 ```{r}
 subdata_1$confianza_justicia= recode(subdata_1$confianza_justicia, "1=4;2=3;3=2;4=1")
 table(subdata_1$confianza_justicia)
 ```
 
-8.-confianza_gobierno
+8.  Confianza en el gobierno
 
 ```{r}
 subdata_1$confianza_gobierno= recode(subdata_1$confianza_gobierno, "1=4;2=3;3=2;4=1")
 table(subdata_1$confianza_gobierno)
 ```
 
-9.-confianza_partidos
+9.  Confianza en los partidos políticos
 
 ```{r}
 subdata_1$confianza_partidos= recode(subdata_1$confianza_partidos, "1=4;2=3;3=2;4=1")
@@ -209,84 +209,84 @@ subdata_1$confianza_parlamento= recode(subdata_1$confianza_parlamento, "1=4;2=3;
 table(subdata_1$confianza_parlamento)
 ```
 
-11.- confianza_serviciocivil
+11. Confianza en el servicio civil
 
 ```{r}
 subdata_1$confianza_serviciocivil= recode(subdata_1$confianza_serviciocivil, "1=4;2=3;3=2;4=1")
 table(subdata_1$confianza_serviciocivil)
 ```
 
-12.-confianza_universidades
+12. Confianza en las universidades
 
 ```{r}
 subdata_1$confianza_universidades= recode(subdata_1$confianza_universidades, "1=4;2=3;3=2;4=1")
 table(subdata_1$confianza_universidades)
 ```
 
-13.- confianza_elecciones
+13. Confianza en los mecanismos electorales
 
 ```{r}
 subdata_1$confianza_elecciones= recode(subdata_1$confianza_elecciones, "1=4;2=3;3=2;4=1")
 table(subdata_1$confianza_elecciones)
 ```
 
-14.- confianza_granempresa
+14. Confianza en las grandes empresas
 
 ```{r}
 subdata_1$confianza_granempresa= recode(subdata_1$confianza_granempresa, "1=4;2=3;3=2;4=1")
 table(subdata_1$confianza_granempresa)
 ```
 
-15.-confianza_bancos
+15. Confianza en la banca
 
 ```{r}
 subdata_1$confianza_bancos= recode(subdata_1$confianza_bancos, "1=4;2=3;3=2;4=1")
 table(subdata_1$confianza_bancos)
 ```
 
-16.- confianza_org_ambiental
+16. Confianza en las organizaciones ambientales
 
 ```{r}
 subdata_1$confianza_org_ambiental= recode(subdata_1$confianza_org_ambiental, "1=4;2=3;3=2;4=1")
 table(subdata_1$confianza_org_ambiental)
 ```
 
-17.- confianza_org_mujeres
+17. Confianza en las organizaciones de mujeres
 
 ```{r}
 subdata_1$confianza_org_mujeres= recode(subdata_1$confianza_org_mujeres, "1=4;2=3;3=2;4=1")
 table(subdata_1$confianza_org_mujeres)
 ```
 
-18.-confianza_org_humanitaria
+18. Confianza en las organizaciones humanitarias/caridad
 
 ```{r}
 subdata_1$confianza_org_humanitaria= recode(subdata_1$confianza_org_humanitaria, "1=4;2=3;3=2;4=1")
 table(subdata_1$confianza_org_humanitaria)
 ```
 
-19.-confianza_org_regional_relevante
+19. Confianza en Organización Regional Regional
 
 ```{r}
 subdata_1$confianza_org_regional_relevante= recode(subdata_1$confianza_org_regional_relevante, "1=4;2=3;3=2;4=1")
 table(subdata_1$confianza_org_regional_relevante)
 ```
 
-20.-confianza_onu
+20. Confianza en la Organización Mundial de la Salud
 
 ```{r}
 subdata_1$confianza_onu= recode(subdata_1$confianza_onu, "1=4;2=3;3=2;4=1")
 table(subdata_1$confianza_onu)
 ```
 
-21.-confianza_fmi
+21. Confianza en el Fondo Monetario Internacional
 
 ```{r}
 subdata_1$confianza_fmi= recode(subdata_1$confianza_fmi, "1=4;2=3;3=2;4=1")
 table(subdata_1$confianza_fmi)
 ```
 
-22.-confianza_cci
+22. Confianza en el Corte Penal Internacional
 
 ```{r}
 subdata_1$confianza_cci= recode(subdata_1$confianza_cci, "1=4;2=3;3=2;4=1")
@@ -294,21 +294,21 @@ table(subdata_1$confianza_cci)
 
 ```
 
-23.-confianza_otan
+23. Confianza en la Organización del Tratado del Atlántico Norte
 
 ```{r}
 subdata_1$confianza_otan= recode(subdata_1$confianza_otan, "1=4;2=3;3=2;4=1")
 table(subdata_1$confianza_otan)
 ```
 
-24.-confianza_bm
+24. Confianza en el Banco Mundial
 
 ```{r}
 subdata_1$confianza_bm= recode(subdata_1$confianza_bm, "1=4;2=3;3=2;4=1")
 table(subdata_1$confianza_bm)
 ```
 
-25.- confianza_oms
+25. Confianza en la Organización Mundial de la Salud
 
 ```{r}
 subdata_1$confianza_oms= recode(subdata_1$confianza_oms, "1=4;2=3;3=2;4=1")
@@ -316,7 +316,7 @@ table(subdata_1$confianza_oms)
 
 ```
 
-26.-confianza_omc
+26. Confianza en la Organización Mundial del Comercio
 
 ```{r}
 subdata_1$confianza_omc= recode(subdata_1$confianza_omc, "1=4;2=3;3=2;4=1")
