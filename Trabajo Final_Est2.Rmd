@@ -376,10 +376,6 @@ table(subdata_2$nacionalidad)
 
 ```
 
-Asignamos el nombre de los países como primera columna y la eliminamos de la data principal (WVS_pais)
-
-texto
-
 ## 2.2. Métodos seleccionados
 
 texto
