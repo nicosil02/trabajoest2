@@ -379,7 +379,7 @@ texto
 
 # 3. Presentación y análisis de resultados - Confianza en las instituciones
 
-Trabajo con 26 variables que refieren a la confianza en las instituciones
+A continuación presentaremos las 26 variables que refieren a la confianza en las instituciones
 
 ## 3.1. Análisis factorial exploratorio:
 
@@ -398,8 +398,6 @@ poly_cor1
 
 ```
 
-### 
-
 **Creamos un gráfico con la matriz de correlaciones:**
 
 ```{r}
@@ -411,43 +409,45 @@ cor.plot(corMatrix,
           show.legend=T)#Mostrar leyenda
 ```
 
-Con la matriz previa podemos observar la proporción de relación entre dos varibales. Ello es explicado mediante los colores de la matriz y sus explicaciones en la leyenda. Mientras mas azul, mas cercano a uno, mayor será dicha proporción. Esto se elaboró, para buscar si existen grupos de variables correlacionaddas, y posteriormente, conformar las variables latentes.
+Con la matriz previa podemos observar la proporción de relación entre dos variabales. La relación se explica mediante la intensidad de los colores de la matriz y sus explicaciones en la leyenda. Mientras más azul, será más cercano a 1 y mayor será dicha proporción. Por el contrario, mientras más rojo, será menos la relación y cercano a -1. Esto se elaboró para buscar si existen grupos de variables correlacionadas, y posteriormente, conformar las variables latentes.
 
 **Verificamos si los datos son factorizables:**
 
 Test de Kaiser-Meyer-Olkin factor adequacy (KMO):
 
+-   Escala - Test KMO
+
+    -   0 a 0.5= no se debe de realizar
+
+    -   0.5 a 0.7= aceptable
+
+    -   0.7 a 1= muy bueno
+
 ```{r}
 psych::KMO(subdata_1) 
 ```
 
-Escala - Test KMO
-
-0 a 0.5= no se debe de realizar
-
-0.5 a 0.7= aceptable
-
-0.7 a 1= muy bueno
-
-Con esta prueba lo que buscamos es que la correlación parcial sea mayor a 0.5. Por ende, se espera que los valores resultantes, esten más ceranos a 1. En este caso, observamos que los resultados se encuentran entre 0.47 hasta 0.91, con un Overall MSA de 0.82, lo cual nos indica que nuestras datos de las variables son factorizables.
+Con esta prueba lo que buscamos es que la correlación parcial sea mayor a 0.5. Por ende, se espera que los valores resultantes, esten más ceranos a 1. En este caso, observamos que los resultados se encuentran entre 0.57 hasta 0.97, con un Overall MSA de 0.88, lo cual es muy bueno. Esto nos indica que los valores de las variables son factorizables.
 
 **Verificamos si la matriz de correlación es adecuada**
 
 Test de Bartlett
 
+-   H0= Matriz de correlación es igual a la matriz de identidad
+
+-   Ha= Matriz de correlación NO es igual a la matriz de identidad (\<0.05)
+
+Con este test, lo que buscamos es que se rechace la H0, la cual implica que la matriz de correlacion es una matriz identidad.
+
 ```{r}
 cortest.bartlett(corMatrix,n=nrow(subdata_1))$p.value>0.05
 ```
 
-H0= Matriz de correlación es igual a la matriz de identidad
+El resultado del test es "FALSE", lo que nos indica que existe un p-value mayor a 0.05, de modo que se rechaza la H0 y se acepta la Ha que indica que la matriz de correlación es diferente a la matriz de identidad. Podemos así confirmar que la matriz es adecuada y existe correlación.
 
-Ha= Matriz de correlación NO es igual a la matriz de identidad (\<0.05)
+### **Determinamos cuántos factores latentes puede redimensionar la data:**
 
-Con este test, lo que buscamos es que se rechace la H0, la cual implica que la matriz de correlacion es una matriz identidad. "FALSE" nos indica que existe un p-value mayor a 0.05, de modo que se rechaza la H0 y se acepta la Ha, de modo que la matriz sí es adecuada.
-
-### **Determinamos cuántos factores latententes puede redimensionar la data:**
-
-### **Grafico de sedimentación:**
+**Grafico de sedimentación:**
 
 Elaboramos este gráfico para determinar en cuántos factores podemos redimensionar nuestros variables y valores de nuestra subdata.
 
@@ -455,18 +455,22 @@ Elaboramos este gráfico para determinar en cuántos factores podemos redimensio
 fa.parallel(corMatrix, fm="pa", fa="fa", main = "Scree Plot")
 ```
 
-### 
+De acuerdo con el análisis del gráfico de sedimentacion, ubicamos que el codo se encuentra en el 2. Al verificar en el otro cuadro se recomienda que se utilice 1 factor.
+
+Como nos recomienda solo 1 factor, vamos a asegurar aún más con los autovalores ya que no sería adecuado agrupar en solo 1 factor las variables de instituciones que no todas comparten la misma naturaleza.
 
 **Eigen values - Autovalores**
+
+(Criterio de Kaiser : se deben retener todos los factores que tengan un autovalor mayor de 1.0.)
 
 ```{r}
 eigenf = eigen(cor(subdata_1, use="complete"))
 eigenf$values
 ```
 
-(Criterio de Kaiser : se deben retener todos los factores que tengan un autovalor mayor de 1.0.)
+Al observar los autovalores, vemos que hay 4 autovalores que superan a 1. Entonces son 4 los factores que podríamos realizar.
 
-Tras observar los autovalores (cantidad de la varianza total que está explicada por cada factor) y el gráfico de sedimentación podemos concluir que los más apropiado sería distribuir las variables en cuatro (4) factores. Elegir un número mayor a este, implicaría arriesgarnos a una menor exactitud y efectividad de los factores para responder a nuestra pregunta de investigación.
+Tras observar los autovalores y el gráfico de sedimentación podemos concluir que los más apropiado sería distribuir las variables en 4 factores. Elegir un número mayor a este, implicaría arriesgarnos a una menor exactitud y efectividad de los factores para responder a nuestra pregunta de investigación.
 
 ### **Solicitamos el número de componentes**
 
@@ -475,7 +479,7 @@ Rotamos para acomodar las variables latentes para que se correlacionen con su re
 Utilizamos la rotación varimax, puesto que minimiza el número de variables con cargas altas en un factor, mejorando así la interpretación de factores.
 
 ```{r}
-factorial_exp1 <- fa(subdata_1,nfactors = 5,rotate="varimax", fm="minres")
+factorial_exp1 <- fa(subdata_1,nfactors = 4,rotate="varimax", fm="minres")
 factorial_exp1
 ```
 
@@ -495,25 +499,22 @@ print(factorial_exp1$loadings,cutoff = 0.4)
 
 **Evaluamos el Análisis Factorial Exploratorio solicitado**
 
-texto
-
 -   ¿Qué variables aportaron mas a los factores?
+    -   Las variables confianza en el Banco Mundial y confianza en el Fondo Monetario Internacional son las que aportaron más significativamente a los factores. Esto podría estar relacionado al sistema económico neoliberal instaurado mundialmente que legitima y otorga más confianzas a aquellas instituciones encargadas de la economía y comercio.
 
 ```{r}
 sort(factorial_exp1$communality)
 ```
 
-texto
-
 -   **¿Qué variables contribuyen a mas de un factor?**
+    -   Las variables de confianza en gobierno y confianza en parlamento contribuyen a más de un factor. Esto pone en evidencia que estas instituciones están muy presentes en la opinión de las personas, probablemente porque en muchas partes del mundo dificultades para instaurar su legitimidad y confianza considerando el clima de ascenso de la autocracia mundial.
 
 ```{r}
 sort(factorial_exp1$complexity)
 ```
 
-texto
-
 -   **¿Qué variables observables tiene un componente "único" más grande?**
+    -   Las variables de "religión" y "FFAA" contienen un componente único más grande, significando que tienen la menor cantidad de información en común. Probablemente esto se debe porque posiciones afines a la religión van en contra con la valorizacióna las FFAA. No obstante, también puede ser muy subjetivo ya que la influencia de la religión y las FF.AA en muchas sociedad ha disminuido y por tanto no influyen mucho en la confianza de las personas.
 
 ```{r}
 sort(factorial_exp1$uniquenesses)
@@ -528,11 +529,10 @@ texto Explicar por qué esto es insuficiente.
 Explicar
 
 ```{r}
-Modelo_confir1 = "FAC1 =~confianza_bm+confianza_fmi+confianza_omc+confianza_onu+confianza_org_regional_relevante+confianza_cci+confianza_granempresa+confianza_bancos+confianza_otan
-                FAC2 =~ confianza_org_ambiental+confianza_org_mujeres+confianza_org_humanitaria+confianza_universidades
-                FAC3 =~ confianza_parlamento+confianza_prensa+confianza_elecciones+confianza_gobierno+confianza_television+confianza_partidos+confianza_serviciocivil
-                FAC4 =~ confianza_religion+confianza_sindicatos+confianza_FFAA
-FAC5 =~ confianza_justicia+confianza_policia"
+Modelo_confir1 = "FAC1 =~confianza_otan+ confianza_fmi+confianza_cci+confianza_omc+confianza_onu+confianza_bm+confianza_org_regional_relevante+confianza_sindicatos+confianza_granempresa+confianza_bancos+confianza_prensa
+                FAC2 =~ confianza_policia+confianza_justicia+confianza_serviciocivil+confianza_FFAA+confianza_elecciones+confianza_parlamento+confianza_gobierno+confianza_partidos
+               FAC3 =~ confianza_religion+confianza_television
+                FAC4 =~ confianza_org_ambiental+confianza_org_humanitaria+confianza_org_mujeres+confianza_universidades+confianza_oms"
 
 Modelo_confir1
 ```
@@ -542,14 +542,15 @@ modelo=cfa(Modelo_confir1, data=subdata_1)
 summary(modelo,fit.measures=F)
 ```
 
-Observamos que la confianza en las FF.AA. tiene un p-value mayor a 0.05. En ese sentido, para evitar conflictos en la creación de los factores, decidimos removerlo.
+Observamos que la confianza en las FF.AA. tiene un p-value mayor a 0.05. En ese sentido, para evitar conflictos en la creación de los factores, decidimos removerlo y crear otro modelo.
 
 ```{r}
-Modelo_confir2 ="FAC1 =~confianza_bm+confianza_fmi+confianza_omc+confianza_onu+confianza_org_regional_relevante+confianza_cci+confianza_granempresa+confianza_bancos+confianza_otan
-                FAC2 =~ confianza_org_ambiental+confianza_org_mujeres+confianza_org_humanitaria+confianza_universidades
-                FAC3 =~ confianza_parlamento+confianza_prensa+confianza_elecciones+confianza_gobierno+confianza_television+confianza_partidos+confianza_serviciocivil
-                FAC4 =~ confianza_religion+confianza_sindicatos
-FAC5 =~ confianza_justicia+confianza_policia"
+Modelo_confir2 = "FAC1 =~confianza_otan+ confianza_fmi+confianza_cci+confianza_omc+confianza_onu+confianza_bm+confianza_org_regional_relevante+confianza_sindicatos+confianza_granempresa+confianza_bancos+confianza_prensa
+                FAC2 =~ confianza_policia+confianza_justicia+confianza_serviciocivil+confianza_elecciones+confianza_parlamento+confianza_gobierno+confianza_partidos
+               FAC3 =~ confianza_religion+confianza_television
+                FAC4 =~ confianza_org_ambiental+confianza_org_humanitaria+confianza_org_mujeres+confianza_universidades+confianza_oms"
+
+Modelo_confir2
 ```
 
 ```{r}
