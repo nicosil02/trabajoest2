@@ -31,9 +31,11 @@ Los 55 países son los siguientes: Alemania, Argentina, Armenia, Bangladesh, Bol
 
 El cuestionario WVS-7 consta de 290 preguntas que se dividen en 14 categorías que pretenden medir: "Valores sociales, actitudes y estereotipos"; "Felicidad y bienestar"; "Capital social, confianza y membresía organizacional"; "Valores económicos", "Corrupción"; "Migración"; "Seguridad"; "Índice postmaterial"; "Ciencia y tecnología"; "Valores culturales"; "Valores éticos y normas"; "Interés y participación política"; "Cultura política y régimenes políticos"; y "Demografía".  
 
-Para los fines de esta investigación se ha decidido utilizar la categorías de "Capital social, confianza y membresía organizacional", en específico se ha seleccionado las preguntas entre Q58 y 89. Estas describen la confianza entre grupos interpersonales y las instituciones.
+Para los fines de esta investigación se ha decidido utilizar la categoría de "Capital social, confianza y membresía organizacional", en específico se ha seleccionado las preguntas entre Q58 y 89. 
 
+Las primera sección de esta categoría, entre Q58-Q63, pregunta la confianza que personas sienten hacia varios grupos como la familia, vecindario, conocidos, personas que conocen por primera vez, personas de otras religiones y extranjeros. Las respuestas varían en 4 grados desde "Confío completamente", "Confío parcialmente", "No confío demasiado" hasta "No confío en absoluto".
 
+La segunda sección de esta categoría, entre Q63-Q89, pregunta la confianza que personas sienten hacia instituciones como: la Iglesia, las Fuerzas Armadas, la prensa, la Televisión, sindicatos, la policía, las cortes, el gobierno, partidos políticos, parlamento, servicio civil, universidades, elecciones, compañias grandes, bancos, organizaciones ambientales, organizaciones de mujeres, organizaciones humanitarias/caridad, la Unión Europea, las Naciones Unidas, el Fondo Internacional Monetario, Corte Penal Internacional, La Organización del Tratado del Atlántico Norte, el Banco Mundial, el Banco Mundial, la Organización Internacional de Trabajo. Las respuestas varían en 4 grados desde "Sustrancialmente", "Un montón", "No mucho", "Nada en absoluto". 
 
 Abrimos las librerías:
 
