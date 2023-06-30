@@ -77,12 +77,6 @@ library(sf)
 WVS = import("WVS.rdata")
 ```
 
-Decir qué base vamos a usar, sus características, de qué años, etc. Si bien la base tiene ciertos países, es importante decir que, después del proceso de limpieza, nos quedamos con 55. Es importante mencionarlos y decir a qué regiones pertenecen :)
-
-Basarse del trabajo modelo que tenemos ayuda
-
-También mencionar que variables vamos a usar y a qué categoría pertenecen (confianza instituciones y confianza interpersonal). **TAMBIEN TENEMOS QUE DESCRIBIRLAS.**
-
 **Seleccionamos las variables que se utilizarán:**
 
 ```{r}
