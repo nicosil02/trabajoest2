@@ -25,7 +25,9 @@ texto
 
 ## 2.1. Base de datos:
 
-Abrimos las librerías: La presente investigación se basa en el "2017-2021 World Values Survey Wave 7". Esta base tiene como propósito recolectar los cambios en creencias, valores y motivaciones de las personas en casi 100 países que continen casi el 90% de la población del mundo. Esta investigación utilizará la versión más actual del cuestionario que corresponde a l ala sétima ola de WVS, cada ola significando un número más grande de sociedades que se han cubierto. El cuestionario WVS-7 consta de 290 preguntas y mide los valores culturales, las actitudes y las creencias sobre el género, la familia y la religión, las actitudes y la experiencia de la pobreza, la educación, la salud y la seguridad, la tolerancia social y la confianza, las actitudes hacia instituciones multilaterales, diferencias culturales y similitudes entre religiones y sociedades. A diferencia de previas olas, la WVS-7 incluye nuevos temas como la justicia, principios morales, corrupción, rendición de cuentas y riesgo, migración, seguridad nacional y gobernanza global. La recopilación de estos criterios de encuesta se encuentran al margen de la contriubucuón de los Objetivos de Desarrollo Sostenible y las metas definidas por la agenda post-2015 de la ONU.
+La presente investigación se basa en el "2017-2021 World Values Survey Wave 7". Esta base tiene como propósito recolectar los cambios en creencias, valores y motivaciones de las personas en casi 100 países que continen casi el 90% de la población del mundo. Esta investigación utilizará la versión más actual del cuestionario que corresponde a l ala sétima ola de WVS, cada ola significando un número más grande de sociedades que se han cubierto. El cuestionario WVS-7 consta de 290 preguntas y mide los valores culturales, las actitudes y las creencias sobre el género, la familia y la religión, las actitudes y la experiencia de la pobreza, la educación, la salud y la seguridad, la tolerancia social y la confianza, las actitudes hacia instituciones multilaterales, diferencias culturales y similitudes entre religiones y sociedades. A diferencia de previas olas, la WVS-7 incluye nuevos temas como la justicia, principios morales, corrupción, rendición de cuentas y riesgo, migración, seguridad nacional y gobernanza global. La recopilación de estos criterios de encuesta se encuentran al margen de la contriubucuón de los Objetivos de Desarrollo Sostenible y las metas definidas por la agenda post-2015 de la ONU.
+
+Abrimos las librerías:
 
 ```{r message=FALSE, warning=FALSE}
 library(rio)
@@ -38,12 +40,23 @@ library(psych)
 library(GPArotation)
 library(lavaan)
 library(semPlot)
-
+library(rmdformats)
 library(dendextend)
 library(factoextra)
 library(ggdendro)
 options(scipen = 999)
 library(NbClust)
+library(latexpdf)
+library(data.table)
+library(tidyr)
+library(sp)
+library(BBmisc)
+library(sf)
+library(rgdal)
+library(rgeos)
+library(maptools)
+library(ggplot2)
+library(sf)
 ```
 
 Cargamos la base de datos:
@@ -657,10 +670,11 @@ Grafico
 fviz_cluster(res1, data = WVS_factores1)
 ```
 
-Agregamos a nuestra base
+Agregamos a nuestra base y a nuestra subdata de factores
 
 ```{r}
 WVS_pais$clus_instituciones=as.factor(res1$cluster)
+WVS_factores1$clus_instituciones=as.factor(res1$cluster)
 ```
 
 Vemos las características de los grupos
@@ -683,6 +697,87 @@ clust_car
 Explicación Valdría la pensa alternar el cluster 2 y 3 para que exista un orden visible.
 
 ## 3.4. Mapas
+
+Procedemos a hacer mapas de acuerdo a la agrupación de los países en base a los clusters creados
+
+```{r}
+folder="world_map"
+file="world_map.shp"
+destination <- file.path("C:/Users/ASUS/Desktop/Estadística2_MAPAS_claseTeórica/world_map", file)
+file.copy(from = file.path(folder, file), to = destination)
+
+
+mapaMundo = rgdal::readOGR(destination,stringsAsFactors=FALSE) 
+
+plot(mapaMundo)
+```
+
+```{r}
+names(WVS_factores1)
+
+```
+
+```{r}
+WVS_factores1$NAME=rownames(WVS_factores1)
+worldmap = st_read(destination,stringsAsFactors=FALSE)
+```
+
+```{r}
+cluster_map=inner_join(worldmap,WVS_factores1 )
+names(WVS_factores1)
+```
+
+**Mapa según los colores del gráfico de clústers:**
+
+Configuramos nuestros países sin data:
+
+```{r}
+missing_data <- cluster_map[is.na(cluster_map$clus_instituciones), ]
+```
+
+```{r}
+mapa <- cluster_map %>%
+  ggplot() +
+  geom_sf(aes(fill = clus_instituciones),lwd=0.2)+
+ geom_sf_text(aes(label = NAME), size = 2
+                ,family="sans",fontface = "bold",check_overlap = TRUE )+
+   scale_fill_manual(values = c("khaki", "#FFCC66"),labels =c("Grupo 1","Grupo 2"))+
+ labs(title = "pensar en un nombre adecuado ", subtitle = "pensar en un nombre adecuado",
+      caption = "pensar en un nombre adecuado",
+      fill="pensar en un nombre adecuado") +
+theme_bw()+
+  theme(
+    axis.text.x = element_blank(),
+    axis.text.y = element_blank(),
+    axis.ticks =  element_blank(),
+    axis.title = element_blank(),
+    panel.border = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank())+
+   theme(
+    legend.position=c(0.1, 0.3),
+    legend.title = element_text(
+      colour="black", size=10, 
+                                      face="bold")#"left","buttom"
+      )
+  ) +
+  theme_bw() +
+  theme(
+    axis.text.x = element_blank(),
+    axis.text.y = element_blank(),
+    axis.ticks = element_blank(),
+    axis.title = element_blank(),
+    panel.border = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    legend.position = c(0.1, 0.3),
+    legend.title = element_text(colour = "black", size = 5, face = "bold")
+  )
+```
+
+```{r}
+print(mapa)
+```
 
 # 4. Presentación y análisis de resultados - Confianza interpersonal
 
@@ -813,22 +908,18 @@ texto
 
 Explicar por qué es suficiente este resultado y no vamos a hacer AFC
 
-
 ```{r}
 factorial_confinst<-as.data.frame(factorial_exp2$scores)
 head(factorial_confinst)
 summary(factorial_confinst)
 ```
 
-
 ```{r}
 WVS_pais$confinsti_lejana<- factorial_confinst$MR1
 WVS_pais$confinsti_cercana<- factorial_confinst$MR2
 ```
- texto: describir cada factor 
- 
- 
- 
+
+texto: describir cada factor
 
 ```{r}
 #install.packages("BBmisc")
@@ -844,20 +935,15 @@ WVS_pais$confinsti_lejana = normalize(WVS_pais$confinsti_lejana,
 
 ```
 
-
-
 ## 4.2. Análisis de Conglomerados Jerárquicos
-
 
 ```{r}
 WVS_factores2 <- WVS_pais%>%select(confinsti_lejana, confinsti_cercana)
 ```
 
-
 ```{r}
 dist_inter <- get_dist(WVS_factores2, method = "euclidean", stand = TRUE)
 ```
-
 
 ```{r}
 fviz_dist(dist_inter,gradient = list(low="blue", mid="white", high ="red"))
@@ -870,6 +956,7 @@ explicar pq uisamos euclidean
 interclust=NbClust(WVS_factores2, distance = "euclidean", min.nc= 2, max.nc= 10, 
                        method = "ward.D")
 ```
+
 El gráfico nos indica 6 combinaciones para la cantida de cortes. En ese sentido, se decidió elegir 3 cortes para facilitar la comparación con la confianza en las instituciones.
 
 ```{r}
@@ -878,11 +965,11 @@ dendointer <- hcut(WVS_factores2, k = 3, stand = TRUE, hc_method = "ward.D")
 
 ```
 
-
 ```{r}
 
 fviz_dend(dendointer, rect = T, cex = 0.5)
 ```
+
 ```{r}
 fviz_cluster(dendointer, data = WVS_factores2)
 ```
@@ -910,5 +997,6 @@ clus_carac
 
 ```
 
+Explicar
 
-
+## 4.3. Mapas
