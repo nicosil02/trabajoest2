@@ -84,6 +84,9 @@ WVS_A <- WVS%>%select(B_COUNTRY,Q58:Q82, Q83:Q89)
 
 
 ```
+En esta ocasión se está haciendo un corte en la variable Q82 "Confianza en Organización Regional relevante" debido a su naturaleza ya que introduce variables adicionales como Q82A y Q82B para poder preguntar acerca de las organizaciones locales relevantes específicas (Ejemplo, African Union (AU), European Union (EU), Caribbean Community (CARICOM), Mercado Común del Sur (MERCOSUR), etc). Para evitar más datos perdidos, dado que no todas los países son parte de las mismas regiones, vamos a evitar la especifidad que abarca estas variables y solo concentrarnos en la totalidad del Q82. 
+
+Asimismo, las variables con las que trabajeremos son numéricas ordinales. 
 
 **Limpiamos la base, eliminando los valores correspondientes a respuesta no contabilizables y los valores perdidos.**
 
