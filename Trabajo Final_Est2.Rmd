@@ -202,7 +202,7 @@ subdata_1$confianza_partidos= recode(subdata_1$confianza_partidos, "1=4;2=3;3=2;
 table(subdata_1$confianza_partidos)
 ```
 
-10.-confianza_parlamento
+10. Confianza en el parlamento
 
 ```{r}
 subdata_1$confianza_parlamento= recode(subdata_1$confianza_parlamento, "1=4;2=3;3=2;4=1")
