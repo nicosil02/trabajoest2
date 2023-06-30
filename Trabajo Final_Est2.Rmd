@@ -323,7 +323,7 @@ subdata_1$confianza_omc= recode(subdata_1$confianza_omc, "1=4;2=3;3=2;4=1")
 table(subdata_1$confianza_omc)
 ```
 
-**b) Confianza interpersonal**
+**b) [Confianza interpersonal]{.underline}**
 
 Creamos la subdata para confianza interpersonal:
 
@@ -333,42 +333,42 @@ subdata_2 <- WVS_pais[,c(2:7)]
 
 Ordenamos de manera ascendente.
 
-1)  
+1. Confianza en su familia
 
 ```{r}
 subdata_2$familia= recode(subdata_2$familia, "1=4;2=3;3=2;4=1")
 table(subdata_2$familia)
 ```
 
-2)  
+2.  Confianza en su vecindario
 
 ```{r}
 subdata_2$barrio= recode(subdata_2$barrio, "1=4;2=3;3=2;4=1")
 table(subdata_2$barrio)
 ```
 
-3)  
+3.  Confianza en conocidos
 
 ```{r}
 subdata_2$conocidos= recode(subdata_2$conocidos, "1=4;2=3;3=2;4=1")
 table(subdata_2$conocidos)
 ```
 
-4)  
+4.  Confianza en recién conocidos por primera vez
 
 ```{r}
 subdata_2$rconocidos= recode(subdata_2$rconocidos, "1=4;2=3;3=2;4=1")
 table(subdata_2$rconocidos)
 ```
 
-5)  
+5.  Confianza en personas de otra religión
 
 ```{r}
 subdata_2$preligion= recode(subdata_2$preligion, "1=4;2=3;3=2;4=1")
 table(subdata_2$preligion)
 ```
 
-6)  
+6.  Confianza en extranjeros
 
 ```{r}
 subdata_2$nacionalidad= recode(subdata_2$nacionalidad, "1=4;2=3;3=2;4=1")
