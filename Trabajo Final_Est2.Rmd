@@ -104,6 +104,7 @@ Para mayor comodidad y representatividad, agrupamos la data por país y converti
 WVS_pais<- WVS_A %>%
   group_by(B_COUNTRY) %>%
   summarize(across(Q58:Q89, mean, na.rm = TRUE))
+WVS_pais <- as.data.frame(WVS_pais)
 ```
 
 **Renombramos las variables:**
@@ -528,21 +529,25 @@ Analisis confirmatorio
 
 Una vez hecho el análisis factorial exploratorio, pasaremos a realizar el análisis factorial confirmatorio para contrastar el modelo sugerido. Así podremos corroborar si lo planteado es adecuado.
 
-{r}
+```{r}
 Modelo_confir1 = "FAC1 =~confianza_otan+ confianza_fmi+confianza_cci+confianza_omc+confianza_onu+confianza_bm+confianza_org_regional_relevante+confianza_sindicatos+confianza_granempresa+confianza_bancos+confianza_prensa
                 FAC2 =~ confianza_policia+confianza_justicia+confianza_serviciocivil+confianza_FFAA+confianza_elecciones+confianza_parlamento+confianza_gobierno+confianza_partidos
                FAC3 =~ confianza_religion+confianza_television
                 FAC4 =~ confianza_org_ambiental+confianza_org_humanitaria+confianza_org_mujeres+confianza_universidades+confianza_oms"
 
 Modelo_confir1
+```
 
-{r}
+```{r}
 modelo=cfa(Modelo_confir1, data=subdata_1)
 summary(modelo,fit.measures=F)
+```
+
+
 
 A pesar de no contar con errores en la asignación de factores, las asignaciones propias de R carecen de sentido en algunos casos. Asimismo, considerando conocimiento desde la Ciencia Política, se puede construir una distribución de patrones que organice adecuadamente la confianza institucional.  EXPLAYAR 
 
-{r}
+```{r}
 Modelo_confir3 = "F1_Confianza en las OI =~confianza_org_regional_relevante+confianza_onu+confianza_bm+confianza_oms+confianza_omc+confianza_otan+ confianza_cci+confianza_fmi
                  F2_Confianza en los Medios de Comunicación  =~ confianza_television + confianza_prensa
                 F3_Confianza en las Instituciones Políticas y Legales =~ confianza_gobierno+confianza_partidos+confianza_parlamento+confianza_elecciones+confianza_serviciocivil + confianza_justicia
@@ -551,10 +556,14 @@ Modelo_confir3 = "F1_Confianza en las OI =~confianza_org_regional_relevante+conf
 F6_Confianza en Instituciones Sociales=~ confianza_sindicatos + confianza_granempresa+
 confianza_org_ambiental+confianza_org_mujeres+confianza_org_humanitaria"
 Modelo_confir3
+```
 
-{r}
+
+```{r}
 modelo3=cfa(Modelo_confir3, data=subdata_1)
 summary(modelo3,fit.measures=F)
+```
+
 
 Tras lo realizado, se obtuvieron seis factores:
 
@@ -572,20 +581,24 @@ F5 Confianza en Instituciones Educativas y Espirituales
 
 Graficamos:
 
-{r}
+```{r}
 semPaths(modelo3, intercepts = FALSE,edge.label.cex=1.5, optimizeLatRes = TRUE, groups = "lat",pastel = TRUE, exoVar = FALSE, sizeInt=5,edge.color ="black",esize = 6, label.prop=2,sizeLat = 6,"std", layout="circle2")
+```
+
 
 Podemos observar los 6 factores creados. Se observa que la mayoría de los factores cuentan con una fuerte relación con sus variables debido a que presentan una línea fuerte. Por otro lado, la información que no es explicable con su factor es una minoría, puesto que solo la variable "confianza en religión" es mayor que la carga factorial que su factorial. Así, se observa en general que se ofrece una correlación bastante explicativa.
 
 Guardamos los componentes como nuevas variables:
 
-{r}
+```{r}
 factores_puntajes <- predict(modelo3)
 WVS_pais <- cbind(WVS_pais, factores_puntajes)
+```
+
 
 Estandarizamos del 1 al 4:
 
-{r}
+```{r}
 library(BBmisc)
 WVS_pais$F1_ConfianzaenlasOI = normalize(WVS_pais$F1_ConfianzaenlasOI,
                                         method = "range", 
@@ -611,6 +624,9 @@ WVS_pais$F6_ConfianzaenInstitucionesSociales = normalize(WVS_pais$F6_Confianzaen
                                         method = "range", 
                                         margin=2, # by column
                                         range = c(1, 4))
+```
+
+
 
 Los niveles de confianza se clasifican de la sigueinte manera:
 
@@ -629,6 +645,7 @@ Ahora aplicaremos el análisis de conglomerados K-means (No Jerárquico) para en
 Asignamos el nombre de los países como primera columna para poder identificarlos en el proceso de crear los subgrupos.
 
 ```{r}
+
 rownames(WVS_pais) = WVS_pais[,34]
 ```
 
@@ -793,11 +810,6 @@ Revisamos la estructura de nuestra subdata configurada previamente:
 str(subdata_2)
 ```
 
-Encontramos nuestro "data.frame" en formato tibble, lo cual no nos permite aplicar el análisis factorial. Lo convertimos adecuadamente en un data.frame.
-
-```{r}
-subdata_2=as.data.frame(subdata_2)
-```
 
 A pesar de haber limpiado la data previamente, al cambiar de formato, nos sercioramos de eliminar los NA's:
 
