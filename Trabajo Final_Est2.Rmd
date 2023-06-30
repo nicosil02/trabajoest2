@@ -265,7 +265,7 @@ subdata_1$confianza_org_humanitaria= recode(subdata_1$confianza_org_humanitaria,
 table(subdata_1$confianza_org_humanitaria)
 ```
 
-19. Confianza en Organización Regional Regional
+19. Confianza en Organización Regional relevante
 
 ```{r}
 subdata_1$confianza_org_regional_relevante= recode(subdata_1$confianza_org_regional_relevante, "1=4;2=3;3=2;4=1")
