@@ -25,21 +25,9 @@ texto
 
 ## 2.1. Base de datos:
 
-La presente investigación se basa en el "2017-2021 World Values Survey Wave 7". Esta base tiene como propósito recolectar los cambios en creencias, valores y motivaciones de las personas en casi 100 países que continen casi el 90% de la población del mundo. Esta investigación utilizará la versión más actual del cuestionario que corresponde a la sétima ola de WVS, cada ola significando un número más grande de sociedades que se han cubierto.No obstante, tras el proceso de limpieza, y debido a los NA presentados en la base de datos, no se utilizarán todos los países que cubre la sétima ola, sino solo 55 países.
+La presente investigación se basa en el "2017-2021 World Values Survey Wave 7". Esta base tiene como propósito recolectar los cambios en creencias, valores y motivaciones de las personas en casi 100 países que continen casi el 90% de la población del mundo. Esta investigación utilizará la versión más actual del cuestionario que corresponde a l ala sétima ola de WVS, cada ola significando un número más grande de sociedades que se han cubierto. El cuestionario WVS-7 consta de 290 preguntas y mide los valores culturales, las actitudes y las creencias sobre el género, la familia y la religión, las actitudes y la experiencia de la pobreza, la educación, la salud y la seguridad, la tolerancia social y la confianza, las actitudes hacia instituciones multilaterales, diferencias culturales y similitudes entre religiones y sociedades. A diferencia de previas olas, la WVS-7 incluye nuevos temas como la justicia, principios morales, corrupción, rendición de cuentas y riesgo, migración, seguridad nacional y gobernanza global. La recopilación de estos criterios de encuesta se encuentran al margen de la contriubucuón de los Objetivos de Desarrollo Sostenible y las metas definidas por la agenda post-2015 de la ONU.
 
-Los 55 países son los siguientes: Alemania, Argentina, Armenia, Bangladesh, Bolivia, Brasil, Canadá, Chile, Colombia, Chipre, República Checa (Czechia), Ecuador, Etiopía, Eslovaquia, Estados Unidos, Filipinas, Grecia, Guatemala, Hong Kong, Indonesia, Irán, Iraq, Irlanda del Norte, Japón, Jordania, Kazajstán, Kenia, Korea (República de), Kirguistán, Líbano, Libia, Malasia, Maldivias, Marruecos, Mongolia, México, Myanmar, Nigeria, Países Bajos, Pakistán, Puerto Rico, Reino Unido, Rumania, Rusia, Serbia, Singapur, Tayikistán, Tailandia, Túnez, Turquía, Ucrania, Uruguay, Venezuela, Vietnam, Zimbabue.
-
-El cuestionario WVS-7 consta de 290 preguntas que se dividen en 14 categorías que pretenden medir: "Valores sociales, actitudes y estereotipos"; "Felicidad y bienestar"; "Capital social, confianza y membresía organizacional"; "Valores económicos", "Corrupción"; "Migración"; "Seguridad"; "Índice postmaterial"; "Ciencia y tecnología"; "Valores culturales"; "Valores éticos y normas"; "Interés y participación política"; "Cultura política y régimenes políticos"; y "Demografía".
-
-Para los fines de esta investigación se ha decidido utilizar la categoría de "Capital social, confianza y membresía organizacional", en específico se ha seleccionado las preguntas entre Q58 y 89.
-
-Las primera sección de esta categoría, entre Q58-Q63, pregunta la confianza que personas sienten hacia varios grupos interpersonales como la familia, vecindario, conocidos, personas que conocen por primera vez, personas de otras religiones y extranjeros. Las respuestas varían en 4 grados desde "Confío completamente", "Confío parcialmente", "No confío demasiado" hasta "No confío en absoluto".
-
-La segunda sección de esta categoría, entre Q63-Q89, pregunta la confianza que personas sienten hacia instituciones de varias dimensiones como: las Iglesias, las Fuerzas Armadas, la prensa, la Televisión, sindicatos, la policía, las cortes, el gobierno, partidos políticos, parlamento, servicio civil, universidades, elecciones, compañias grandes, bancos, organizaciones ambientales, organizaciones de mujeres, organizaciones humanitarias/caridad, organización regional relevante, las Naciones Unidas, el Fondo Internacional Monetario, Corte Penal Internacional, La Organización del Tratado del Atlántico Norte, el Banco Mundial, la Organización Mundial de la salud y la Organización Mundial del Comercio . Las respuestas varían en 4 grados desde "Sustrancialmente", "Un montón", "No mucho", "Nada en absoluto".
-
-
-
-**Abrimos las librerías:**
+Abrimos las librerías:
 
 ```{r message=FALSE, warning=FALSE}
 library(rio)
@@ -71,24 +59,27 @@ library(ggplot2)
 library(sf)
 ```
 
-**Cargamos la base de datos:**
+Cargamos la base de datos:
 
 ```{r}
 WVS = import("WVS.rdata")
 ```
 
-**Seleccionamos las variables que se utilizarán:**
+Decir qué base vamos a usar, sus características, de qué años, etc. Si bien la base tiene ciertos países, es importante decir que, después del proceso de limpieza, nos quedamos con 55. Es importante mencionarlos y decir a qué regiones pertenecen :)
+
+Basarse del trabajo modelo que tenemos ayuda
+
+También mencionar que variables vamos a usar y a qué categoría pertenecen (confianza instituciones y confianza interpersonal). **TAMBIEN TENEMOS QUE DESCRIBIRLAS.**
+
+Seleccionamos las variables que se utilizarán:
 
 ```{r}
 WVS_A <- WVS%>%select(B_COUNTRY,Q58:Q82, Q83:Q89)
 
 
 ```
-En esta ocasión se está haciendo un corte en la variable Q82 "Confianza en Organización Regional relevante" debido a su naturaleza ya que introduce variables adicionales como Q82A y Q82B para poder preguntar acerca de las organizaciones locales relevantes específicas (Ejemplo, African Union (AU), European Union (EU), Caribbean Community (CARICOM), Mercado Común del Sur (MERCOSUR), etc). Para evitar más datos perdidos, dado que no todas los países son parte de las mismas regiones, vamos a evitar la especifidad que abarca estas variables y solo concentrarnos en la totalidad del Q82. 
 
-Asimismo, las variables con las que trabajeremos son numéricas ordinales. 
-
-**Limpiamos la base, eliminando los valores correspondientes a respuesta no contabilizables y los valores perdidos.**
+Limpiamos la base, eliminando los valores correspondientes a respuesta no contabilizables y los valores perdidos.
 
 ```{r}
 WVS_A <- WVS_A %>% 
@@ -104,10 +95,9 @@ Para mayor comodidad y representatividad, agrupamos la data por país y converti
 WVS_pais<- WVS_A %>%
   group_by(B_COUNTRY) %>%
   summarize(across(Q58:Q89, mean, na.rm = TRUE))
-WVS_pais <- as.data.frame(WVS_pais)
 ```
 
-**Renombramos las variables:**
+Renombramos las variables:
 
 ```{r}
 WVS_pais <- WVS_pais%>%rename(Codigo=B_COUNTRY, familia=Q58, barrio=Q59, conocidos=Q60, rconocidos=Q61, preligion=Q62, nacionalidad=Q63, confianza_religion=Q64,confianza_FFAA=Q65,confianza_prensa= Q66,confianza_television= Q67, confianza_sindicatos = Q68, confianza_policia = Q69, confianza_justicia = Q70, confianza_gobierno = Q71, confianza_partidos = Q72, confianza_parlamento = Q73, confianza_serviciocivil = Q74, confianza_universidades = Q75, confianza_elecciones = Q76, confianza_granempresa = Q77, confianza_bancos =Q78, confianza_org_ambiental =Q79, confianza_org_mujeres = Q80, confianza_org_humanitaria = Q81, confianza_org_regional_relevante = Q82, confianza_onu = Q83, confianza_fmi = Q84, confianza_cci = Q85, confianza_otan = Q86, confianza_bm =Q87, confianza_oms =Q88, confianza_omc =Q89)
@@ -126,9 +116,9 @@ WVS_pais$Nombre <- ifelse(WVS_pais$Codigo == 909, "Northern Ireland", WVS_pais$N
 
 ```
 
-**Asignamos una subdata tanto para trabajar la confianza en las instituciones como la interpersonal**
+Asignamos una subdata tanto para trabajar la confianza en las instituciones como la interpersonal
 
-[**A) Confianza interpersonal**]{.underline}
+**a)Confianza interpersonal**
 
 ```{r}
 subdata_1=WVS_pais[,c(8:33)]
@@ -137,154 +127,154 @@ subdata_1
 
 Ordenamos de manera ascendente para hacer más comprensible la información.
 
-1.   Confianza en las iglesias
+1.- confianza_religion
 
 ```{r}
 subdata_1$confianza_religion= recode(subdata_1$confianza_religion, "1=4;2=3;3=2;4=1")
 table(subdata_1$confianza_religion)
 ```
 
-2.  Confianza en las Fuerzas Armadas
+2.- confianza_FFAA
 
 ```{r}
 subdata_1$confianza_FFAA= recode(subdata_1$confianza_FFAA, "1=4;2=3;3=2;4=1")
 table(subdata_1$confianza_FFAA)
 ```
 
-3.  Confianza en la prensa
+3.-confianza_prensa
 
 ```{r}
 subdata_1$confianza_prensa= recode(subdata_1$confianza_prensa, "1=4;2=3;3=2;4=1")
 table(subdata_1$confianza_prensa)
 ```
 
-4.  Confianza en la televisión
+4.-confianza_television
 
 ```{r}
 subdata_1$confianza_television= recode(subdata_1$confianza_television, "1=4;2=3;3=2;4=1")
 table(subdata_1$confianza_religion)
 ```
 
-5.  Confianza en los sindicatos
+5.-confianza_sindicatos
 
 ```{r}
 subdata_1$confianza_sindicatos= recode(subdata_1$confianza_sindicatos, "1=4;2=3;3=2;4=1")
 table(subdata_1$confianza_sindicatos)
 ```
 
-6.  Confianza en la policía  
+6.- confianza_policia
 
 ```{r}
 subdata_1$confianza_policia= recode(subdata_1$confianza_policia, "1=4;2=3;3=2;4=1")
 table(subdata_1$confianza_policia)
 ```
 
-7.  Confianza en las cortes de justicia
+7.- confianza_justicia
 
 ```{r}
 subdata_1$confianza_justicia= recode(subdata_1$confianza_justicia, "1=4;2=3;3=2;4=1")
 table(subdata_1$confianza_justicia)
 ```
 
-8.  Confianza en el gobierno
+8.-confianza_gobierno
 
 ```{r}
 subdata_1$confianza_gobierno= recode(subdata_1$confianza_gobierno, "1=4;2=3;3=2;4=1")
 table(subdata_1$confianza_gobierno)
 ```
 
-9.  Confianza en los partidos políticos
+9.-confianza_partidos
 
 ```{r}
 subdata_1$confianza_partidos= recode(subdata_1$confianza_partidos, "1=4;2=3;3=2;4=1")
 table(subdata_1$confianza_partidos)
 ```
 
-10. Confianza en el parlamento
+10.-confianza_parlamento
 
 ```{r}
 subdata_1$confianza_parlamento= recode(subdata_1$confianza_parlamento, "1=4;2=3;3=2;4=1")
 table(subdata_1$confianza_parlamento)
 ```
 
-11. Confianza en el servicio civil
+11.- confianza_serviciocivil
 
 ```{r}
 subdata_1$confianza_serviciocivil= recode(subdata_1$confianza_serviciocivil, "1=4;2=3;3=2;4=1")
 table(subdata_1$confianza_serviciocivil)
 ```
 
-12. Confianza en las universidades
+12.-confianza_universidades
 
 ```{r}
 subdata_1$confianza_universidades= recode(subdata_1$confianza_universidades, "1=4;2=3;3=2;4=1")
 table(subdata_1$confianza_universidades)
 ```
 
-13. Confianza en los mecanismos electorales
+13.- confianza_elecciones
 
 ```{r}
 subdata_1$confianza_elecciones= recode(subdata_1$confianza_elecciones, "1=4;2=3;3=2;4=1")
 table(subdata_1$confianza_elecciones)
 ```
 
-14. Confianza en las grandes empresas
+14.- confianza_granempresa
 
 ```{r}
 subdata_1$confianza_granempresa= recode(subdata_1$confianza_granempresa, "1=4;2=3;3=2;4=1")
 table(subdata_1$confianza_granempresa)
 ```
 
-15. Confianza en la banca
+15.-confianza_bancos
 
 ```{r}
 subdata_1$confianza_bancos= recode(subdata_1$confianza_bancos, "1=4;2=3;3=2;4=1")
 table(subdata_1$confianza_bancos)
 ```
 
-16. Confianza en las organizaciones ambientales
+16.- confianza_org_ambiental
 
 ```{r}
 subdata_1$confianza_org_ambiental= recode(subdata_1$confianza_org_ambiental, "1=4;2=3;3=2;4=1")
 table(subdata_1$confianza_org_ambiental)
 ```
 
-17. Confianza en las organizaciones de mujeres
+17.- confianza_org_mujeres
 
 ```{r}
 subdata_1$confianza_org_mujeres= recode(subdata_1$confianza_org_mujeres, "1=4;2=3;3=2;4=1")
 table(subdata_1$confianza_org_mujeres)
 ```
 
-18. Confianza en las organizaciones humanitarias/caridad
+18.-confianza_org_humanitaria
 
 ```{r}
 subdata_1$confianza_org_humanitaria= recode(subdata_1$confianza_org_humanitaria, "1=4;2=3;3=2;4=1")
 table(subdata_1$confianza_org_humanitaria)
 ```
 
-19. Confianza en Organización Regional relevante
+19.-confianza_org_regional_relevante
 
 ```{r}
 subdata_1$confianza_org_regional_relevante= recode(subdata_1$confianza_org_regional_relevante, "1=4;2=3;3=2;4=1")
 table(subdata_1$confianza_org_regional_relevante)
 ```
 
-20. Confianza en la Organización Mundial de la Salud
+20.-confianza_onu
 
 ```{r}
 subdata_1$confianza_onu= recode(subdata_1$confianza_onu, "1=4;2=3;3=2;4=1")
 table(subdata_1$confianza_onu)
 ```
 
-21. Confianza en el Fondo Monetario Internacional
+21.-confianza_fmi
 
 ```{r}
 subdata_1$confianza_fmi= recode(subdata_1$confianza_fmi, "1=4;2=3;3=2;4=1")
 table(subdata_1$confianza_fmi)
 ```
 
-22. Confianza en el Corte Penal Internacional
+22.-confianza_cci
 
 ```{r}
 subdata_1$confianza_cci= recode(subdata_1$confianza_cci, "1=4;2=3;3=2;4=1")
@@ -292,21 +282,21 @@ table(subdata_1$confianza_cci)
 
 ```
 
-23. Confianza en la Organización del Tratado del Atlántico Norte
+23.-confianza_otan
 
 ```{r}
 subdata_1$confianza_otan= recode(subdata_1$confianza_otan, "1=4;2=3;3=2;4=1")
 table(subdata_1$confianza_otan)
 ```
 
-24. Confianza en el Banco Mundial
+24.-confianza_bm
 
 ```{r}
 subdata_1$confianza_bm= recode(subdata_1$confianza_bm, "1=4;2=3;3=2;4=1")
 table(subdata_1$confianza_bm)
 ```
 
-25. Confianza en la Organización Mundial de la Salud
+25.- confianza_oms
 
 ```{r}
 subdata_1$confianza_oms= recode(subdata_1$confianza_oms, "1=4;2=3;3=2;4=1")
@@ -314,14 +304,14 @@ table(subdata_1$confianza_oms)
 
 ```
 
-26. Confianza en la Organización Mundial del Comercio
+26.-confianza_omc
 
 ```{r}
 subdata_1$confianza_omc= recode(subdata_1$confianza_omc, "1=4;2=3;3=2;4=1")
 table(subdata_1$confianza_omc)
 ```
 
-**b) [Confianza interpersonal]{.underline}**
+**b) Confianza interpersonal**
 
 Creamos la subdata para confianza interpersonal:
 
@@ -331,42 +321,42 @@ subdata_2 <- WVS_pais[,c(2:7)]
 
 Ordenamos de manera ascendente.
 
-1. Confianza en su familia
+1)  
 
 ```{r}
 subdata_2$familia= recode(subdata_2$familia, "1=4;2=3;3=2;4=1")
 table(subdata_2$familia)
 ```
 
-2.  Confianza en su vecindario
+2)  
 
 ```{r}
 subdata_2$barrio= recode(subdata_2$barrio, "1=4;2=3;3=2;4=1")
 table(subdata_2$barrio)
 ```
 
-3.  Confianza en conocidos
+3)  
 
 ```{r}
 subdata_2$conocidos= recode(subdata_2$conocidos, "1=4;2=3;3=2;4=1")
 table(subdata_2$conocidos)
 ```
 
-4.  Confianza en recién conocidos por primera vez
+4)  
 
 ```{r}
 subdata_2$rconocidos= recode(subdata_2$rconocidos, "1=4;2=3;3=2;4=1")
 table(subdata_2$rconocidos)
 ```
 
-5.  Confianza en personas de otra religión
+5)  
 
 ```{r}
 subdata_2$preligion= recode(subdata_2$preligion, "1=4;2=3;3=2;4=1")
 table(subdata_2$preligion)
 ```
 
-6.  Confianza en extranjeros
+6)  
 
 ```{r}
 subdata_2$nacionalidad= recode(subdata_2$nacionalidad, "1=4;2=3;3=2;4=1")
@@ -374,13 +364,17 @@ table(subdata_2$nacionalidad)
 
 ```
 
+Asignamos el nombre de los países como primera columna y la eliminamos de la data principal (WVS_pais)
+
+texto
+
 ## 2.2. Métodos seleccionados
 
 texto
 
 # 3. Presentación y análisis de resultados - Confianza en las instituciones
 
-A continuación presentaremos las 26 variables que refieren a la confianza en las instituciones
+Trabajo con 26 variables que refieren a la confianza en las instituciones
 
 ## 3.1. Análisis factorial exploratorio:
 
@@ -399,6 +393,8 @@ poly_cor1
 
 ```
 
+### 
+
 **Creamos un gráfico con la matriz de correlaciones:**
 
 ```{r}
@@ -416,17 +412,17 @@ Con la matriz previa podemos observar la proporción de relación entre dos vari
 
 Test de Kaiser-Meyer-Olkin factor adequacy (KMO):
 
--   Escala - Test KMO
-
-    -   0 a 0.5= no se debe de realizar
-
-    -   0.5 a 0.7= aceptable
-
-    -   0.7 a 1= muy bueno
-
 ```{r}
 psych::KMO(subdata_1) 
 ```
+
+Escala - Test KMO
+
+0 a 0.5= no se debe de realizar
+
+0.5 a 0.7= aceptable
+
+0.7 a 1= muy bueno
 
 Con esta prueba lo que buscamos es que la correlación parcial sea mayor a 0.5. Por ende, se espera que los valores resultantes, esten más ceranos a 1. En este caso, observamos que los resultados se encuentran entre 0.57 hasta 0.97, con un Overall MSA de 0.88, lo cual es muy bueno. Esto nos indica que los valores de las variables son factorizables.
 
@@ -434,21 +430,19 @@ Con esta prueba lo que buscamos es que la correlación parcial sea mayor a 0.5. 
 
 Test de Bartlett
 
--   H0= Matriz de correlación es igual a la matriz de identidad
-
--   Ha= Matriz de correlación NO es igual a la matriz de identidad (\<0.05)
-
-Con este test, lo que buscamos es que se rechace la H0, la cual implica que la matriz de correlacion es una matriz identidad.
-
 ```{r}
 cortest.bartlett(corMatrix,n=nrow(subdata_1))$p.value>0.05
 ```
 
-El resultado del test es "FALSE", lo que nos indica que existe un p-value mayor a 0.05, de modo que se rechaza la H0 y se acepta la Ha que indica que la matriz de correlación es diferente a la matriz de identidad. Podemos así confirmar que la matriz es adecuada y existe correlación.
+H0= Matriz de correlación es igual a la matriz de identidad
 
-### **Determinamos cuántos factores latentes puede redimensionar la data:**
+Ha= Matriz de correlación NO es igual a la matriz de identidad (\<0.05)
 
-**Grafico de sedimentación:**
+Con este test, lo que buscamos es que se rechace la H0, la cual implica que la matriz de correlacion es una matriz identidad. "FALSE" nos indica que existe un p-value mayor a 0.05, de modo que se rechaza la H0 y se acepta la Ha, de modo que la matriz sí es adecuada.
+
+### **Determinamos cuántos factores latententes puede redimensionar la data:**
+
+### **Grafico de sedimentación:**
 
 Elaboramos este gráfico para determinar en cuántos factores podemos redimensionar nuestros variables y valores de nuestra subdata.
 
@@ -456,22 +450,16 @@ Elaboramos este gráfico para determinar en cuántos factores podemos redimensio
 fa.parallel(corMatrix, fm="pa", fa="fa", main = "Scree Plot")
 ```
 
-De acuerdo con el análisis del gráfico de sedimentacion, ubicamos que el codo se encuentra en el 2. Al verificar en el otro cuadro se recomienda que se utilice 1 factor.
-
-Como nos recomienda solo 1 factor, vamos a asegurar aún más con los autovalores ya que no sería adecuado agrupar en solo 1 factor las variables de instituciones que no todas comparten la misma naturaleza.
-
 **Eigen values - Autovalores**
-
-(Criterio de Kaiser : se deben retener todos los factores que tengan un autovalor mayor de 1.0.)
 
 ```{r}
 eigenf = eigen(cor(subdata_1, use="complete"))
 eigenf$values
 ```
 
-Al observar los autovalores, vemos que hay 4 autovalores que superan a 1. Entonces son 4 los factores que podríamos realizar.
+(Criterio de Kaiser : se deben retener todos los factores que tengan un autovalor mayor de 1.0.)
 
-Tras observar los autovalores y el gráfico de sedimentación podemos concluir que los más apropiado sería distribuir las variables en 4 factores. Elegir un número mayor a este, implicaría arriesgarnos a una menor exactitud y efectividad de los factores para responder a nuestra pregunta de investigación.
+Tras observar los autovalores (cantidad de la varianza total que está explicada por cada factor) y el gráfico de sedimentación podemos concluir que los más apropiado sería distribuir las variables en cuatro (4) factores. Elegir un número menor, como nos propone el gráfico, sería arriesgarnos a que un factor explique variables que parecen no tener relación por las dimensiones de confianza institucional que explican.
 
 ### **Solicitamos el número de componentes**
 
@@ -480,7 +468,7 @@ Rotamos para acomodar las variables latentes para que se correlacionen con su re
 Utilizamos la rotación varimax, puesto que minimiza el número de variables con cargas altas en un factor, mejorando así la interpretación de factores.
 
 ```{r}
-factorial_exp1 <- fa(subdata_1,nfactors = 4,rotate="varimax", fm="minres")
+factorial_exp1 <- fa(subdata_1,nfactors = 5,rotate="varimax", fm="minres")
 factorial_exp1
 ```
 
@@ -500,34 +488,37 @@ print(factorial_exp1$loadings,cutoff = 0.4)
 
 **Evaluamos el Análisis Factorial Exploratorio solicitado**
 
--   ¿Qué variables aportaron mas a los factores?
-    -   Las variables confianza en el Banco Mundial y confianza en el Fondo Monetario Internacional son las que aportaron más significativamente a los factores. Esto podría estar relacionado al sistema económico neoliberal instaurado mundialmente que legitima y otorga más confianzas a aquellas instituciones encargadas de la economía y comercio.
+Para entender a mayor profundidad la distribución de factores, es recomendable plantear las siguientes interrogantes:
+
+-   **¿Qué variables aportaron mas a los factores?**
 
 ```{r}
 sort(factorial_exp1$communality)
 ```
 
+Las variables confianza en el Banco Mundial y confianza en el Fondo Monetario Internacional son las que aportaron más significativamente a los factores. Esto podría estar relacionado al sistema económico neoliberal instaurado mundialmente que legitima y otorga más confianzas a aquellas instituciones encargadas de la economía y comercio.
+
 -   **¿Qué variables contribuyen a mas de un factor?**
-    -   Las variables de confianza en gobierno y confianza en parlamento contribuyen a más de un factor. Esto pone en evidencia que estas instituciones están muy presentes en la opinión de las personas, probablemente porque en muchas partes del mundo dificultades para instaurar su legitimidad y confianza considerando el clima de ascenso de la autocracia mundial.
 
 ```{r}
 sort(factorial_exp1$complexity)
 ```
 
+Las variables de confianza en gobierno y confianza en parlamento contribuyen a más de un factor. Esto pone en evidencia que estas instituciones están muy presentes en la opinión de las personas, probablemente porque en muchas partes del mundo dificultades para instaurar su legitimidad y confianza considerando el clima de ascenso de la autocracia mundial.
+
 -   **¿Qué variables observables tiene un componente "único" más grande?**
-    -   Las variables de "religión" y "FFAA" contienen un componente único más grande, significando que tienen la menor cantidad de información en común. Probablemente esto se debe porque posiciones afines a la religión van en contra con la valorizacióna las FFAA. No obstante, también puede ser muy subjetivo ya que la influencia de la religión y las FF.AA en muchas sociedad ha disminuido y por tanto no influyen mucho en la confianza de las personas.
 
 ```{r}
 sort(factorial_exp1$uniquenesses)
 ```
 
-texto Explicar por qué esto es insuficiente.
+Las variables de "religión" y "FFAA" contienen un componente único más grande, significando que tienen la menor cantidad de información en común. Probablemente esto se debe porque posiciones afines a la religión van en contra con la valorizacióna las FFAA. No obstante, también puede ser muy subjetivo ya que la influencia de la religión y las FF.AA en muchas sociedad ha disminuido y por tanto no influyen mucho en la confianza de las personas.
 
-3.2. Análisis Factorial Confirmatorio
-
-Analisis confirmatorio
+## 3.2. Análisis Factorial Confirmatorio
 
 Una vez hecho el análisis factorial exploratorio, pasaremos a realizar el análisis factorial confirmatorio para contrastar el modelo sugerido. Así podremos corroborar si lo planteado es adecuado.
+
+### **Analisis confirmatorio**
 
 ```{r}
 Modelo_confir1 = "FAC1 =~confianza_otan+ confianza_fmi+confianza_cci+confianza_omc+confianza_onu+confianza_bm+confianza_org_regional_relevante+confianza_sindicatos+confianza_granempresa+confianza_bancos+confianza_prensa
@@ -543,9 +534,22 @@ modelo=cfa(Modelo_confir1, data=subdata_1)
 summary(modelo,fit.measures=F)
 ```
 
+A pesar de no contar con errores en la asignación de factores, las asignaciones propias de R carecen de sentido en algunos casos. Asimismo, considerando conocimiento desde la Ciencia Política, se puede construir una distribución de patrones que organice adecuadamente la confianza institucional. EXPLAYAR
 
+```{r}
+Modelo_confir2 ="FAC1 =~confianza_bm+confianza_fmi+confianza_omc+confianza_onu+confianza_org_regional_relevante+confianza_cci+confianza_granempresa+confianza_bancos+confianza_otan
+                FAC2 =~ confianza_org_ambiental+confianza_org_mujeres+confianza_org_humanitaria+confianza_universidades
+                FAC3 =~ confianza_parlamento+confianza_prensa+confianza_elecciones+confianza_gobierno+confianza_television+confianza_partidos+confianza_serviciocivil
+                FAC4 =~ confianza_religion+confianza_sindicatos
+FAC5 =~ confianza_justicia+confianza_policia"
+```
 
-A pesar de no contar con errores en la asignación de factores, las asignaciones propias de R carecen de sentido en algunos casos. Asimismo, considerando conocimiento desde la Ciencia Política, se puede construir una distribución de patrones que organice adecuadamente la confianza institucional.  EXPLAYAR 
+```{r}
+modelo2=cfa(Modelo_confir2, data=subdata_1)
+summary(modelo2,fit.measures=F)
+```
+
+Sin embargo, a pesar de no contar con errores en la asignación de factores, las asignaciones propias de R carecen de sentido en algunos casos. Asimismo, considerando conocimiento desde la Ciencia Política, se puede construir una distribución de patrones que organice adecuadamente la confianza institucional.
 
 ```{r}
 Modelo_confir3 = "F1_Confianza en las OI =~confianza_org_regional_relevante+confianza_onu+confianza_bm+confianza_oms+confianza_omc+confianza_otan+ confianza_cci+confianza_fmi
@@ -558,14 +562,12 @@ confianza_org_ambiental+confianza_org_mujeres+confianza_org_humanitaria"
 Modelo_confir3
 ```
 
-
 ```{r}
 modelo3=cfa(Modelo_confir3, data=subdata_1)
 summary(modelo3,fit.measures=F)
 ```
 
-
-Tras lo realizado, se obtuvieron seis factores:
+### Tras lo realizado, se obtuvieron seis factores:
 
 F1 Confianza en las OI
 
@@ -579,24 +581,25 @@ F5 Confianza en Instituciones Educativas y Espirituales
 
 56 Confianza en Instituciones Sociales
 
-Graficamos:
+
+### Graficamos:
 
 ```{r}
 semPaths(modelo3, intercepts = FALSE,edge.label.cex=1.5, optimizeLatRes = TRUE, groups = "lat",pastel = TRUE, exoVar = FALSE, sizeInt=5,edge.color ="black",esize = 6, label.prop=2,sizeLat = 6,"std", layout="circle2")
 ```
 
-
 Podemos observar los 6 factores creados. Se observa que la mayoría de los factores cuentan con una fuerte relación con sus variables debido a que presentan una línea fuerte. Por otro lado, la información que no es explicable con su factor es una minoría, puesto que solo la variable "confianza en religión" es mayor que la carga factorial que su factorial. Así, se observa en general que se ofrece una correlación bastante explicativa.
 
-Guardamos los componentes como nuevas variables:
+### **Guardamos los componentes como nuevas variables:**
+
+texto
 
 ```{r}
 factores_puntajes <- predict(modelo3)
 WVS_pais <- cbind(WVS_pais, factores_puntajes)
 ```
 
-
-Estandarizamos del 1 al 4:
+### **Estandarizamos del 1 al 4:**
 
 ```{r}
 library(BBmisc)
@@ -626,8 +629,6 @@ WVS_pais$F6_ConfianzaenInstitucionesSociales = normalize(WVS_pais$F6_Confianzaen
                                         range = c(1, 4))
 ```
 
-
-
 Los niveles de confianza se clasifican de la sigueinte manera:
 
 Nivel 4 - Muy alta confianza
@@ -645,7 +646,6 @@ Ahora aplicaremos el análisis de conglomerados K-means (No Jerárquico) para en
 Asignamos el nombre de los países como primera columna para poder identificarlos en el proceso de crear los subgrupos.
 
 ```{r}
-
 rownames(WVS_pais) = WVS_pais[,34]
 ```
 
@@ -798,11 +798,9 @@ print(mapa)
 
 # 4. Presentación y análisis de resultados - Confianza interpersonal
 
-Trabajo con 6 variables.
+Para el análisis de confianza interpersonal se utilizaran, como antes se mencionó, 6 variables que se encuentran desde la Q58 a la Q63, las cuales corresponden a la confianza interpersonal.
 
 ## 4.1. Análisis Factorial Exploratorio
-
-APLICACIÓN DE ANÁLISIS FACTORIAL Y CONFIRMATORIO PARA INTERPERSONAL
 
 Revisamos la estructura de nuestra subdata configurada previamente:
 
@@ -810,6 +808,11 @@ Revisamos la estructura de nuestra subdata configurada previamente:
 str(subdata_2)
 ```
 
+Encontramos nuestro "data.frame" en formato tibble, lo cual no nos permite aplicar el análisis factorial. Lo convertimos adecuadamente en un data.frame.
+
+```{r}
+subdata_2=as.data.frame(subdata_2)
+```
 
 A pesar de haber limpiado la data previamente, al cambiar de formato, nos sercioramos de eliminar los NA's:
 
@@ -818,7 +821,7 @@ subdata_2 <- subdata_2[complete.cases(subdata_2),]
 subdata_2=na.omit(subdata_2)
 ```
 
-Creamos nuestra matriz de correlación:
+Creamos nuestra matriz de correlación, en el que por la naturaleza de la variable (categórica-ordinal) se busca aplicar una correlación policórica. No obstante, con este método presentamos problemas al momento de correr el código, debido a que R reconoce cada decimal de nuestros datos como un nivel. Por ende, no se reconoce la naturaleza ordinal de nuestras variables en R, por lo que se aplica hetcor que es una heramienta nos llevaría al mismo resultado por su naturaleza numérica, que se complementa con la función correlations.
 
 ```{r}
 
@@ -836,9 +839,13 @@ cor.plot(corMatrix2,
           show.legend=T)#Mostrar leyenda
 ```
 
-Verificamos que los datos se puedan factorizar:
+Creamos un objeto con la matriz de correlaciones, la cual es una tabla que mide y muestra la interdependencia en las relaciones entre variables. Por ello, como se puede observar, nuestra tabla es una matriz de correlación en el que la relación identica entre variables es consigo mismas a través de la diagonal de 1, que hace referencia a la matrisz de identidad entre las mismas variables.
 
-Test de Kaiser-Meyer-Olkin factor adequacyf
+**Verificamos que los datos se puedan factorizar:**
+
+Verificamos que los datos se puedan factorizar a través del test de Kaiser-Meyer-Olkin (KMO), el cual permite observar las variables observables con la finalidad de determinar si existe una correlación real y si los datos son factorizables.
+
+**Test de Kaiser-Meyer-Olkin factor adequacy**
 
 ```{r}
 psych::KMO(subdata_2)
@@ -846,9 +853,11 @@ psych::KMO(subdata_2)
 
 Observamos que los resultados se encuentran entre 0.46 a 0.83. Asímismo, el Overall MSA es de 0.73, de modo que, al ser mayor a 0.5 y 0.7, los datos de todas nuestras variables son factorizables.
 
-Verificamos si la matriz de correlaciones es adecuada:
+**Verificamos si la matriz de correlaciones es adecuada:**
 
-Test de Bartlett
+**Test de Bartlett**
+
+Este test consiste en indicar si la matriz de correlaciones que hemos observado es una matriz de identidad o una matriz de correlación.
 
 ```{r}
 cortest.bartlett(corMatrix2,n=nrow(subdata_2))$p.value>0.05
@@ -858,26 +867,28 @@ H0= Matriz de correlación es igual a la matriz de identidad
 
 Ha= Matriz de correlación NO es igual a la matriz de identidad (\<0.05)
 
-Con el "FALSE" se rechaza la H0 y se asume un valor menor a 0.05, que indica que la matriz de correlación es igual que la matriz de identidad. Por ende, se adopta la Ha, que indica que la mtriz es adecuada.
+Con el "FALSE" se rechaza la H0 y se asume un valor menor a 0.05, que indica que la matriz de correlación es igual que la matriz de identidad. Por ende, se adopta la Ha, que indica que la matriz es adecuada.
 
-Determinamos la cantidad de factores a desarrollar Gráfico de sedimentación
+**Determinamos la cantidad de factores a desarrollar**
 
-Elaboramos este gráfico para determinar en cuántos factores podemos redimencionar nuestra base de datos.
+**Gráfico de sedimentación**
+
+Elaboramos este gráfico para determinar en cuántos factores podemos redimensionar nuestra base de datos.
 
 ```{r}
 fa.parallel(corMatrix2, fm="pa", fa="fa", main = "Scree Plot")
 ```
 
-Eigen values - Autovalores
+**Eigen values - Autovalores**
 
 ```{r}
 eigenf2 = eigen(cor(subdata_2, use="complete"))
 eigenf$values
 ```
 
-Elegimos 2.
+Después de realizar el gráfico de sedimentación y observar los autovalores, elegimos construir 2 factores, puesto que, por la cantidad limitada de variables que conforman la dimensión de confianza interpersonal, elegir un número mayor implicaría que existan factores que correspondan solamente con una variable.
 
-Solicitamos el número de componentes:
+**Solicitamos el número de componentes:**
 
 Rotamos para acomodar las variables latentes de tal manera que se correlacionen con un grupo de datos y no con otro.
 
