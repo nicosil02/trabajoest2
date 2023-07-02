@@ -514,11 +514,9 @@ sort(factorial_exp1$uniquenesses)
 
 Las variables de "religión" y "FFAA" contienen un componente único más grande, significando que tienen la menor cantidad de información en común. Probablemente esto se debe porque posiciones afines a la religión van en contra con la valorizacióna las FFAA. No obstante, también puede ser muy subjetivo ya que la influencia de la religión y las FF.AA en muchas sociedad ha disminuido y por tanto no influyen mucho en la confianza de las personas.
 
-## 3.2. Análisis Factorial Confirmatorio
+## **3.2. Análisis Factorial Confirmatorio**
 
 Una vez hecho el análisis factorial exploratorio, pasaremos a realizar el análisis factorial confirmatorio para contrastar el modelo sugerido. Así podremos corroborar si lo planteado es adecuado.
-
-### **Analisis confirmatorio**
 
 ```{r}
 Modelo_confir1 = "FAC1 =~confianza_otan+ confianza_fmi+confianza_cci+confianza_omc+confianza_onu+confianza_bm+confianza_org_regional_relevante+confianza_sindicatos+confianza_granempresa+confianza_bancos+confianza_prensa
@@ -534,22 +532,7 @@ modelo=cfa(Modelo_confir1, data=subdata_1)
 summary(modelo,fit.measures=F)
 ```
 
-A pesar de no contar con errores en la asignación de factores, las asignaciones propias de R carecen de sentido en algunos casos. Asimismo, considerando conocimiento desde la Ciencia Política, se puede construir una distribución de patrones que organice adecuadamente la confianza institucional. EXPLAYAR
-
-```{r}
-Modelo_confir2 ="FAC1 =~confianza_bm+confianza_fmi+confianza_omc+confianza_onu+confianza_org_regional_relevante+confianza_cci+confianza_granempresa+confianza_bancos+confianza_otan
-                FAC2 =~ confianza_org_ambiental+confianza_org_mujeres+confianza_org_humanitaria+confianza_universidades
-                FAC3 =~ confianza_parlamento+confianza_prensa+confianza_elecciones+confianza_gobierno+confianza_television+confianza_partidos+confianza_serviciocivil
-                FAC4 =~ confianza_religion+confianza_sindicatos
-FAC5 =~ confianza_justicia+confianza_policia"
-```
-
-```{r}
-modelo2=cfa(Modelo_confir2, data=subdata_1)
-summary(modelo2,fit.measures=F)
-```
-
-Sin embargo, a pesar de no contar con errores en la asignación de factores, las asignaciones propias de R carecen de sentido en algunos casos. Asimismo, considerando conocimiento desde la Ciencia Política, se puede construir una distribución de patrones que organice adecuadamente la confianza institucional.
+A pesar de no contar con errores en la asignación de factores, las asignaciones propias de R carecen de sentido en algunos casos. Por ejemplo, en el FAC4, si bien podríamos catolar al cluster como de "organizaciones", vemos que también incluye a "universidades", una institución educativa. De esta forma, a continuación se va a proponer un nuevo modelo utilizando conocimientos desde la Ciencia Política, que permita construir una distribución de patrones adecuada para explicar la confianza institucional.
 
 ```{r}
 Modelo_confir3 = "F1_Confianza en las OI =~confianza_org_regional_relevante+confianza_onu+confianza_bm+confianza_oms+confianza_omc+confianza_otan+ confianza_cci+confianza_fmi
@@ -567,22 +550,27 @@ modelo3=cfa(Modelo_confir3, data=subdata_1)
 summary(modelo3,fit.measures=F)
 ```
 
-### Tras lo realizado, se obtuvieron seis factores:
+Tras lo realizado, se obtuvieron seis factores:
 
-F1 Confianza en las OI
+**F1 - Confianza en las Organizaciones Internacionales** (Incluye confianza en: Organizaciones regionales relevantes, la Organización de las Naciones Unidas, Organización Mundial de la Salud, Organización Mundial del Comercio, Organización del Tratado del Atlántico Norte, Corte Penal Internacional, Fondo Monetario Internacional)
 
-F2 Confianza en los medios de comunicación
+-   Esta agrupación se sustenta usando los criterios de la internacionalista Esther Barbé que define una organización internacional como una asociación de 3 o más Estados, establecida mediante un acuerdo, para la consecución de objetivos comunes (1995). Asimismo, esta debe ser una estructura institucional con órganos permanentes, propios y autónomos de los estados miembros (Barbé, 1995). De esta forma, los criterios de esta definición cumplen con todos las instituciones que componen este factor.
 
-F3 Confianza en las Instituciones Políticas y Legales
+**F2 - Confianza en los medios de comunicación** (Incluye confianza en: televisión y prensa)
 
-F4 Confianza en las Instituciones de seguridad
+-   Esta agrupación sustenta al ser la televisión y la prensa medios tradicionales de comunicación que influyen en la opinión del público, y por tanto en sus niveles de confianza.
 
-F5 Confianza en Instituciones Educativas y Espirituales
+**F3 - Confianza en las Instituciones Políticas y Legales** (Incluye confianza en: gobierno, partidos políticos, parlamento, mecanismos electorales, servicio civil, cortes de justicia)
 
-56 Confianza en Instituciones Sociales
+-   La agrupación se debe a que estas instituciones están involucradas en aspectos políticos y legales de nuestra sociedad.
 
+**F4 - Confianza en las Instituciones de Seguridad** (Incluye confianza en: policía y fuerzas armadas)
 
-### Graficamos:
+**F5 - Confianza en Instituciones Educativas y Espirituales** (Incluye confianza en iglesias y universidades)
+
+**F6 - Confianza en Instituciones Sociales** (Incluye confianza en: sindicatos, grandes empresas, organizaciones ambientales, organizaciones de mujeres, organizaciones humanitarias/caridad)
+
+**Graficamos:**
 
 ```{r}
 semPaths(modelo3, intercepts = FALSE,edge.label.cex=1.5, optimizeLatRes = TRUE, groups = "lat",pastel = TRUE, exoVar = FALSE, sizeInt=5,edge.color ="black",esize = 6, label.prop=2,sizeLat = 6,"std", layout="circle2")
@@ -590,16 +578,14 @@ semPaths(modelo3, intercepts = FALSE,edge.label.cex=1.5, optimizeLatRes = TRUE, 
 
 Podemos observar los 6 factores creados. Se observa que la mayoría de los factores cuentan con una fuerte relación con sus variables debido a que presentan una línea fuerte. Por otro lado, la información que no es explicable con su factor es una minoría, puesto que solo la variable "confianza en religión" es mayor que la carga factorial que su factorial. Así, se observa en general que se ofrece una correlación bastante explicativa.
 
-### **Guardamos los componentes como nuevas variables:**
-
-texto
+**Guardamos los componentes como nuevas variables:**
 
 ```{r}
 factores_puntajes <- predict(modelo3)
 WVS_pais <- cbind(WVS_pais, factores_puntajes)
 ```
 
-### **Estandarizamos del 1 al 4:**
+**Estandarizamos del 1 al 4:**
 
 ```{r}
 library(BBmisc)
@@ -629,13 +615,13 @@ WVS_pais$F6_ConfianzaenInstitucionesSociales = normalize(WVS_pais$F6_Confianzaen
                                         range = c(1, 4))
 ```
 
-Los niveles de confianza se clasifican de la sigueinte manera:
+Los niveles de confianza se clasifican de la siguiente manera:
 
-Nivel 4 - Muy alta confianza
+Nivel 4 - Muy Alta confianza
 
-Nivel 3 - Alta Confianza
+Nivel 3 - Alta confianza
 
-Nivel 2 - Media-baja Confianza
+Nivel 2 - Media-Baja Confianza
 
 NIvel 1 - Baja confianza
 
@@ -646,6 +632,7 @@ Ahora aplicaremos el análisis de conglomerados K-means (No Jerárquico) para en
 Asignamos el nombre de los países como primera columna para poder identificarlos en el proceso de crear los subgrupos.
 
 ```{r}
+
 rownames(WVS_pais) = WVS_pais[,34]
 ```
 
@@ -658,43 +645,49 @@ MATRI_dist <- get_dist(WVS_factores1, method = "euclidean", stand = TRUE)
 
 ```
 
-Elaboramos matriz de distancias
+**Elaboramos matriz de distancias**
 
 ```{r}
 fviz_dist(MATRI_dist, gradient = list(low = "blue", mid = "white", high = "red"))
 ```
 
-Calculo de clúster
+EXPLICAR QUE SIGNIFICA COLORES
+
+**Calculo de clúster**
 
 ```{r}
 resnumclust=NbClust(WVS_factores1, distance = "euclidean", min.nc= 2, max.nc= 10, 
                        method = "ward.D")
 ```
 
+DECIR QUE NOS RECOMIENDA EL R --\> 3 CLUSTERS por eso a continuacion hacemos 3 cortes
+
 ```{r}
 res1 <- hcut(WVS_factores1, k = 3, stand = TRUE, hc_method = "ward.D")
 ```
 
-Dendograma
+**Dendograma**
+
+desarrollamos el dendograma con la formula a continuaacion:
 
 ```{r}
 fviz_dend(res1, rect = T, cex = 0.5)
 ```
 
-Grafico
+**Graficamos los clústers**
 
 ```{r}
 fviz_cluster(res1, data = WVS_factores1)
 ```
 
-Agregamos a nuestra base y a nuestra subdata de factores
+**Agregamos a nuestra base y a nuestra subdata de factores**
 
 ```{r}
 WVS_pais$clus_instituciones=as.factor(res1$cluster)
 WVS_factores1$clus_instituciones=as.factor(res1$cluster)
 ```
 
-Vemos las características de los grupos
+**Vemos las características de los grupos**
 
 ```{r}
 table(WVS_pais$clus_instituciones)
@@ -711,7 +704,13 @@ clust_car
 
 ```
 
-Explicación Valdría la pensa alternar el cluster 2 y 3 para que exista un orden visible.
+Explicación Valdría la pena alternar el cluster 2 y 3 para que exista un orden visible.
+
+cluster 1 es el caso donde se agrupa mas los paises con mas confianza en instituciones
+
+cluster 2 menos confianza
+
+cluster 3 confianza intermedia
 
 ## 3.4. Mapas
 
