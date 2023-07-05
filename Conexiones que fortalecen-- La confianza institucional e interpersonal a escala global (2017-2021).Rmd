@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # 1.Introducción
 
-La confianza en las instituciones es fundamental para el buen funcionamiento de una sociedad y para su propio desarrollo en sentido amplio. Estas se definen, de acuerdo con Helmke y Levitsky (2006), como un conjunto de reglas y procedimientos que estructuran las interacciones sociales a partir de la restricción y habilitación del comportamiento de los actores. En tal sentido, cuando las instituciones son consideradas legítimas y confiables, la población tiende a desarrollar a cabalidad el sentido cívico y acepta la influencia de las mismas sobre su comportamiento. Asimismo, la confianza en las instituciones también es crucial para mantener la estabilidad social y la cohesión en una sociedad, ya que ayuda a evitar la polarización y los conflictos. Siguiendo a Hyun-sool (2014), el grado de democratización modera la asociación entre la confianza en las autoridades institucionales y el compromiso político individual. De acuerdo con Nye (1997), en las instituciones debe existir un nivel crítico de apoyo para garantizar su legitimidad y prevalencia. De este modo, la confianza en las instituciones, al impactar sobre la vida social, se relacionan con la confianza interpersonal. Las instituciones, así, moldean el comportamiento de la sociedad de manera predecible, no arbitraria ni dañina para los intereses de la misma o el país, tratando a los ciudadanos de manera igualitaria, correcta y justa.
+La confianza en las instituciones es fundamental para el buen funcionamiento de una sociedad y para su propio desarrollo en sentido amplio. Estas se definen, de acuerdo con Helmke y Levitsky (2006), como un conjunto de reglas y procedimientos que estructuran las interacciones sociales a partir de la restricción y habilitación del comportamiento de los actores. En tal sentido, cuando las instituciones son consideradas legítimas y confiables, la población tiende a desarrollar a cabalidad el sentido cívico y acepta la influencia de las mismas sobre su comportamiento. Asimismo, la confianza en las instituciones también es crucial para mantener la estabilidad social y la cohesión en una sociedad, ya que ayuda a evitar la polarización y los conflictos. Siguiendo a Kim (2014), el grado de democratización modera la asociación entre la confianza en las autoridades institucionales y el compromiso político individual. De acuerdo con Nye (1997), en las instituciones debe existir un nivel crítico de apoyo para garantizar su legitimidad y prevalencia. De este modo, la confianza en las instituciones, al impactar sobre la vida social, se relacionan con la confianza interpersonal. Las instituciones, así, moldean el comportamiento de la sociedad de manera predecible, no arbitraria ni dañina para los intereses de la misma o el país, tratando a los ciudadanos de manera igualitaria, correcta y justa.
 
 La confianza interpersonal refiere a la creencia y seguridad que las personas tienen en las demás, especialmente en sus relaciones personales y sociales. Implica la percepción de que los demás actuarán de manera confiable y que se puede depender de ellos en diversas situaciones. La confianza interpersonal es esencial para el funcionamiento de las relaciones sociales y la cooperación entre individuos. En este punto, la confianza interpersonal e institucional se solapan, y terminan influyendo una a la otra. Tal como desarrollan Mannemar y Thisted (2016), la confianza en las instituciones locales, principalmente gubernamentales, explican en parte la confianza interpersonal y viceversa. Así, se asume una correlación aparente.
 
@@ -330,7 +330,7 @@ subdata_2
 
 ## 2.2. Métodos seleccionados
 
-Para responder a la pregunta de investigación en miras a determinar la agrupación de los países según su confianza en las instituciones se utilizará el análisis factorial exploratorio para agrupar las 16 variables escogidas en un conjunto de variables latentes (factores). En otras palabras, reduciran las dimensiones de nuestras variables.Asimismo, se implementará el análisis factorial confirmatorio con el objetivo de revisar los factores provistos por R así como para proponer nuestro propio modelo, lo cual garantizará una distribución de factores más adecuada. Luego de obtener factores e ingresarlos en nuestra base de datos, se realizará el método de análisis de conglomerados jerárquico. Esto nos permitirá determinar cuál es la distribución de los países según su nivel de confianza institucional, puesto que agrupará a los mismos en grupos respecto a los factores creados previamente. Por último, con los clusters desarrollados, se realizará un mapa que nos permita visualizar nuestros resultados fácilmente para, más adelante, realizar comparaciones.
+Para responder a la pregunta de investigación en miras a determinar la agrupación de los países según su confianza en las instituciones se utilizará el análisis factorial exploratorio para agrupar las 16 variables escogidas en un conjunto de variables latentes (factores). En otras palabras, reduciran las dimensiones de nuestras variables.Asimismo, se implementará el análisis factorial confirmatorio con el objetivo de revisar los factores provistos por R así como para proponer nuestro propio modelo en caso la información obtenida no sea adecuada, lo cual garantizará una distribución de factores más adecuada. Luego de obtener factores e ingresarlos en nuestra base de datos, se realizará el método de análisis de conglomerados jerárquico. Esto nos permitirá determinar cuál es la distribución de los países según su nivel de confianza institucional, puesto que agrupará a los mismos en grupos respecto a los factores creados previamente. Por último, con los clusters desarrollados, se realizará un mapa que nos permita visualizar nuestros resultados fácilmente para, más adelante, realizar comparaciones.
 
 Respecto a la confianza interpersonal, aplicaremos, por un lado, el análisis factorial exploratorio, el cual agrupará las 6 variables escogidas en factores (variables latentes) con el objetivo de reducir dimensiones.Una vez añadida a la data original, se desarrollará el análisis de conglomerados jerárquicos, buscando determinar la distribución de países según su confianza interpersonal. Posterior a ello, con el uso de los clústers obtenidos, se realizará un mapa que nos permita visualizar de forma amigable la agrupación de países y así desarrollar comparaciones.
 
@@ -368,7 +368,7 @@ cor.plot(corMatrix,
           show.legend=T)
 ```
 
-Con la matriz previa podemos observar la proporción de relación entre dos variabales. La relación se explica mediante la intensidad de los colores de la matriz y sus explicaciones en la leyenda. Mientras más azul, será más cercano a 1 y mayor será dicha proporción. Por el contrario, mientras más rojo, será menos la relación y cercano a -1. Esto se elaboró para buscar si existen grupos de variables correlacionadas, y posteriormente, conformar las variables latentes.
+Con la matriz previa podemos observar la proporción de relación entre dos variabales. La relación se explica mediante la intensidad de los colores de la matriz y sus explicaciones en la leyenda. Mientras más azul, será más cercano a 1 y mayor será dicha proporción. Por el contrario, mientras más rojo, será menos la relación y cercano a -1. Esto se elaboró para buscar si existen grupos de variables correlacionadas, y posteriormente, conformar las variables latentes. Viendo nuestro gráfico en primera instancia, observamos que no hay una correlación fuerte entre variables; sin embargo, esto, al ser una observación superficial, no nos imposibilita seguir explorando esta relación.
 
 **Verificamos si los datos son factorizables:**
 
@@ -416,7 +416,7 @@ fa.parallel(corMatrix, fm="pa", fa="fa", main = "Scree Plot")
 
 De acuerdo con el análisis del gráfico de sedimentacion, ubicamos que el codo se encuentra en el 2. Al verificar en el otro cuadro se recomienda que se utilice 0 factores.
 
-Como nos recomienda 0 factores, vamos a asegurar nuestros resultadoscon los autovalores, ya que no sería adecuado no tener ninguna agrupación de instituciones.
+Como nos recomienda 0 factores, vamos a asegurar nuestros resultados con los autovalores, ya que no sería adecuado no tener ninguna agrupación de instituciones.
 
 **Eigen values - Autovalores**
 
@@ -505,7 +505,7 @@ De esta forma, a continuación se va a proponer un nuevo modelo utilizando conoc
 Modelo_confir2 = "FAC1_Confianza en los medios de comunicacion=~confianza_prensa+confianza_television
 FAC2_Confianza en las instituciones de seguridad =~ confianza_policia+confianza_FFAA
                  FAC3_Confianza en las Instituciones Políticas y Legales =~ confianza_gobierno+confianza_partidos+confianza_parlamento+confianza_elecciones+confianza_serviciocivil + confianza_justicia
-FAC4_Confianza en Instituciones Sociales=~ confianza_sindicatos + confianza_granempresa+
+FAC4_Confianza en Instituciones Sociales y económicas=~ confianza_sindicatos + confianza_granempresa+confianza_bancos+
 confianza_org_ambiental+confianza_org_mujeres+confianza_org_humanitaria"
 Modelo_confir2
 
@@ -521,33 +521,31 @@ Tras lo realizado, se obtuvieron 4 factores:
 
 1.  **FAC1 - Confianza en los medios de comunicación** (Incluye confianza en: televisión y prensa)
 
-2.  **FAC2 - Confianza en las Instituciones Políticas y Legales** (Incluye confianza en: gobierno, partidos políticos, parlamento, mecanismos electorales, servicio civil, cortes de justicia)
+2.  **FAC2 - Confianza en las Instituciones de Seguridad** (Incluye confianza en: policía y fuerzas armadas)
 
-3.  **FAC3 - Confianza en las Instituciones de Seguridad** (Incluye confianza en: policía y fuerzas armadas)
+3.  **FAC3 - Confianza en las Instituciones Políticas y Legales** (Incluye confianza en: gobierno, partidos políticos, parlamento, mecanismos electorales, servicio civil, cortes de justicia)
 
-4.  **FAC4 - Confianza en Instituciones Sociales** (Incluye confianza en: sindicatos, grandes empresas, organizaciones ambientales, organizaciones de mujeres, organizaciones humanitarias/caridad)
+4.  **FAC4 - Confianza en Instituciones Sociales y económicas** (Incluye confianza en: sindicatos, grandes empresas, bancos, organizaciones ambientales, organizaciones de mujeres, organizaciones humanitarias/caridad)
 
 [La sustentación de los factores se muestra a continuación:]{.underline}
 
 **FAC1 - Confianza en los medios de comunicación**
 
 -   Este factor se sustenta al ser la televisión y la prensa medios tradicionales de comunicación.
--   Para los fines de la investigación es útil la agrupación porque existe evidencia que los medios tradicionales son asociados positivamente con la confianza política, independientemente de la coyuntura local. Asimismo, los niveles de confianza varían dependiendo de que tanto la ciudadanía esté informada, sea crítica o vigilante de sus autoridades. (Labarca y otros, 2022)
+-   Para los fines de la investigación es útil la agrupación porque existe evidencia que los medios tradicionales son asociados positivamente con la confianza política, independientemente de la coyuntura local. Asimismo, los niveles de confianza varían dependiendo de que tanto la ciudadanía esté informada, sea crítica o vigilante de sus autoridades (Labarca et al., 2022).
 
-**FAC2 - Confianza en las Instituciones Políticas y Legales**
+**FAC2 - Confianza en las Instituciones de Seguridad**
 
--   La agrupación se debe a que estas son instituciones mínimas que aseguran el funcionamiento político y legal de un Estado. Por lo general, el comportamiento del ejecutivo, legislativo, burócratas, jueces dan señales importantes a los ciudadanos sobre los estándares morales de la sociedad en la que viven (Rothstein y Stolle, 2008).
--   De esta forma, es útil para nuestros objetivos por ser un importante referente moral y configurador de los valores de la sociedad, incluyendo la confianza. Esto dependerá de la naturaleza del sistema político-legal, si es corrupto, hostil o etc. (Rothstein y Stolle, 2008).
+-   Estas son instituciones que componen el "monopolio de la violencia" según Charles Tilly. Para nuestra investigación puede resultar interesante ya que estas instituciones son fundamentales para la protección ante amenazas externas lo cual hace difícil rechazar su rol (Tilly, 2004). No obstante, debido a que nos encontramos en un contexto global donde las guerras son menos frecuentes, la existencia de instituciones de seguridad se utilizan cada vez más para el control interno. De esta forma, si es que nos encontramos en un gobierno autoritario o no legítimo, es más probable que hayan acciones violentas contra la ciudadanía y habrán más razones para desconfiar (Melanne y Mikalucic, 2011).
+-   **FAC3 - Confianza en las Instituciones Políticas y Legales**
+    -   La agrupación se debe a que estas son instituciones mínimas que aseguran el funcionamiento político y legal de un Estado. Por lo general, el comportamiento del ejecutivo, legislativo, burócratas, jueces dan señales importantes a los ciudadanos sobre los estándares morales de la sociedad en la que viven (Rothstein y Stolle, 2008).
+    -   De esta forma, es útil para nuestros objetivos por ser un importante referente moral y configurador de los valores de la sociedad, incluyendo la confianza. Esto dependerá de la naturaleza del sistema político-legal, si es corrupto, hostil o etc. (Rothstein y Stolle, 2008).
 
-**FAC3 - Confianza en las Instituciones de Seguridad**
-
--   Estas son instituciones que componen el "monopolio de la violencia" según Charles Tilly. Para nuestra investigación puede resultar interesante ya que estas instituciones son fundamentales para la protección ante amenazas externas lo cual hace difícil rechazar su rol (Tilly, 2004). No obstante, debido a que nos encontramos en un contexto global donde las guerras son menos frecuentes, la existencia de instituciones de seguridad se utilizan cada vez más para el control interno. De esta forma, si es que nos encontramos en un gobierno autoritario o no legítimo, es más probable que hayan acciones violentas contra la ciudadanía y habrán más razones para desconfiar. (Melanne y Mikalucic, 2011).
-
-**FAC4 - Confianza en Instituciones Sociales**
+**FAC4 - Confianza en Instituciones Sociales y Económicas**
 
 -   Dichas instituciones que están dentro de la agrupación representan diferentes sectores y desempeñan roles específicos en la sociedad. Se agrupan debido a su papel en la sociedad y su capacidad para afectar la vida de las personas y la comunidad en general.
 
--   Asimimo, nos sirve para la investigación ya que existe literatura que demuestra el vínculo entre confianza e instituciones sociales, de forma que la confianza en estas se construye a través de transparencia, acuerdos en conjunto, representación efectiva de intereses, entre otros. En ese sentido, los individuos que confían más en estas instituciones sociales muestran mayores niveles de satisfacción en la democracia (Hyun-soo 2014: 06).
+-   Asimimo, nos sirve para la investigación ya que existe literatura que demuestra el vínculo entre confianza e instituciones sociales y económicas, de forma que la confianza en estas se construye a través de transparencia, acuerdos en conjunto, representación efectiva de intereses, entre otros. En ese sentido, los individuos que confían más en estas instituciones sociales muestran mayores niveles de satisfacción en la democracia (Hyun-soo 2014: 06).
 
 **Graficamos:**
 
@@ -689,11 +687,11 @@ tablainstituciones
 
 Países agrupados según los clústers
 
-**Cluster 1 (16 países):** Argentina, Armenia, Bolivia, Colombia, Grecia, Guatemala, Iraq, Líbano, Libia, México, Nicaragua, Perú, Rumania, Serbia, Túnez, Venezuela.
+**Clúster 1 (16 países):** Argentina, Armenia, Bolivia, Colombia, Grecia, Guatemala, Iraq, Líbano, Libia, México, Nicaragua, Perú, Rumania, Serbia, Túnez, Venezuela.
 
-**Cluster 2 (35 países):** Australia, Brasil, Canadá, Chile, Chipre, Chequia (República Checa), Ecuador, Etiopía, Alemania, Hong Kong, Irlanda, Japón, Jordania, Kenia, Corea, Kirguistán, Malasia, Maldivas, Mongolia, Marruecos, Países Bajos, Nueva Zelanda, Nigeria, Pakistán, Puerto Rico, Rusia, Singapur, Eslovaquia, Taiwán, Turquía, Ucrania, Reino Unido, Estados Unidos, Uruguay, Zimbabue.
+**Cluster 2 (30 países):** Australia, Brasil, Canadá, Chile, Chipre, Chequia (República Checa), Ecuador, Etiopía, Alemania, Hong Kong, Irlanda, Japón, Jordania, Corea, Kirguistán, Malasia, Maldivas, Mongolia, Marruecos, Países Bajos, Nueva Zelanda, Puerto Rico, Rusia, Eslovaquia, Taiwán, Ucrania, Reino Unido, Estados Unidos, Uruguay, Zimbabue.
 
-**Cluster 3 (11 países):** Bangladesh, China, Indonesia, Irán, Kazajistán, Macao, Myanmar, Filipinas, Tayikistán, Tailandia, Vietnam.
+**Clúester 3 (16 países):** Bangladesh, China, Indonesia, Irán, Kazajistán,Kenia, Macao, Myanmar, Nigeria, Filipinas, Pakistán, Tayikistán, Tailandia, Turquía, Singapur, Vietnam.
 
 #### **Observamos su distribución en función de los factores:**
 
@@ -708,12 +706,8 @@ clust_car
 
 A partir de las características de los clusters, considerando los valores configurados previamente, donde 4 es mayor confianza y 1 es menos confianza, se obtuvieron los siguientes grados de confianza institucional:
 
-1.  **Confianza alta (3er Cluster)** -\> 11 países
-
-<!-- -->
-
-2.  **Confianza moderada (2ndo Cluster)** -\> 35 países
-
+1.  **Confianza alta (3er Cluster)** -\> 16 países
+2.  **Confianza moderada (2ndo Cluster)** -\> 30 países
 3.  **Confianza baja (1er Cluster)** -\> 16 países
 
 A pesar de las diferencias en la asignación y resultados de los clusters sobre distintos factores de forma individual, en promedio, estos se agrupan de acuerdo los niveles presentados.
@@ -722,7 +716,7 @@ A pesar de las diferencias en la asignación y resultados de los clusters sobre 
 
 Procedemos a hacer mapas de acuerdo a la agrupación de los países en base a los clusters creados
 
-```{r}
+```{r message=FALSE, warning=FALSE, include=FALSE}
 
 proyeccion = cmdscale(MATRI_dist , k=3,add = T) 
 head(proyeccion$points,20)
@@ -730,7 +724,7 @@ head(proyeccion$points,20)
 
 <div>
 
-```{r}
+```{r echo=TRUE, message=FALSE, warning=FALSE}
 folder="world_map"
 file="world_map.shp"
 destination <- file.path("C:/Users/ASUS/Desktop/Estadística2_MAPAS_claseTeórica/world_map", file)
@@ -790,9 +784,11 @@ print(map1)
 
 [Interpretación del mapa]{.underline}
 
--   En Latinoamérica y el Caribe vemos mayorme una confianza institucional baja a pesar de la existencia de excepciones como Chile, Brazil y Ecuador que presentan una alta.
+-   En Latinoamérica y el Caribe vemos mayormente una confianza institucional baja a pesar de la existencia de excepciones como Chile, Brazil y Ecuador que presentan una alta.
 
 -   En América del Norte y parte de Europa Occidental se observa con la información que contamos una fuerte tendencia a la confianza institucional moderada.
+
+-   En África hay una tendencia de confianza moderada y alta
 
 -   En cambio, en Eurasia y Europa del Este hay matices donde se encuentran los 3 niveles.
 
@@ -1150,11 +1146,13 @@ map2= ggplot(cluster_map2)+ geom_sf(aes(fill = cluster_inter), lwd = 0.2) +
 print(map2)
 ```
 
--   Lationamérica y el caribe se caracteriza por una confianza interpersonal baja de forma unánime.
+-   Lationamérica y el Caribe se caracteriza por una confianza interpersonal baja de forma unánime.
 
 -   América del Norte y Europa del Oeste cuenta con una confianza interpersonal alta. Sin embargo, resalta como excepción el caso de Alemania que cuenta con un nivel bajo.
 
 -   Europa del Este y Eurasia tiene una tendencia a la confianza moderada. Se presentan casos bajos también en países como Ucrania y Rumania.
+
+-   En lo que respecta a África, con la información que tenemos, existe una tendencia de confianza baja, a excepción de Etiopia que cuenta con niveles moderados
 
 -   En la región del Asia hay una tendencia moderada. Sin embargo, resalta sorprendentemente el caso de Japón y Singapur que presenta baja confianza interpersonal.
 
@@ -1162,17 +1160,17 @@ print(map2)
 
 En comparación con el Mapa 1 de Confianza Institucional por países podemos observar ciertas similitudes. Principalmente en América Latina, países como Perú, Argentina, Colombia, Bolivia, Venezuela, Guatemala y México, la confianza institucional e interpersonal es baja, siendo el continente que expresa mejor la supuesta relación entre ambas variables. Asimismo, se observan similitudes en otras latitudes geográficas como en Asia y Eurasia.
 
-No obstante, también se aprecian diferencias importantes. A nivel mundial, los países encuentran variaciones en sus niveles de confianza. Principalmente, se observa una diferencia entre los países con confianza institucional alta y media, puesto que, en varios casos, estos bajan o suben en un nivel en la dimensión de confianza interpersonal, como se observa en Estados Unidos, Canada, entre otros. Asimismo, también existen diferencias totales en otros casos, como en Singapur.
+No obstante, lo que resalta son las diferencias. A nivel mundial, los países encuentran variaciones en ambas dimensiones de confianza. Principalmente, se observa una diferencia entre los países con confianza institucional alta y media, puesto que, en varios casos, estos bajan o suben en un nivel en la dimensión de confianza interpersonal, como se observa en Estados Unidos, Canada, entre otros. Asimismo, también existen diferencias totales en otros casos, como en Singapur y en varios países de África.
 
 # Acercamientos alternativos a la confianza y sus resultados:
 
 Después de analizar los resultados, la literatura sugiere distintas explicaciones que dan cuenta y justifican los resultados obtenidos a partir de la consideración de variables explicativas que nutren el análisis.
 
-**Explicación alternativa de reusltados-Confianza institucional:**
+**Explicación alternativa de resultados-Confianza institucional:**
 
 En las regiones de la esfera más desarrollada, como Europa, Oceanía, Norteamérica, o en las regiones que han presentado un rápido crecimiento económico, como Asia del Este, es probable que el factor económico esté relacionado con su confianza institucional. De este modo, es posible que el crecimiento económico genere un mayor bienestar en la población, determinando la aparición y desarrollo de sentimientos o estrategias de confianza (Estella de Noriega, 2020). El crecimiento económico esta asociado con la alfabetización, una variable muy probablemente asociada a formar capital humano (Algan y Cahuc, 2014). No obstante, no significa que sea una relación causal porque los "micromecanismos" que conectar bienestar económico con confianza institucional están poco estudiados en la literatura. (Estella de Noriega, 2020). Asimismo, existen otros acercamientos que privilegian miradas desde la crisis de institucionalidad en América Latina, la capacidad del estado, entre otras explicaciones.
 
-**Explicación alternativa de reusltados-Confianza interpersonal**
+**Explicación alternativa de resultados-Confianza interpersonal**
 
 En sociedades más abiertas y cosmopolitas que premian a comportamientos cooperativos y fomentan interacciones con otros, la confianza será mayor. Por el contrario, en sociedades conservadores donde los lazos familiares dominan y las interacciones sociales están fuertemente formalizadas, la confianza interpersonal es menor entre extraños o conocidos pero alta entre personas que pertenecen al mismo grupo (Morrone y Tontoranelli y Ranuzzi, 2009). Esto podría explicar por qué tenemos a regiones de Norteamérica, Oceanía y Europa del Oeste con una alta confianza interpersonal, puesto que son sociedades abiertas y cosmopolitas, muy alejadas de valores tradicionales. Por el contrario, regiones como Latinoamérica, Africa y Asia, son mucho más conservadoras en sus costumbres y valoración de lazos familiares, por lo que tienden a ser más desconfiados hacia personas fuera del círculo cercano.
 
@@ -1203,6 +1201,8 @@ Eurostat.(s/f). *Annual asylum statistics*
 Helmke, G., y Levitsky, S. (2004). Informal Institutions and Comparative Politics: A Research Agenda. *Perspectives on Politics*, 2(4), 725--740.
 
 Kasikci, T. (2022). A Social Constructivist Perspective on the Role of International Organizations: Analyzing the UN's Norm-Producing and Socializing Functions on the cases of Civil War and Global Terrorism. *Ankara Üniversitesi SBF Dergisi*, 77(3), 513-535.
+
+Kim, H. (2014). Generalised Trust, Institutional Trust and Political Participation: A Cross-National Study of Fourteen Southeast and Central Asian Countries. *Asian Journal of Social Science*, 42(6), 695-721. <https://www.researchgate.net/publication/276830487_Generalised_Trust_Institutional_Trust_and_Political_Participation>
 
 Mannemar, K., & Thisted, P. (2016). Trusting the State, Trusting Each Other? The Effect of Institutional Trust on Social Trust. *Political Behavior*, 38,179-202. <https://link.springer.com/article/10.1007/s11109-015-9322-8>
 
