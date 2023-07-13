@@ -108,49 +108,14 @@ WVS_A <- WVS_A %>%
 WVS_A <- na.omit(WVS_A)
 ```
 
-**Transformamos la información:**
-
-Para mayor comodidad y representatividad, agrupamos la data por país y convertimos la información de nivel individual a a nivel país a través del promedio de sus resultados.
-
-```{r}
-WVS_pais <- WVS_A %>%
-  group_by(B_COUNTRY) %>%
-  summarize(across(c(Q58:Q63, Q65:Q74, Q76:Q81), mean, na.rm = TRUE), .groups = "keep")
-
-
-```
-
-```{r message=FALSE, warning=FALSE, include=FALSE, paged.print=FALSE}
-WVS_pais <- as.data.frame(WVS_pais)
-```
-
 **Renombramos las variables:**
 
 ```{r}
-WVS_pais <- WVS_pais%>%rename(Codigo=B_COUNTRY, familia=Q58, barrio=Q59, conocidos=Q60, rconocidos=Q61, preligion=Q62,nacionalidad=Q63,confianza_FFAA=Q65,confianza_prensa= Q66,confianza_television= Q67, confianza_sindicatos = Q68, confianza_policia = Q69, confianza_justicia = Q70, confianza_gobierno = Q71, confianza_partidos = Q72, confianza_parlamento = Q73, confianza_serviciocivil = Q74, confianza_elecciones = Q76, confianza_granempresa = Q77, confianza_bancos =Q78, confianza_org_ambiental =Q79, confianza_org_mujeres = Q80, confianza_org_humanitaria = Q81)
+WVS_pais <- WVS_A%>%rename(Codigo=B_COUNTRY, familia=Q58, barrio=Q59, conocidos=Q60, rconocidos=Q61, preligion=Q62,nacionalidad=Q63,confianza_FFAA=Q65,confianza_prensa= Q66,confianza_television= Q67, confianza_sindicatos = Q68, confianza_policia = Q69, confianza_justicia = Q70, confianza_gobierno = Q71, confianza_partidos = Q72, confianza_parlamento = Q73, confianza_serviciocivil = Q74, confianza_elecciones = Q76, confianza_granempresa = Q77, confianza_bancos =Q78, confianza_org_ambiental =Q79, confianza_org_mujeres = Q80, confianza_org_humanitaria = Q81)
 ```
 
-En el mismo sentido, agregamos una columna nueva para el nombre del país, de modo que sea más fácil identificar la correspondencia de los valores:
 
-```{r}
-WVS_pais$Codigo <- as.character(WVS_pais$Codigo)
-data=import("all.csv")
-WVS_pais$Nombre <- data$name[match(WVS_pais$Codigo, data$`country-code`)]
-```
-
-En este apartado, configuramos los nombres de los países que no aparecen en la data y que cuentan con resultados, así como los que difieren de los nombres del mapa que usaremos para fines prácticos.
-
-```{r}
-WVS_pais$Nombre <- case_when(
-  WVS_pais$Codigo == 909 ~ "Ireland",
-  WVS_pais$Codigo == 826 ~ "United Kingdom",
-  WVS_pais$Codigo == 68 ~ "Bolivia",
-  WVS_pais$Codigo == 862 ~ "Venezuela",  WVS_pais$Codigo == 643 ~ "Russia",WVS_pais$Codigo == 840 ~ "United States",
-  TRUE ~ WVS_pais$Nombre
-)
-
-```
-
+**
 **Asignamos una subdata tanto para trabajar la confianza en las instituciones como la interpersonal**
 
 [**A) Confianza interpersonal**]{.underline} Ordenamos de manera ascendente para hacer más comprensible la información.
@@ -267,12 +232,6 @@ WVS_pais$confianza_org_humanitaria= recode(WVS_pais$confianza_org_humanitaria, "
 table(WVS_pais$confianza_org_humanitaria)
 ```
 
-**Configuramos nuestra subdata:**
-
-```{r}
-subdata_1=WVS_pais[,c(8:23)]
-subdata_1
-```
 
 **b) [Confianza interpersonal]{.underline}**
 
@@ -321,12 +280,45 @@ table(WVS_pais$nacionalidad)
 
 ```
 
-**Creamos nuestra subdata para confianza interpersonal**
+**Transformamos la información:**
+
+Para mayor comodidad y representatividad, agrupamos la data por país y convertimos la información de nivel individual a a nivel país a través del promedio de sus resultados.
 
 ```{r}
-subdata_2 <- WVS_pais[,c(2:7)]
-subdata_2
+WVS_pais <- WVS_pais %>%
+  group_by(Codigo) %>%
+  summarize(across(c(familia:confianza_org_humanitaria), mean, na.rm = TRUE), .groups = "keep")
+
+
 ```
+
+```{r message=FALSE, warning=FALSE, include=FALSE, paged.print=FALSE}
+WVS_pais <- as.data.frame(WVS_pais)
+```
+
+
+
+En el mismo sentido, agregamos una columna nueva para el nombre del país, de modo que sea más fácil identificar la correspondencia de los valores:
+
+```{r}
+WVS_pais$Codigo <- as.character(WVS_pais$Codigo)
+data=import("all.csv")
+WVS_pais$Nombre <- data$name[match(WVS_pais$Codigo, data$`country-code`)]
+```
+
+En este apartado, configuramos los nombres de los países que no aparecen en la data y que cuentan con resultados, así como los que difieren de los nombres del mapa que usaremos para fines prácticos.
+
+```{r}
+WVS_pais$Nombre <- case_when(
+  WVS_pais$Codigo == 909 ~ "Ireland",
+  WVS_pais$Codigo == 826 ~ "United Kingdom",
+  WVS_pais$Codigo == 68 ~ "Bolivia",
+  WVS_pais$Codigo == 862 ~ "Venezuela",  WVS_pais$Codigo == 643 ~ "Russia",WVS_pais$Codigo == 840 ~ "United States",
+  TRUE ~ WVS_pais$Nombre
+)
+
+```
+
 
 ## 2.2. Métodos seleccionados
 
@@ -340,10 +332,10 @@ A continuación presentaremos las 16 variables que refieren a la confianza en la
 
 ## 3.1. Análisis Factorial Exploratorio:
 
-Revisamos la estructura de nuestra subdata 1:
+Creamos nuestra subdata:
 
 ```{r}
-WVS_total<-cbind(subdata_1,subdata_2)
+WVS_total<- WVS_pais%>%select(-c(Codigo,Nombre))
 ```
 
 ### Calculamos la matriz de correlación
@@ -413,7 +405,7 @@ Elaboramos este gráfico para determinar en cuántos factores podemos redimensio
 fa.parallel(corMatrix, fm="pa", fa="fa", main = "Scree Plot")
 ```
 
-De acuerdo con el análisis del gráfico de sedimentacion, ubicamos que el codo se encuentra en el 2. Al verificar en el otro cuadro se recomienda que se utilice 0 factores.
+De acuerdo con el análisis del gráfico de sedimentacion, ubicamos que el codo se encuentra en el 3. Al verificar en el otro cuadro se recomienda que se utilice 0 factores.
 
 Como nos recomienda 0 factores, vamos a asegurar nuestros resultados con los autovalores, ya que no sería adecuado no tener ninguna agrupación de instituciones.
 
@@ -484,7 +476,7 @@ sort(factorial_exp1$uniquenesses)
 Una vez hecho el análisis factorial exploratorio, pasaremos a realizar el análisis factorial confirmatorio para contrastar el modelo sugerido. Así podremos corroborar si lo planteado es adecuado.
 
 ```{r message=FALSE, warning=FALSE}
-Modelo_confir1 = "FAC1 =~confianza_granempresa+confianza_parlamento+confianza_gobierno+confianza_partidos+confianza_sindicatos+confianza_television+confianza_serviciocivil+confianza_prensa+confianza_bancos+confianza_org_ambiental+confianza_org_mujeres+confianza_elecciones+confianza_org_humanitaria+confianza_justicia+confianza_FFAA
+Modelo_confir1 = "FAC1 =~confianza_gobierno+confianza_granempresa+confianza_parlamento+confianza_partidos+confianza_sindicatos+confianza_television+confianza_serviciocivil+confianza_prensa+confianza_bancos+confianza_org_ambiental+confianza_org_mujeres+confianza_elecciones+confianza_org_humanitaria+confianza_justicia+confianza_FFAA
                 FAC2 =~ conocidos+nacionalidad+rconocidos+barrio+preligion+confianza_policia+familia"
 
 Modelo_confir1
@@ -500,16 +492,36 @@ A pesar de no contar con errores en la asignación de factores, las asignaciones
 De esta forma, a continuación se va a proponer un nuevo modelo utilizando conocimientos desde la Ciencia Política, que permita construir una distribución de patrones adecuada para explicar la confianza institucional.
 
 ```{r message=FALSE, warning=FALSE}
-Modelo_confir2 = "FAC1_Confianza institucional=~confianza_granempresa+confianza_parlamento+confianza_gobierno+confianza_partidos+confianza_sindicatos+confianza_television+confianza_serviciocivil+confianza_prensa+confianza_bancos+confianza_org_ambiental+confianza_org_mujeres+confianza_elecciones+confianza_org_humanitaria+confianza_justicia+confianza_FFAA+confianza_policia
-FAC2_Confianza interpersonal =~ conocidos+nacionalidad+rconocidos+barrio+familia"
+Modelo_confir2 = "FAC1_Confianza institucional=~FAC1 =~confianza_gobierno+confianza_granempresa+confianza_parlamento+confianza_partidos+confianza_sindicatos+confianza_television+confianza_serviciocivil+confianza_prensa+confianza_bancos+confianza_org_ambiental+confianza_org_mujeres+confianza_elecciones+confianza_org_humanitaria+confianza_justicia+confianza_FFAA+confianza_policia
+FAC2_Confianza interpersonal =~ conocidos+nacionalidad+rconocidos+barrio+preligion+familia"
 Modelo_confir2
 
 ```
+
 
 ```{r warning=FALSE}
 modelo2=cfa(Modelo_confir2, data=WVS_total)
 summary(modelo2,fit.measures=F)
 
+```
+
+```{r}
+print(WVS_pais$familia)
+```
+
+
+```{r message=FALSE, warning=FALSE}
+Modelo_confir3 = "FAC1_Confianza institucional=~FAC1 =~confianza_gobierno+confianza_granempresa+confianza_parlamento+confianza_partidos+confianza_sindicatos+confianza_television+confianza_serviciocivil+confianza_prensa+confianza_bancos+confianza_org_ambiental+confianza_org_mujeres+confianza_elecciones+confianza_org_humanitaria+confianza_justicia+confianza_FFAA+confianza_policia
+FAC2_Confianza interpersonal =~ conocidos+nacionalidad+rconocidos+barrio+preligion"
+Modelo_confir3
+
+```
+
+
+
+```{r warning=FALSE}
+modelo3=cfa(Modelo_confir3, data=WVS_total)
+summary(modelo3,fit.measures=F)
 ```
 
 VER LO DE LOS RESULTADOS!!para explicar lo de religion.
@@ -547,7 +559,7 @@ Tras lo realizado, se obtuvieron 4 factores:
 **Graficamos:**
 
 ```{r warning=FALSE}
-semPaths(modelo2, intercepts = FALSE,edge.label.cex=1.5, optimizeLatRes = TRUE, groups = "lat",pastel = TRUE, exoVar = FALSE, sizeInt=5,edge.color ="black",esize = 6, label.prop=2,sizeLat = 6,"std", layout="circle2")
+semPaths(modelo3, intercepts = FALSE,edge.label.cex=1.5, optimizeLatRes = TRUE, groups = "lat",pastel = TRUE, exoVar = FALSE, sizeInt=5,edge.color ="black",esize = 6, label.prop=2,sizeLat = 6,"std", layout="circle2")
 ```
 
 Observamos que la mayoría de factores cuentan con lineas gruesas en relación con sus variables, significando que hay una gran carga factorial. Asimismo, la información no explicada por el factor es menor que la carga factorial. De esta manera, el modelo ofrece una correlación bastante explicativa entre las variables y los factores.
@@ -555,7 +567,7 @@ Observamos que la mayoría de factores cuentan con lineas gruesas en relación c
 **Guardamos los componentes como nuevas variables:**
 
 ```{r message=FALSE, warning=FALSE}
-factores_puntajes <- predict(modelo2)
+factores_puntajes <- predict(modelo3)
 WVS_pais <- cbind(WVS_pais, factores_puntajes)
 ```
 
@@ -576,12 +588,7 @@ WVS_pais$FAC2_Confianzainterpersonal = normalize(WVS_pais$FAC2,
 
 ```
 
-```{r message=FALSE, warning=FALSE, include=FALSE}
-WVS_pais$FAC1_Confianzainstitucional = 5 - normalize(WVS_pais$FAC1, method = "range", margin = 2, range = c(1, 4))
-WVS_pais$FAC2_Confianzainterpersonal = 5 - normalize(WVS_pais$FAC2, method = "range", margin = 2, range = c(1, 4))
 
-
-```
 
 Los niveles de confianza se clasifican de la siguiente manera:
 
@@ -641,7 +648,7 @@ El d-index nos recomendó, entre todas los índices posibles realizar 5 clúster
 Decidimos 9
 
 ```{r}
-res1 <- hcut(WVS_factores, k = 6, stand = TRUE, hc_method = "ward.D")
+res1 <- hcut(WVS_factores, k = 4, stand = TRUE, hc_method = "ward.D")
 ```
 
 #### **Dendograma**
@@ -690,13 +697,14 @@ Países agrupados según los clústers
 #### **Observamos su distribución en función de los factores:**
 
 ```{r}
-clust_car=WVS_factores %>%
+clust_car1=WVS_factores %>%
   mutate(Cluster = res1$cluster) %>%
   group_by(Cluster) %>%
   summarise_all("mean")
 
-clust_car
+clust_car1
 ```
+
 
 A partir de las características de los clusters, considerando los valores configurados previamente,hemos ordenado los niveles de confianza en tres categorías: 
 
@@ -707,17 +715,15 @@ Alto: Valores de confianza superiores a 3.
 De esta manera, encontramos en los clusters diferentes distribuciones de los niveles respecto a sus factores de confianza:
 
 
-**Cluster 1**: Confianza institucional baja-Confianza interpersonal alta
+**Cluster 1**: Confianza institucional media-Confianza interpersonal media
 
 **Cluster 2**: Confianza institucional Media-Confianza interpersonal alta
 
 **Cluster 3**: Confianza institucional alta-Confianza interpersonal media
 
-**Cluster 4**: Confianza institucional baja-Confianza interpersonal media
+**Cluster 4**: Confianza institucional baja-Confianza interpersonal baja
 
-**Cluster 5**: Confianza institucional baja-Confianza interpersonal baja
 
-**Cluster 6**: Confianza institucional media-Confianza interpersonal media
 
 
 
@@ -726,7 +732,7 @@ A pesar de las diferencias en la asignación y resultados de los clusters sobre 
 Frente a esta distribución, para poder observar las similitudes y diferencias respecto a las dos dimensiones de confianza, vamos a construir una variable para poder contabilizar y graficar adecuadamente:
 ```{r}
 WVS_factores <- WVS_factores %>%
-  mutate(Resultados_Distribucion = ifelse(Cluster %in% c(1, 2, 3, 4), "Diferencia", "Similitud"))
+  mutate(Resultados_Distribucion = ifelse(Cluster %in% c( 2, 3), "Diferencia", "Similitud"))
 ```
 
 
@@ -736,7 +742,7 @@ Procedemos a hacer mapas de acuerdo a la agrupación de los países en base a lo
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
 
-proyeccion = cmdscale(MATRI_dist , k=6,add = T) 
+proyeccion = cmdscale(MATRI_dist , k=4,add = T) 
 head(proyeccion$points,20)
 ```
 
@@ -772,17 +778,13 @@ names(WVS_factores)
 
 #### **Mapa según los colores del gráfico de clústers:**
 
-**Cluster 1**: Confianza institucional baja-Confianza interpersonal alta
+**Cluster 1**: Confianza institucional media-Confianza interpersonal media
 
 **Cluster 2**: Confianza institucional Media-Confianza interpersonal alta
 
 **Cluster 3**: Confianza institucional alta-Confianza interpersonal media
 
-**Cluster 4**: Confianza institucional baja-Confianza interpersonal media
-
-**Cluster 5**: Confianza institucional baja-Confianza interpersonal baja
-
-**Cluster 6**: Confianza institucional media-Confianza interpersonal media
+**Cluster 4**: Confianza institucional baja-Confianza interpersonal baja
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
 
@@ -815,17 +817,7 @@ print(map1)
 
 [Interpretación del mapa]{.underline}
 
--   En Latinoamérica y el Caribe vemos mayormente una confianza institucional baja a pesar de la existencia de excepciones como Chile, Brazil y Ecuador que presentan una alta.
-
--   En América del Norte y parte de Europa Occidental se observa con la información que contamos una fuerte tendencia a la confianza institucional moderada.
-
--   En África hay una tendencia de confianza moderada y alta
-
--   En cambio, en Eurasia y Europa del Este hay matices donde se encuentran los 3 niveles.
-
--   En Asía, hay una tendencia a la confianza moderada-alta; sin embargo, existen casos atípicos como el de Irak, con una confianza institucional baja.
-
--   En Oceania, al igual que en América del Norte, existe una tendencia moderada.
+-  
 
 ####Gráficos de barras
 
@@ -863,6 +855,7 @@ print(grafico)
 ```
 
 ```{r}
+
 # Calcular el recuento de cada cluster
 recuento2 <- WVS_factores %>% count(Cluster)
 
@@ -878,12 +871,12 @@ grafico2 <- ggplot(recuento2, aes(x = Cluster, y = n, fill = Cluster)) +
         axis.title = element_text(size = 14, face = "bold"),
         legend.title = element_blank())
 # Añadir etiquetas con números
-etiquetas <- c("Diferentes", "Diferentes", "Diferentes", "Diferentes", "Similares", "Similares")
+etiquetas <- c("Similares", "Diferentes", "Diferentes",  "Similares")
 grafico2 <- grafico2 +
   geom_text(aes(label = n), vjust = -0.5, color = "black", size = 4, fontface = "bold")
 
 # Personalizar colores
-colores <- c("darkolivegreen2", "darkolivegreen1", "olivedrab2", "darkolivegreen3", "darkolivegreen", "darkolivegreen4")
+colores <- c("darkolivegreen3", "darkolivegreen4", "darkolivegreen", "darkolivegreen2")
 grafico2 <- grafico2 +
   scale_fill_manual(values = colores)
 
@@ -894,9 +887,6 @@ grafico <- grafico +
 print(grafico2)
 
 ```
-
-
-
 
 ####Gráfico de dispersión:
 
