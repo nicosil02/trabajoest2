@@ -78,6 +78,7 @@ library(rgeos)
 library(maptools)
 library(ggplot2)
 library(sf)
+library(ggtext)
 
 ```
 
@@ -343,29 +344,28 @@ A continuación presentaremos las 16 variables que refieren a la confianza en la
 Revisamos la estructura de nuestra subdata 1:
 
 ```{r}
-str(subdata_1)
+WVS_total<-cbind(subdata_1,subdata_2)
 ```
 
 ### Calculamos la matriz de correlación
 
 Al estar trabajando con variables categóricas ordinales, obtamos por ejecutar la correlación policórica.
 
-```{r warning=FALSE}
+```{r}
 
-poly_cor1 = polychoric(subdata_1)
-poly_cor1
+corMatrix = hetcor(WVS_total)$correlations
+corMatrix 
 
 ```
 
 **Creamos un gráfico con la matriz de correlaciones:**
 
 ```{r}
-corMatrix=poly_cor1$rho 
 cor.plot(corMatrix,
-          numbers=T, 
-          upper=F, 
-          main= "Matriz de correlaciones",
-          show.legend=T)
+          numbers=T, #Se muestren los numeros de las correlaciones
+          upper=F, #Que aparezca la segunda parte
+          main= "Matriz de correlaciones",#Titulo
+          show.legend=T)#Mostrar leyenda
 ```
 
 Con la matriz previa podemos observar la proporción de relación entre dos variabales. La relación se explica mediante la intensidad de los colores de la matriz y sus explicaciones en la leyenda. Mientras más azul, será más cercano a 1 y mayor será dicha proporción. Por el contrario, mientras más rojo, será menos la relación y cercano a -1. Esto se elaboró para buscar si existen grupos de variables correlacionadas, y posteriormente, conformar las variables latentes. Viendo nuestro gráfico en primera instancia, observamos que no hay una correlación fuerte entre variables; sin embargo, esto, al ser una observación superficial, no nos imposibilita seguir explorando esta relación.
@@ -383,7 +383,7 @@ Test de Kaiser-Meyer-Olkin factor adequacy (KMO):
     -   0.7 a 1= muy bueno
 
 ```{r warning=FALSE}
-psych::KMO(subdata_1) 
+psych::KMO(WVS_total) 
 ```
 
 Con esta prueba lo que buscamos es que la correlación parcial sea mayor a 0.5. Por ende, se espera que los valores resultantes, esten más ceranos a 1. En este caso, observamos que los resultados se encuentran entre 0.86 hasta 0.96, con un Overall MSA de 0.92, lo cual es muy bueno. Esto nos indica que los valores de las variables son factorizables.
@@ -399,7 +399,7 @@ Test de Bartlett
 Con este test, lo que buscamos es que se rechace la H0, la cual implica que la matriz de correlacion es una matriz identidad.
 
 ```{r}
-cortest.bartlett(corMatrix,n=nrow(subdata_1))$p.value>0.05
+cortest.bartlett(corMatrix,n=nrow(WVS_total))$p.value>0.05
 ```
 
 El resultado del test es "FALSE", lo que nos indica que existe un p-value mayor a 0.05, de modo que se rechaza la H0 y se acepta la Ha que indica que la matriz de correlación es diferente a la matriz de identidad. Podemos así confirmar que la matriz es adecuada y existe correlación.
@@ -423,7 +423,7 @@ Como nos recomienda 0 factores, vamos a asegurar nuestros resultados con los aut
 (Criterio de Kaiser : se deben retener todos los factores que tengan un autovalor mayor de 1.0.)
 
 ```{r}
-eigenf = eigen(cor(subdata_1, use="complete"))
+eigenf = eigen(cor(WVS_total, use="complete"))
 eigenf$values
 ```
 
@@ -438,7 +438,7 @@ Rotamos para acomodar las variables latentes para que se correlacionen con su re
 Utilizamos la rotación varimax, puesto que minimiza el número de variables con cargas altas en un factor, mejorando así la interpretación de factores.
 
 ```{r}
-factorial_exp1 <- fa(subdata_1,nfactors = 3,rotate="varimax", fm="minres")
+factorial_exp1 <- fa(WVS_total,nfactors = 2,rotate="varimax", fm="minres")
 factorial_exp1
 ```
 
@@ -485,15 +485,14 @@ sort(factorial_exp1$uniquenesses)
 Una vez hecho el análisis factorial exploratorio, pasaremos a realizar el análisis factorial confirmatorio para contrastar el modelo sugerido. Así podremos corroborar si lo planteado es adecuado.
 
 ```{r message=FALSE, warning=FALSE}
-Modelo_confir1 = "FAC1 =~confianza_prensa+confianza_television+confianza_granempresa+confianza_gobierno+confianza_partidos+confianza_parlamento+confianza_bancos+confianza_sindicatos
-                FAC2 =~ confianza_policia+confianza_justicia+confianza_serviciocivil+confianza_FFAA
-               FAC3 =~ confianza_elecciones+confianza_org_humanitaria+confianza_org_ambiental+confianza_org_mujeres"
+Modelo_confir1 = "FAC1 =~confianza_granempresa+confianza_parlamento+confianza_gobierno+confianza_partidos+confianza_sindicatos+confianza_television+confianza_serviciocivil+confianza_prensa+confianza_bancos+confianza_org_ambiental+confianza_org_mujeres+confianza_elecciones+confianza_org_humanitaria+confianza_justicia+confianza_FFAA
+                FAC2 =~ conocidos+nacionalidad+rconocidos+barrio+preligion+confianza_policia+familia"
 
 Modelo_confir1
 ```
 
 ```{r}
-modelo=cfa(Modelo_confir1, data=subdata_1)
+modelo=cfa(Modelo_confir1, data=WVS_total)
 summary(modelo,fit.measures=F)
 ```
 
@@ -502,20 +501,19 @@ A pesar de no contar con errores en la asignación de factores, las asignaciones
 De esta forma, a continuación se va a proponer un nuevo modelo utilizando conocimientos desde la Ciencia Política, que permita construir una distribución de patrones adecuada para explicar la confianza institucional.
 
 ```{r message=FALSE, warning=FALSE}
-Modelo_confir2 = "FAC1_Confianza en los medios de comunicacion=~confianza_prensa+confianza_television
-FAC2_Confianza en las instituciones de seguridad =~ confianza_policia+confianza_FFAA
-                 FAC3_Confianza en las Instituciones Políticas y Legales =~ confianza_gobierno+confianza_partidos+confianza_parlamento+confianza_elecciones+confianza_serviciocivil + confianza_justicia
-FAC4_Confianza en Instituciones Sociales y económicas=~ confianza_sindicatos + confianza_granempresa+confianza_bancos+
-confianza_org_ambiental+confianza_org_mujeres+confianza_org_humanitaria"
+Modelo_confir2 = "FAC1_Confianza institucional=~confianza_granempresa+confianza_parlamento+confianza_gobierno+confianza_partidos+confianza_sindicatos+confianza_television+confianza_serviciocivil+confianza_prensa+confianza_bancos+confianza_org_ambiental+confianza_org_mujeres+confianza_elecciones+confianza_org_humanitaria+confianza_justicia+confianza_FFAA+confianza_policia
+FAC2_Confianza interpersonal =~ conocidos+nacionalidad+rconocidos+barrio+familia"
 Modelo_confir2
 
 ```
 
 ```{r warning=FALSE}
-modelo2=cfa(Modelo_confir2, data=subdata_1)
+modelo2=cfa(Modelo_confir2, data=WVS_total)
 summary(modelo2,fit.measures=F)
 
 ```
+
+VER LO DE LOS RESULTADOS!!para explicar lo de religion.
 
 Tras lo realizado, se obtuvieron 4 factores:
 
@@ -567,30 +565,22 @@ WVS_pais <- cbind(WVS_pais, factores_puntajes)
 ```{r}
 library(BBmisc)
 
-WVS_pais$FAC1 = normalize(WVS_pais$FAC1, 
+WVS_pais$FAC1_Confianzainstitucional = normalize(WVS_pais$FAC1, 
                                         method = "range", 
                                         margin=2, # by column
                                         range = c(1, 4))
-WVS_pais$FAC2 = normalize(WVS_pais$FAC2, 
+WVS_pais$FAC2_Confianzainterpersonal = normalize(WVS_pais$FAC2, 
                                         method = "range", 
                                         margin=2, # by column
                                         range = c(1, 4))
-WVS_pais$FAC3 = normalize(WVS_pais$FAC3, 
-                                        method = "range", 
-                                        margin=2, # by column
-                                        range = c(1, 4))
-WVS_pais$FAC4 = normalize(WVS_pais$FAC4 , 
-                                        method = "range", 
-                                        margin=2, # by column
-                                        range = c(1, 4))
+
 
 ```
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
-WVS_pais$FAC1 = 5 - normalize(WVS_pais$FAC1, method = "range", margin = 2, range = c(1, 4))
-WVS_pais$FAC2 = 5 - normalize(WVS_pais$FAC2, method = "range", margin = 2, range = c(1, 4))
-WVS_pais$FAC3 = 5 - normalize(WVS_pais$FAC3, method = "range", margin = 2, range = c(1, 4))
-WVS_pais$FAC4 = 5 - normalize(WVS_pais$FAC4, method = "range", margin = 2, range = c(1, 4))
+WVS_pais$FAC1_Confianzainstitucional = 5 - normalize(WVS_pais$FAC1, method = "range", margin = 2, range = c(1, 4))
+WVS_pais$FAC2_Confianzainterpersonal = 5 - normalize(WVS_pais$FAC2, method = "range", margin = 2, range = c(1, 4))
+
 
 ```
 
@@ -603,6 +593,8 @@ Los niveles de confianza se clasifican de la siguiente manera:
 -   Nivel 2 - Media-Baja Confianza
 
 -   NIvel 1 - Baja confianza
+
+
 
 ## 3.3. Análisis de Conglomerados Jerárquicos
 
@@ -618,7 +610,7 @@ rownames(WVS_pais) = WVS_pais[,24]
 Creamos una nueva subdata para realizar el análisis de clusters
 
 ```{r}
-WVS_factores1 <- WVS_pais%>%select(FAC1,FAC2,FAC3,FAC4)
+WVS_factores <- WVS_pais%>%select(FAC1_Confianzainstitucional,FAC2_Confianzainterpersonal)
 ```
 
 #### **Elaboramos matriz de distancias**
@@ -626,7 +618,7 @@ WVS_factores1 <- WVS_pais%>%select(FAC1,FAC2,FAC3,FAC4)
 Calculamos la distancia:
 
 ```{r}
-MATRI_dist <- get_dist(WVS_factores1, method = "euclidean", stand = TRUE)
+MATRI_dist <- get_dist(WVS_factores, method = "euclidean", stand = TRUE)
 
 ```
 
@@ -641,16 +633,16 @@ En esta matriz se puede visualizar cuáles países tienen valores de confianza i
 #### **Calculo de clúster**
 
 ```{r}
-resnumclust=NbClust(WVS_factores1, distance = "euclidean", min.nc= 2, max.nc= 10, 
+resnumclust=NbClust(WVS_factores, distance = "euclidean", min.nc= 2, max.nc= 10, 
                        method = "ward.D")
 ```
 
-El d-index nos recomendó, entre todas los índices posibles realizar 3 clústers.
+El d-index nos recomendó, entre todas los índices posibles realizar 5 clústers.
 
-Es por ello que en la fórmula siguiente vamos a realizar 3 cortes.
+Decidimos 9
 
 ```{r}
-res1 <- hcut(WVS_factores1, k = 3, stand = TRUE, hc_method = "ward.D")
+res1 <- hcut(WVS_factores, k = 6, stand = TRUE, hc_method = "ward.D")
 ```
 
 #### **Dendograma**
@@ -664,39 +656,42 @@ fviz_dend(res1, rect = T, cex = 0.5)
 #### **Graficamos los clústers**
 
 ```{r}
-fviz_cluster(res1, data = WVS_factores1)
+fviz_cluster(res1, data = WVS_factores)
 ```
 
 #### **Agregamos a nuestra base y a nuestra subdata de factores**
 
 ```{r}
-WVS_pais$clus_instituciones=as.factor(res1$cluster)
-WVS_factores1$clus_instituciones=as.factor(res1$cluster)
+WVS_pais$Cluster=as.factor(res1$cluster)
+WVS_factores$Cluster=as.factor(res1$cluster)
 ```
 
 #### **Vemos las características de los grupos**
 
 ```{r}
-table(WVS_pais$clus_instituciones)
+table(WVS_pais$Cluster)
 ```
 
-```{r}
-tablainstituciones<- table(WVS_pais$Nombre,WVS_pais$clus_instituciones)
-tablainstituciones
-```
+
 
 Países agrupados según los clústers
 
-**Clúster 1 (16 países):** Argentina, Armenia, Bolivia, Colombia, Grecia, Guatemala, Iraq, Líbano, Libia, México, Nicaragua, Perú, Rumania, Serbia, Túnez, Venezuela.
+**Clúster 1 ( países):** .
 
-**Cluster 2 (30 países):** Australia, Brasil, Canadá, Chile, Chipre, Chequia (República Checa), Ecuador, Etiopía, Alemania, Hong Kong, Irlanda, Japón, Jordania, Corea, Kirguistán, Malasia, Maldivas, Mongolia, Marruecos, Países Bajos, Nueva Zelanda, Puerto Rico, Rusia, Eslovaquia, Taiwán, Ucrania, Reino Unido, Estados Unidos, Uruguay, Zimbabue.
+**Cluster 2 (países):** 
 
-**Clúester 3 (16 países):** Bangladesh, China, Indonesia, Irán, Kazajistán,Kenia, Macao, Myanmar, Nigeria, Filipinas, Pakistán, Tayikistán, Tailandia, Turquía, Singapur, Vietnam.
+**Clúester 3 ( países):** 
+
+**Clúester 4 ( países):** 
+
+**Clúester 5 ( países):** 
+
+**Clúester 6 ( países):** 
 
 #### **Observamos su distribución en función de los factores:**
 
 ```{r}
-clust_car=WVS_factores1 %>%
+clust_car=WVS_factores %>%
   mutate(Cluster = res1$cluster) %>%
   group_by(Cluster) %>%
   summarise_all("mean")
@@ -704,13 +699,37 @@ clust_car=WVS_factores1 %>%
 clust_car
 ```
 
-A partir de las características de los clusters, considerando los valores configurados previamente, donde 4 es mayor confianza y 1 es menos confianza, se obtuvieron los siguientes grados de confianza institucional:
+A partir de las características de los clusters, considerando los valores configurados previamente,hemos ordenado los niveles de confianza en tres categorías: 
 
-1.  **Confianza alta (3er Cluster)** -\> 16 países
-2.  **Confianza moderada (2ndo Cluster)** -\> 30 países
-3.  **Confianza baja (1er Cluster)** -\> 16 países
+Bajo: Valores de confianza iguales o inferiores a 2.
+Medio: Valores de confianza superiores a 2 y menores o iguales a 3.
+Alto: Valores de confianza superiores a 3.
+
+De esta manera, encontramos en los clusters diferentes distribuciones de los niveles respecto a sus factores de confianza:
+
+
+**Cluster 1**: Confianza institucional baja-Confianza interpersonal alta
+
+**Cluster 2**: Confianza institucional Media-Confianza interpersonal alta
+
+**Cluster 3**: Confianza institucional alta-Confianza interpersonal media
+
+**Cluster 4**: Confianza institucional baja-Confianza interpersonal media
+
+**Cluster 5**: Confianza institucional baja-Confianza interpersonal baja
+
+**Cluster 6**: Confianza institucional media-Confianza interpersonal media
+
+
 
 A pesar de las diferencias en la asignación y resultados de los clusters sobre distintos factores de forma individual, en promedio, estos se agrupan de acuerdo los niveles presentados.
+
+Frente a esta distribución, para poder observar las similitudes y diferencias respecto a las dos dimensiones de confianza, vamos a construir una variable para poder contabilizar y graficar adecuadamente:
+```{r}
+WVS_factores <- WVS_factores %>%
+  mutate(Resultados_Distribucion = ifelse(Cluster %in% c(1, 2, 3, 4), "Diferencia", "Similitud"))
+```
+
 
 ## 3.4. Mapas
 
@@ -718,7 +737,7 @@ Procedemos a hacer mapas de acuerdo a la agrupación de los países en base a lo
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
 
-proyeccion = cmdscale(MATRI_dist , k=3,add = T) 
+proyeccion = cmdscale(MATRI_dist , k=6,add = T) 
 head(proyeccion$points,20)
 ```
 
@@ -740,7 +759,7 @@ plot(mapaMundo)
 
 ```{r message=FALSE, warning=FALSE}
 
-WVS_factores1$NAME=rownames(WVS_factores1)
+WVS_factores$NAME=rownames(WVS_factores)
 worldmap = st_read(destination,stringsAsFactors=FALSE)
 
 ```
@@ -748,21 +767,33 @@ worldmap = st_read(destination,stringsAsFactors=FALSE)
 Juntamos nuestro mapa con los resultados de los clusters en base a los factores:
 
 ```{r warning=FALSE}
-cluster_map=inner_join(worldmap,WVS_factores1 )
-names(WVS_factores1)
+cluster_map=inner_join(worldmap,WVS_factores)
+names(WVS_factores)
 ```
 
 #### **Mapa según los colores del gráfico de clústers:**
 
+**Cluster 1**: Confianza institucional baja-Confianza interpersonal alta
+
+**Cluster 2**: Confianza institucional Media-Confianza interpersonal alta
+
+**Cluster 3**: Confianza institucional alta-Confianza interpersonal media
+
+**Cluster 4**: Confianza institucional baja-Confianza interpersonal media
+
+**Cluster 5**: Confianza institucional baja-Confianza interpersonal baja
+
+**Cluster 6**: Confianza institucional media-Confianza interpersonal media
+
 ```{r message=FALSE, warning=FALSE, include=FALSE}
 
   map1= ggplot(cluster_map)+
-  geom_sf(aes(fill = clus_instituciones), lwd = 0.2) +
+  geom_sf(aes(fill = Resultados_Distribucion), lwd = 0.2) +
   geom_sf_text(aes(label =NAME), size = 3, family = "sans", fontface = "bold", check_overlap = TRUE) +
-  scale_fill_manual(values = c("#556B2F", "#9ACD32","#CAFF70" ), labels = c( "Confianza baja", "Confianza moderada ", "Confianza alta")) +
-  labs(title = "Mapa 1: Grado de confianza institucional", subtitle = "Distribución por países según su agrupación en tres niveles",
+  scale_fill_manual(values = c("darkolivegreen1", "darkolivegreen"), labels = c( "Diferencia", "Similitud")) +
+  labs(title = "Mapa 1: Grado de confianza institucional e interpersonal", subtitle = "Distribución por países según su agrupación en tres niveles para sus dos dimensiones de confianza",
        caption = "",
-       fill = "Niveles") +   geom_sf(data=worldmap,color="black",lwd=0.1,alpha = 0) +
+       fill = "Niveles de confianza: Institucional-Interpersonal") +   geom_sf(data=worldmap,color="black",lwd=0.1,alpha = 0) +
   theme_bw() +
   theme(
     axis.text.x = element_blank(),
@@ -779,6 +810,7 @@ names(WVS_factores1)
 ```
 
 ```{r echo=FALSE, warning=FALSE}
+
 print(map1)
 ```
 
@@ -796,385 +828,96 @@ print(map1)
 
 -   En Oceania, al igual que en América del Norte, existe una tendencia moderada.
 
-# 4. Presentación y análisis de resultados - Confianza interpersonal
-
-Para el análisis de confianza interpersonal se utilizaran, como antes se mencionó, 6 variables que se encuentran desde la Q58 a la Q63, las cuales corresponden a la confianza interpersonal.
-
-## 4.1. Análisis Factorial Exploratorio
-
-Revisamos la estructura de nuestra subdata configurada previamente:
 
 ```{r}
-str(subdata_2)
-```
+recuento <- WVS_factores %>% count(Resultados_Distribucion)
+grafico <- ggplot(recuento, aes(x = Resultados_Distribucion, y = n, fill = Resultados_Distribucion)) +
+  geom_bar(stat = "identity", color = "black", width = 0.6) +
+  labs(title = "Recuento de Categorías",
+       x = "Categoría",
+       y = "Recuento") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5),
+        axis.text.x = element_markdown(size = 12, color = "black"),
+        axis.title = element_text(size = 14, face = "bold"),
+        legend.position = "none")
 
-```{r message=FALSE, warning=FALSE, include=FALSE}
-subdata_2=as.data.frame(subdata_2) #La subdata estaba en forma tibble
-```
+# Añadir etiquetas con números
+grafico <- grafico +
+  geom_text(aes(label = n), vjust = -0.5, color = "black", size = 4, fontface = "bold")
 
-```{r message=FALSE, warning=FALSE, include=FALSE}
-subdata_2 <- subdata_2[complete.cases(subdata_2),] #LA LIMPIAMOS DE NUEVO POR EL CAMBIO DE FORMATO
-subdata_2=na.omit(subdata_2)
-```
+# Personalizar colores
+colores <- c("darkolivegreen1", "darkolivegreen")
+grafico <- grafico +
+  scale_fill_manual(values = colores)
 
-Creamos nuestra matriz de correlación, en el que por la naturaleza de la variable (categórica-ordinal) se busca aplicar una correlación policórica. No obstante, con este método presentamos problemas al momento de correr el código, debido a que R reconoce cada decimal de nuestros datos como un nivel. Por ende, no se reconoce la naturaleza ordinal de nuestras variables en R, por lo que se aplica hetcor que es una heramienta nos llevaría al mismo resultado por su naturaleza numérica, que se complementa con la función correlations.
+# Ajustar etiquetas de ejes en formato enriquecido
+grafico <- grafico +
+  scale_x_discrete(labels = function(x) paste0("<span style='font-size:12pt;'>", x, "</span>"))
 
-```{r}
-
-corMatrix2=hetcor(subdata_2)$correlations
-corMatrix
-```
-
-#### Creamos un objeto con la matriz de correlaciones:
-
-```{r}
-cor.plot(corMatrix2,
-          numbers=T, #Se muestren los numeros de las correlaciones
-          upper=F, #Que aparezca la segunda parte
-          main= "Matriz de correlaciones",#Titulo
-          show.legend=T)#Mostrar leyenda
-```
-
-Creamos un objeto con la matriz de correlaciones, la cual es una tabla que mide y muestra la interdependencia en las relaciones entre variables. Por ello, como se puede observar, nuestra tabla es una matriz de correlación en el que la relación identica entre variables es consigo mismas a través de la diagonal de 1, que hace referencia a la matrisz de identidad entre las mismas variables.
-
-**Verificamos que los datos se puedan factorizar:**
-
-Verificamos que los datos se puedan factorizar a través del test de Kaiser-Meyer-Olkin (KMO), el cual permite observar las variables observables con la finalidad de determinar si existe una correlación real y si los datos son factorizables.
-
-#### **Test de Kaiser-Meyer-Olkin factor adequacy**
-
-```{r}
-psych::KMO(subdata_2)
-```
-
-Observamos que los resultados se encuentran entre 0.58 a 0.86. Asímismo, el Overall MSA es de 0.78, de modo que, al ser mayor a 0.5 y 0.7, los datos de todas nuestras variables son factorizables.
-
-**Verificamos si la matriz de correlaciones es adecuada:**
-
-**Test de Bartlett**
-
-Este test consiste en indicar si la matriz de correlaciones que hemos observado es una matriz de identidad o una matriz de correlación.
-
--   H0= Matriz de correlación es igual a la matriz de identidad
-
--   Ha= Matriz de correlación NO es igual a la matriz de identidad (\<0.05)
-
-```{r}
-cortest.bartlett(corMatrix2,n=nrow(subdata_2))$p.value>0.05
-```
-
-Con el "FALSE" se rechaza la H0 y se asume un valor menor a 0.05, que indica que la matriz de correlación es igual que la matriz de identidad. Por ende, se adopta la Ha, que indica que la matriz es adecuada.
-
-#### **Determinamos la cantidad de factores a desarrollar**
-
-**Gráfico de sedimentación**
-
-Elaboramos este gráfico para determinar en cuántos factores podemos redimensionar nuestras variables.
-
-```{r warning=FALSE}
-fa.parallel(corMatrix2, fm="pa", fa="fa", main = "Scree Plot")
-```
-
-De acuerdo con este gráfico, observamos que el codo se ubica sobre el número 2, siendo este el número recomendado de factores para redimensionar la data.
-
-2.  **Eigen values - Autovalores**
-
-```{r}
-eigenf2 = eigen(cor(subdata_2, use="complete"))
-eigenf2$values
-```
-
-En lo que respecta a los autovalores, los cuales son otro método para determinar la cantidad de factores mediante la ubicación de autovalores superiores a 1, se recomienda agrupar nuestra data en 2 variabls latentes.
-
-Después de realizar el gráfico de sedimentación y observar los autovalores, elegimos construir 2 factores, número recomendado por ambos métodos, puesto que, por la cantidad limitada de variables que conforman la dimensión de confianza interpersonal, elegir un número mayor implicaría una menor precisión y, por otro lado, no agruparía correctamente las variables, dejando algunas variables como único elemento dentro de los factores.
-
-#### **Solicitamos el número de componentes:**
-
-Rotamos para acomodar las variables latentes de tal manera que se correlacionen con un grupo de datos y no con otro.
-
-```{r}
-factorial_exp2 <- fa(subdata_2,nfactors = 2,rotate="varimax", fm="minres")
-factorial_exp2
-```
-
-#### **Diagramamos**
-
-Observamos qué variables conforman cada uno de los factores así como cuando aporta cada una a estos componentes.
-
-```{r}
-fa.diagram(factorial_exp2)
-```
-
-Como se puede observar, R nos recomienda los factores MR1 y MR2. Respecto al primero, este cuenta con variables que pueden ser catalogadas como "De confianza interpersonal lejana", puesto que hacen referencia a dimensiones de la confianza interpersonal que se relaciona con personas con las que no hay un vínculo desarrollado necesariamente, incluyendo confianza con personas de otra nacionalidad, con recién conocidos, personas de otra religión y personas que conoces personalmente (conocidos).
-
-Por otro lado, respecto al MR2, encontramos variables que se relacionan con una dimensión de la confianza interpersonal más "cercana", en el sentido en el que, en la mayoría de los casos, existe un lazo desarrollado en el tiempo, como sería la confianza en la familia y en los vecinos.
-
-```{r}
-print(factorial_exp2$loadings,cutoff = 0.6)
-```
-
-Se puede observar la distribución de las variables observables en los factores según cuanto aportan al primer o segundo factor.
-
-**Evaluamos el Análisis Factorial Exploratorio solicitado**
-
-¿Qué variables aportaron mas a los factores?
-
-```{r}
-sort(factorial_exp2$communality)
-```
-
--   Observamos que las variables de "Confianza en tu vecindario" y "Confianza en personas de otra nacionalidad" son las que aportan significativamente más a los factores. Esto podría deberse, principalmente, por la trascendencia de la confianza en el vecindario, que atraviesa todas las dimensiones de confianza interpersonal y todas las sociedades en sus relaciones sociales diarias. Respecto a la confianza en personas de otra nacionalidad, por la inmigración masiva como fenómeno global, este aspecto afecta más a la confianza interpersonal y, con eso, a todas sus dimensiones, aportando más a su desarrollo.
-
-¿Qué variables contribuyen a mas de un factor?
-
-```{r}
-sort(factorial_exp2$complexity)
-```
-
--   Contamos que las variables "Confianza en tu vecindario" y "Confianza en conocidos o personas que conoces personalmente". son las que contribuyen a más de un factor. Podría decirse que ambas, podrían en ciertos casos tiener un nivel de lejanía o cercanía, de modo que pueden contribuir a ambos factores.
-
-¿Qué variables tiene un componente "único" más grande?
-
-```{r}
-sort(factorial_exp2$uniquenesses)
-```
-
--   Las variables de Familia y Recien conocidos tienen mayor información única, ello quiere decir que aportan poco con la información en común que se tiene con las demás variables.En otras palabras, familia no puede ser una variable dentro del factor MR1 en el que, como se comentó, es una variable para grupos interpersonales lejanos. Asimismo, la variable Recien conocidos no podría ingresar o aportar a MR2, siendo esta un factor de confianza a grupo interpersonal más cercano, puesto que, la confianza en los mismos tiene un carácter vinculado en su mayoría a la lejanía en materia interpersonal.
-
-```{r}
-factorial_inter<-as.data.frame(factorial_exp2$scores)
-head(factorial_inter)
-summary(factorial_inter)
+# Mostrar el gráfico
+print(grafico)
 ```
 
 ```{r}
-WVS_pais$confinter_lejana<- factorial_inter$MR1
-WVS_pais$confinter_cercana<- factorial_inter$MR2
+# Calcular el recuento de cada cluster
+recuento <- WVS_factores %>% count(Cluster)
+
+# Crear el gráfico de barras
+grafico2 <- ggplot(recuento, aes(x = Cluster, y = n, fill = Cluster)) +
+  geom_bar(stat = "identity", color = "black") +
+  labs(title = "Análisis de Clusters de Confianza",
+       x = "Clusters",
+       y = "Recuento") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5),
+        axis.text = element_text(size = 12),
+        axis.title = element_text(size = 14, face = "bold"),
+        legend.title = element_blank())
+# Añadir etiquetas con números
+etiquetas <- c("Diferentes", "Diferentes", "Diferentes", "Diferentes", "Similares", "Similares")
+grafico2 <- grafico2 +
+  geom_text(aes(label = n), vjust = -0.5, color = "black", size = 4, fontface = "bold")
+
+# Personalizar colores
+colores <- c("darkolivegreen2", "darkolivegreen1", "olivedrab2", "darkolivegreen3", "darkolivegreen", "darkolivegreen4")
+grafico2 <- grafico2 +
+  scale_fill_manual(values = colores)
+
+grafico <- grafico +
+  scale_x_discrete(labels = function(x) paste0("<span style='font-size:12pt;'>", etiquetas[x], "</span>"))
+
+# Mostrar el gráfico
+print(grafico2)
+
 ```
 
-[**Descripción y sustentación de cada factor**]{.underline}
-
-1.  **FAE1 - Confianza en entorno lejano** (incluye confianza en: conocidos, extranjeros, recién conocidos, personas de otra religión)
-2.  **FAE2 - Confianza entorno cercano** (incluye confianza en: vecindario y familia)
-
-En este caso, a diferencia del anterior, el Análisis Factorial Confirmatorio resulta innecesario, puesto que la distribución propia de R refleja la forma en la que desde la literatura se entiende la confianza interpersonal, constituyendo un modelo adaptado a nuestro contexto. Como desarrollan Schlenker, Helm y Tedeschi (1973),la confianza interpersonal se define como la confianza en la información recibida de otra persona y los productos que lo acompañan en una situación de riesgo, los cuales llegan a constituir una relación y una serie de expectativas.
-
-En tal sentido, en nuestra relación con los demás, se identifican grupos que influyen mayoramente en nuestra confianza, generando expectativas negativas producto del desarrollo de un vínculo; mientras que, por otro lado, existen grupos que tienen expectativas positivas menores por la ausencia de una relación. Por ende, no existe una dimensión unica de la confianza interpersonal, puesto que esta se desarrolla diferencialmente a partir del vínculo existente entre individuos y lo que los rodea.
-
-**Estandarizamos del 1 al 4**
+#Gráfico de dispersión:
 
 ```{r}
-#install.packages("BBmisc")
-library(BBmisc)
-WVS_pais$confinter_lejana = normalize(WVS_pais$confinter_lejana, 
-                                        method = "range", 
-                                        margin=2, # by column
-                                        range = c(0, 4))
- WVS_pais$confinter_cercana= normalize(WVS_pais$confinter_cercana, 
-                                        method = "range", 
-                                        margin=2, # by column
-                                        range = c(0, 4))
+# Crear el gráfico de dispersión con línea de regresión
+grafico3 <- ggplot(WVS_factores, aes(x = FAC1_Confianzainstitucional, y = FAC2_Confianzainterpersonal)) +
+  geom_point(color = "steelblue", alpha = 0.7, size = 3) +
+  geom_smooth(method = "lm", se = FALSE, color = "red", linetype = "dashed") +
+  labs(title = "Gráfico de Dispersión con Línea de Regresión",
+       x = "Confianza Institucional",
+       y = "Confianza Interpersonal") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5),
+        axis.title = element_text(size = 14, face = "bold"))
 
-```
-
-```{r message=FALSE, warning=FALSE, include=FALSE}
-WVS_pais$confinter_lejana = 5 - normalize(WVS_pais$confinter_lejana, method = "range", margin = 2, range = c(1, 4))
-WVS_pais$confinter_cercana = 5 - normalize(WVS_pais$confinter_cercana, method = "range", margin = 2, range = c(1, 4))
+# Mostrar el gráfico
+print(grafico3)
 
 
 ```
 
-Los niveles de confianza se clasifican de la siguiente manera:
-
--   Nivel 4 - Muy Alta confianza
-
--   Nivel 3 - Alta confianza
-
--   Nivel 2 - Media-Baja Confianza
-
--   NIvel 1 - Baja confianza
-
-## 4.2. Análisis de Conglomerados Jerárquicos
-
-Nuevamente, aplicaremos el análisis de conglomerados K-means para encontrar subgrupos de países que sean homogéneos entre sí y heterogéneos respecto a los otros grupos según los factores generados de confianza interpersonal.
 
 ```{r}
-WVS_factores2 <- WVS_pais%>%select(confinter_lejana, confinter_cercana)
+correlacion <- cor(WVS_factores$FAC1_Confianzainstitucional, WVS_factores$FAC2_Confianzainterpersonal, method = "spearman")
+print(correlacion)
 ```
-
-#### **Elaboramos la matriz de distancias**
-
-```{r}
-dist_inter <- get_dist(WVS_factores2, method = "euclidean", stand = TRUE)
-```
-
-```{r}
-fviz_dist(dist_inter,gradient = list(low="blue", mid="white", high ="red"))
-```
-
-La matriz visualiza la similitud o diferencia en los niveles de confianza interpersonal entre países. El color rojo representa mayor homogeneidad, mientras que el color azul indica mayor heterogeneidad.
-
-#### **Cálculo de clusters**
-
-Se hizo la elección de la distancia euclidiana en este análisis de clustering para agrupar observaciones que son cercanas entre sí y medir la similitud o la disimilitud. Además, el método de agrupamiento "ward.D" se relaciona positivamente con la distancia euclidiana al minimizar la varianza dentro de cada cluster.
-
-```{r}
-
-interclust=NbClust(WVS_factores2, distance = "euclidean", min.nc= 2, max.nc= 10, 
-                       method = "ward.D")
-```
-
-El gráfico nos indica 7 combinaciones para la cantidad de cortes, recomendando por la regla de mayoría realizar 4 clusters. No obstante, a partir de las combinaciones realizadas el número 3 fue el tercer mejor resultado, de modo que, para facilitar la comparación con la confianza institucional, será el elegido.
-
-Es por ello que en la fórmula siguiente vamos a realizar 3 cortes.
-
-```{r}
-
-dendointer <- hcut(WVS_factores2, k = 3, stand = TRUE, hc_method = "ward.D")
-
-```
-
-#### **Dendograma**
-
-Desarrollamos el dendograma con la formula a continuacion:
-
-```{r}
-
-fviz_dend(dendointer, rect = T, cex = 0.5)
-```
-
-#### **Gráfico de clusters**
-
-Realizamos el gráfico de clusters para ver cómo se distribuyen los países:
-
-```{r}
-fviz_cluster(dendointer, data = WVS_factores2)
-```
-
-Observamos que los países se distribuyen en tres grandes grupos a partir de los factores desarrollados previamente.
-
-**Agregamos a nuestra base**
-
-```{r}
-WVS_pais$clus_interpersonal=as.factor(dendointer$cluster)
-WVS_factores2$cluster_inter=as.factor(WVS_pais$clus_interpersonal)
-
-```
-
-**Vemos las características de los grupos**
-
-```{r}
-table(WVS_pais$clus_interpersonal)
-```
-
-**Observamos características**
-
-```{r}
-tablainterpersonal<- table(WVS_pais$Nombre,WVS_pais$clus_interpersonal)
-tablainterpersonal
-```
-
-**Países agrupados según los clústers**
-
--   **Clúster 1 (30 países):** Argentina, Bolivia, Brasil, Chile, Colombia, Chequia (República Checa), Ecuador, Alemania, Guatemala, Hong Kong, Indonesia, Japón, Kenia, Líbano, Macao, México, Marruecos, Nicaragua, Nigeria, Perú, Puerto Rico, Rumania, Serbia, Singapur, Taiwán (provincia de China), Túnez, Ucrania, Uruguay, Venezuela, Zimbabue.
-
--   **Clúster 2 (7 países):**Australia, Canada, Estados Unidos, Irlanda, Nueva Zelanda, Países Bajos,Reino Unido, Estados Unidos
-
--   **Clúster 3 (25):** Armenia, Bangladesh, China, Chipre, Etiopía, Grecia, Irán (República Islámica), Irak, Jordania, Kazajistán, Corea del Sur, Kirguistán, Libia, Malasia, Maldivas, Mongolia, Myanmar, Pakistán, Filipinas, Rusia, Eslovaquia, Tayikistán, Tailandia, Turquía, Vietnam.
-
-**Observamos las características de los clusters**
-
-```{r}
-clus_inter= WVS_factores2 %>%
-  mutate(Cluster_inter = dendointer$cluster ) %>%
-  group_by(Cluster_inter) %>%
-  summarise_all("mean")
-
-clus_inter
-```
-
-A partir de las características de los clusters, considerando los valores configurados previamente, donde 4 es mayor confianza y 1 es menos confianza, se obtuvieron los siguientes grados de confianza interpersonal:
-
-1.  **Confianza alta (2ndo Cluster)** -\> 7 países
-
-<!-- -->
-
-2.  **Confianza moderada (3er Cluster)** -\> 35 países
-
-3.  **Confianza baja (1er Cluster)** -\> 30 países
-
-A pesar de las diferencias en la asignación y resultados de los clusters sobre distintos factores de forma individual, en promedio, estos se agrupan de acuerdo los niveles presentados.
-
-## 4.3. Mapas
-
-Procedemos a hacer mapas de acuerdo a la agrupación de los países en base a los clusters creados
-
-```{r}
-WVS_factores2$NAME=rownames(WVS_factores2)
-```
-
-```{r message=FALSE, warning=FALSE}
-cluster_map2=inner_join(worldmap,WVS_factores2 )
-names(WVS_factores2)
-```
-
-**Mapa según los colores del gráfico de clústers:**
-
-```{r message=FALSE, warning=FALSE, include=FALSE}
-
-map2= ggplot(cluster_map2)+ geom_sf(aes(fill = cluster_inter), lwd = 0.2) +
-  geom_sf_text(aes(label =NAME), size = 3, family = "sans", fontface = "bold", check_overlap = TRUE) + scale_fill_manual(values = c("#556B2F","#CAFF70", "#9ACD32" ), labels = c("Confianza baja", "Confianza alta", "Confianza moderada")) +
-  labs(title = "Mapa 2: Grado de confianza interpersonal ", subtitle = "Distribución por países según su agrupación en tres niveles",
-       caption = "",
-       fill = "Niveles") +   geom_sf(data=worldmap,color="black",lwd=0.3,alpha = 0) +
-  theme_bw() +
-  theme(
-    axis.text.x = element_blank(),
-    axis.text.y = element_blank(),
-    axis.ticks = element_blank(),
-    axis.title = element_blank(),
-    panel.border = element_blank(),
-    panel.grid.major = element_blank(),
-    panel.grid.minor = element_blank(),
-    legend.position = c(0.1, 0.3),
-    legend.title = element_text(colour = "black", size = 10, face = "bold")
-  )
-
-```
-
-```{r echo=FALSE}
-print(map2)
-```
-
--   Lationamérica y el Caribe se caracteriza por una confianza interpersonal baja de forma unánime.
-
--   América del Norte y Europa del Oeste cuenta con una confianza interpersonal alta. Sin embargo, resalta como excepción el caso de Alemania que cuenta con un nivel bajo.
-
--   Europa del Este y Eurasia tiene una tendencia a la confianza moderada. Se presentan casos bajos también en países como Ucrania y Rumania.
-
--   En lo que respecta a África, con la información que tenemos, existe una tendencia de confianza baja, a excepción de Etiopia que cuenta con niveles moderados
-
--   En la región del Asia hay una tendencia moderada. Sin embargo, resalta sorprendentemente el caso de Japón y Singapur que presenta baja confianza interpersonal.
-
--   En Oceanía la confianza interpersonal es alta.
-
-En comparación con el Mapa 1 de Confianza Institucional por países podemos observar ciertas similitudes. Principalmente en América Latina, países como Perú, Argentina, Colombia, Bolivia, Venezuela, Guatemala y México, la confianza institucional e interpersonal es baja, siendo el continente que expresa mejor la supuesta relación entre ambas variables. Asimismo, se observan similitudes en otras latitudes geográficas como en Asia y Eurasia.
-
-No obstante, lo que resalta son las diferencias. A nivel mundial, los países encuentran variaciones en ambas dimensiones de confianza. Principalmente, se observa una diferencia entre los países con confianza institucional alta y media, puesto que, en varios casos, estos bajan o suben en un nivel en la dimensión de confianza interpersonal, como se observa en Estados Unidos, Canada, entre otros. Asimismo, también existen diferencias totales en otros casos, como en Singapur y en varios países de África.
-
-# Acercamientos alternativos a la confianza y sus resultados:
-
-Después de analizar los resultados, la literatura sugiere distintas explicaciones que dan cuenta y justifican los resultados obtenidos a partir de la consideración de variables explicativas que nutren el análisis.
-
-**Explicación alternativa de resultados-Confianza institucional:**
-
-En las regiones de la esfera más desarrollada, como Europa, Oceanía, Norteamérica, o en las regiones que han presentado un rápido crecimiento económico, como Asia del Este, es probable que el factor económico esté relacionado con su confianza institucional. De este modo, es posible que el crecimiento económico genere un mayor bienestar en la población, determinando la aparición y desarrollo de sentimientos o estrategias de confianza (Estella de Noriega, 2020). El crecimiento económico esta asociado con la alfabetización, una variable muy probablemente asociada a formar capital humano (Algan y Cahuc, 2014). No obstante, no significa que sea una relación causal porque los "micromecanismos" que conectar bienestar económico con confianza institucional están poco estudiados en la literatura. (Estella de Noriega, 2020). Asimismo, existen otros acercamientos que privilegian miradas desde la crisis de institucionalidad en América Latina, la capacidad del estado, entre otras explicaciones.
-
-**Explicación alternativa de resultados-Confianza interpersonal**
-
-En sociedades más abiertas y cosmopolitas que premian a comportamientos cooperativos y fomentan interacciones con otros, la confianza será mayor. Por el contrario, en sociedades conservadores donde los lazos familiares dominan y las interacciones sociales están fuertemente formalizadas, la confianza interpersonal es menor entre extraños o conocidos pero alta entre personas que pertenecen al mismo grupo (Morrone y Tontoranelli y Ranuzzi, 2009). Esto podría explicar por qué tenemos a regiones de Norteamérica, Oceanía y Europa del Oeste con una alta confianza interpersonal, puesto que son sociedades abiertas y cosmopolitas, muy alejadas de valores tradicionales. Por el contrario, regiones como Latinoamérica, Africa y Asia, son mucho más conservadoras en sus costumbres y valoración de lazos familiares, por lo que tienden a ser más desconfiados hacia personas fuera del círculo cercano.
-
-Excepciones como el caso de Alemania en Europa se explican porque, si bien Alemania es una sociedad desarrollada, en los últimos años afronta una crisis migratoria al ser el país de la Unión Europea que más recibió asilo de migrantes (Eurostat, s/f). La opinión del público alemán considera que existen demasiados migrantes en el país dando lugar el surgimiento de partidos de extrema derecha, Alternative für Deutschland, que advocan por políticas antimigratorias que en el 2017 se consolidaron el partido de mayor oposición en Alemania. (Abali, 2009; Conolly, 2017)
+Criterio de Cohen --> correlación pequeña
 
 # Conclusiones:
 
