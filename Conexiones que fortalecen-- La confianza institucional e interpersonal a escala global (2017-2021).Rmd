@@ -11,13 +11,11 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # 1.Introducción
 
-La confianza en las instituciones es fundamental para el buen funcionamiento de una sociedad y para su propio desarrollo en sentido amplio. Estas se definen, de acuerdo con Helmke y Levitsky (2006), como un conjunto de reglas y procedimientos que estructuran las interacciones sociales a partir de la restricción y habilitación del comportamiento de los actores. En tal sentido, cuando las instituciones son consideradas legítimas y confiables, la población tiende a desarrollar a cabalidad el sentido cívico y acepta la influencia de las mismas sobre su comportamiento. Asimismo, la confianza en las instituciones también es crucial para mantener la estabilidad social y la cohesión en una sociedad, ya que ayuda a evitar la polarización y los conflictos. Siguiendo a Kim (2014), el grado de democratización modera la asociación entre la confianza en las autoridades institucionales y el compromiso político individual. De acuerdo con Nye (1997), en las instituciones debe existir un nivel crítico de apoyo para garantizar su legitimidad y prevalencia. De este modo, la confianza en las instituciones, al impactar sobre la vida social, se relacionan con la confianza interpersonal. Las instituciones, así, moldean el comportamiento de la sociedad de manera predecible, no arbitraria ni dañina para los intereses de la misma o el país, tratando a los ciudadanos de manera igualitaria, correcta y justa.
+La confianza en las instituciones es reconocida internacionalmente como fundamental para el desarrollo de una sociedad en sentido amplio, puesto que esta expresa el juicio valorativo que los ciudadanos tienen sobre las mismas. De esta manera, cuando estas suelen tener un mejor desempeño, ampliamente reconocido y legitimado, los ciudadanos suelen desarrollar una mayor confianza hacia las mismas. Asimismo, esta confianza permite a las instituciones nutrirse de las percepciones ciudadanas en pos de su mejoría. Sin embargo, en diferentes lugares del mundo, la confianza en las instituciones de índole política, económica y social está en decadencia, producto de la crisis de institucionalidad en los diferentes regímenes. 
 
-La confianza interpersonal refiere a la creencia y seguridad que las personas tienen en las demás, especialmente en sus relaciones personales y sociales. Implica la percepción de que los demás actuarán de manera confiable y que se puede depender de ellos en diversas situaciones. La confianza interpersonal es esencial para el funcionamiento de las relaciones sociales y la cooperación entre individuos. En este punto, la confianza interpersonal e institucional se solapan, y terminan influyendo una a la otra. Tal como desarrollan Mannemar y Thisted (2016), la confianza en las instituciones locales, principalmente gubernamentales, explican en parte la confianza interpersonal y viceversa. Así, se asume una correlación aparente.
+Por otro lado, desde la academía, se sostiene que, las instituciones, al percibirse como un reflejo y referente de la ciudadanía, repercuten en la percepción de confianza sobre la propia sociedad. De esta manera, ambas dimensiones de confianza pueden brindarnos un acercamiento sobre el funcionamiento y desarrollo de la sociedad. Asimismo, también distintos investigadores sostienen que la confianza interpersonal influye en la confianza institucional y viceversa, creando un ciclo de retroalimentación.Tal como desarrollan Mannemar y Thisted (2016), la confianza en las instituciones locales, principalmente gubernamentales, explican en parte la confianza interpersonal y viceversa. 
 
-Por este motivo, diferentes organizaciones se han acercado empírica y cuantitativamente a esta relación a través del análisis de la confianza a nivel mundial, donde se incluyen ambas dimensiones antes mencionadas. Encuestas como el World Values Survey, que recopila datos sobre los valores y actitudes de las personas en diferentes países, cuentan con este apartado incorporado, demostrando la relevancia de la confianza interpersonal e institucional en la actualidad.
-
-No obstante, desde distintas aproximaciones teóricas, se ha cuestionado esta relación, proponiendo explicaciones alternativas a la misma e incluso, en algunos casos, llegando a rechazar propiamente esta asociación (Allum et al., 2010). En ese contexto, resulta interesante analizar cómo los países se ubican respecto a estas dos dimensiones de confianza, puesto que permite problematizar en torno a la teoría y generar conclusiones empíricas. Por ende, el presente trabajo buscará analizar la confianza interpersonal e institucional en los países desde el World Values Survey 2017-2022.
+Por este motivo, resulta pertinente acercarnos empírica y cuantitativamente a esta agenda de investigación para analizar esta relación a partir de los niveles de confianza institucional e interpersonal alrededor del mundo. Así, el presente trabajo buscará analizar ambas dimensiones de confianza en los países a partir del World Values Survey (2017-2022), que reune información de distintos Estados en relación con sus valores, donde se incluye la confianza.
 
 ## 1.1. Pregunta de investigación
 
@@ -41,11 +39,12 @@ Los 62 países son los siguientes: Alemania, Argentina, Armenia, Australia, Bang
 
 El cuestionario WVS-7 consta de 290 preguntas que se dividen en 14 categorías que pretenden medir: "Valores sociales, actitudes y estereotipos"; "Felicidad y bienestar"; "Capital social, confianza y membresía organizacional"; "Valores económicos", "Corrupción"; "Migración"; "Seguridad"; "Índice postmaterial"; "Ciencia y tecnología"; "Valores culturales"; "Valores éticos y normas"; "Interés y participación política"; "Cultura política y régimenes políticos"; y "Demografía".
 
-Para los fines de esta investigación se ha decidido utilizar la categoría de "Capital social, confianza y membresía organizacional", en específico se ha seleccionado las preguntas entre Q58 -Q63, Q65-74, y Q76-Q81)
+Para los fines de esta investigación se ha decidido utilizar la categoría de "Capital social, confianza y membresía organizacional", en específico se ha seleccionado las preguntas entre Q58-Q63, Q65-74, y Q76-Q81)
+egundo, se eligieron las preguntas entre Q65-Q74 y Q76-81, que pregunta la confianza que personas sienten hacia instituciones locales de varias dimensiones como: las Fuerzas Armadas, la prensa, la Televisión, sindicatos, la policía, las cortes, el gobierno, partidos políticos, parlamento, servicio civil, elecciones, compañias grandes, bancos, organizaciones ambientales, organizaciones de mujeres, organizaciones humanitarias/caridad. Las respuestas varían en 4 grados desde "Sustancialmente", "Bastante", "No mucho", "Nada en absoluto".
 
 Primero, se eligieron las preguntas entre Q58-Q63, que pregunta la confianza que personas sienten hacia varios grupos interpersonales como la familia, vecindario, conocidos, personas que conocen por primera vez, personas de otras religiones y extranjeros. Las respuestas varían en 4 grados desde "Confío completamente", "Confío parcialmente", "No confío demasiado" hasta "No confío en absoluto".
 
-Segundo, se eligieron las preguntas entre Q65-Q74 y Q76-81, que pregunta la confianza que personas sienten hacia instituciones locales de varias dimensiones como: las Fuerzas Armadas, la prensa, la Televisión, sindicatos, la policía, las cortes, el gobierno, partidos políticos, parlamento, servicio civil, elecciones, compañias grandes, bancos, organizaciones ambientales, organizaciones de mujeres, organizaciones humanitarias/caridad. Las respuestas varían en 4 grados desde "Sustrancialmente", "Un montón", "No mucho", "Nada en absoluto".
+S
 
 Se debe precisar que en esta investigación nos estamos concentrando en instituciones locales, por lo que estamos omitiendo la presencia de organismos internacionales. Asimismo, se ha decidido no agregar la confianza en las instituciones religiosas, puesto que influye desproporcionadamente sobre la confianza institucional, generando resultados atípicos. Por otro lado, las instituciones religiosas basan sus creencias en un poder sobrenatural y en interpretaciones metafísicas diferenciadas (Bruce, 2009). En tal sentido, esta variable, la cual fue implementada en un inicio, dificulta el análisis.
 
@@ -731,7 +730,7 @@ WVS_factores <- WVS_factores %>%
 ```
 
 
-## 3.4. Mapas
+## 3.4. Mapas & Gráficos
 
 Procedemos a hacer mapas de acuerdo a la agrupación de los países en base a los clusters creados
 
@@ -828,6 +827,10 @@ print(map1)
 
 -   En Oceania, al igual que en América del Norte, existe una tendencia moderada.
 
+####Gráficos de barras
+
+Visualizando nuestros clusters:
+
 
 ```{r}
 recuento <- WVS_factores %>% count(Resultados_Distribucion)
@@ -861,10 +864,10 @@ print(grafico)
 
 ```{r}
 # Calcular el recuento de cada cluster
-recuento <- WVS_factores %>% count(Cluster)
+recuento2 <- WVS_factores %>% count(Cluster)
 
 # Crear el gráfico de barras
-grafico2 <- ggplot(recuento, aes(x = Cluster, y = n, fill = Cluster)) +
+grafico2 <- ggplot(recuento2, aes(x = Cluster, y = n, fill = Cluster)) +
   geom_bar(stat = "identity", color = "black") +
   labs(title = "Análisis de Clusters de Confianza",
        x = "Clusters",
@@ -892,13 +895,16 @@ print(grafico2)
 
 ```
 
-#Gráfico de dispersión:
+
+
+
+####Gráfico de dispersión:
 
 ```{r}
 # Crear el gráfico de dispersión con línea de regresión
 grafico3 <- ggplot(WVS_factores, aes(x = FAC1_Confianzainstitucional, y = FAC2_Confianzainterpersonal)) +
   geom_point(color = "steelblue", alpha = 0.7, size = 3) +
-  geom_smooth(method = "lm", se = FALSE, color = "red", linetype = "dashed") +
+  geom_smooth(method = "lm", se = FALSE, color = "black", linetype = "dashed") +
   labs(title = "Gráfico de Dispersión con Línea de Regresión",
        x = "Confianza Institucional",
        y = "Confianza Interpersonal") +
@@ -911,7 +917,7 @@ print(grafico3)
 
 
 ```
-
+###Extra: Cálculo de correlación
 
 ```{r}
 correlacion <- cor(WVS_factores$FAC1_Confianzainstitucional, WVS_factores$FAC2_Confianzainterpersonal, method = "spearman")
