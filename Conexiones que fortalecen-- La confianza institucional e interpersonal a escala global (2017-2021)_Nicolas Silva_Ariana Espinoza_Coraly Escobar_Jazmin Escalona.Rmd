@@ -1,0 +1,1072 @@
+---
+title: "Conexiones que fortalecen: La confianza institucional e interpersonal a escala global (2017-2021)"
+author: "Estudiantes:Nicolas Silva, Jazmín Escalona, Ariana Espinoza y Coraly Escobar"
+date: "2023-06-01"
+subtitle: 'Curso: POL304 - Estadística para el análisis político 2'
+output:
+  prettydoc::html_pretty:
+    theme: architect
+    highlight: github
+    toc: true
+---
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# 1.Introducción
+
+La confianza en las instituciones es reconocida internacionalmente como fundamental para el desarrollo de una sociedad en sentido amplio, puesto que esta expresa el juicio valorativo que los ciudadanos tienen sobre las mismas. De esta manera, cuando estas suelen tener un mejor desempeño, ampliamente reconocido y legitimado, los ciudadanos suelen desarrollar una mayor confianza hacia las mismas. Asimismo, esta confianza permite a las instituciones nutrirse de las percepciones ciudadanas en pos de su mejoría. Sin embargo, en diferentes lugares del mundo, la confianza en las instituciones de índole política, económica y social está en decadencia, producto de la crisis de institucionalidad en los diferentes regímenes. 
+
+Por otro lado, desde la academía, se sostiene que, las instituciones, al percibirse como un reflejo y referente de la ciudadanía, repercuten en la percepción de confianza sobre la propia sociedad. De esta manera, ambas dimensiones de confianza pueden brindarnos un acercamiento sobre el funcionamiento y desarrollo de la sociedad. Asimismo, también distintos investigadores sostienen que la confianza interpersonal influye en la confianza institucional y viceversa, creando un ciclo de retroalimentación.Tal como desarrollan Mannemar y Thisted (2016), la confianza en las instituciones locales, principalmente gubernamentales, explican en parte la confianza interpersonal y viceversa. 
+
+Por este motivo, resulta pertinente acercarnos empírica y cuantitativamente a esta agenda de investigación para analizar esta relación a partir de los niveles de confianza institucional e interpersonal alrededor del mundo. Así, el presente trabajo buscará analizar ambas dimensiones de confianza en los países a partir del World Values Survey (2017-2022), que reune información de distintos Estados en relación con sus valores, donde se incluye la confianza.
+
+## 1.1. Pregunta de investigación
+
+En este sentido la pregunta que pretende responder la presente investigación es la siguiente:
+
+*¿Existen similitudes entre los paises respecto a su distribución en términos de confianza en las instituciones y confianza interpersonal en base al World Values Survey (2017-2022)?*
+
+## 1.2. Hipótesis
+
+Existen diferencias significativas entre los países en cuanto a su distribución en términos de confianza en las instituciones y confianza interpersonal, a pesar de contar con algunos casos que guardan similitud.
+
+La pregunta de investigación nos permitirá evaluar si los países tienen similitudes respecto a su nivel de confianza institucional e interpersonal respectivamente. De acuerdo con la información provista por el World Values Survey, se han seleccionado distintas variables vinculadas con ambas dimensiones de confianza, las cuales constituyen y se relacionan en el apartado "Capital social, confianza y membresía organizacional" de la propia base de datos. En ese sentido, contrario a la literatura trabajada del tema, proponemos la existencia de diferencias entre países en torno a ambas variables, a pesar de la existencia de ciertas similitudes. Consideramos esto porque, desde la Ciencia Política se ha teorizado la existencia de una relación entre la confianza interpersonal y la confianza en las instituciones, en sentido amplio, que en los últimos años ha sido puesta bajo crítica y análisis (Mannemar & Thisted, 2016). De este modo, argumentamos que ambos tipos de confianza no pueden explicarse a sí mismos por si solos, de modo que, un determinado grado de confianza interpersonal no se ve reflejado en la confianza institucional y viceversa.
+
+# 2. Metodología: base de datos y métodos seleccionados
+
+## 2.1. Base de datos:
+
+La presente investigación se basa en el "2017-2022 World Values Survey Wave 7". Esta base tiene como propósito recolectar los cambios en creencias, valores y motivaciones de las personas en casi 100 países que continen casi el 90% de la población del mundo. Esta investigación utilizará la versión más actual del cuestionario que corresponde a la séptima ola de WVS.No obstante, tras el proceso de limpieza, y debid a los NA presentados en la base de datos, no se utilizarán todos los países que cubre la séptima ola, sino solo 62 países.
+
+Los 62 países son los siguientes: Alemania, Argentina, Armenia, Australia, Bangladesh, Bolivia, Brasil, Canadá, Chequia (República Checa), Chile, China, Chipre, Colombia, Corea del Sur, Ecuador, Eslovaquia, Estados Unidos, Etiopía, Filipinas, Grecia, Guatemala, Hong Kong, Indonesia, Irak, Irán (República Islámica), Irlanda, Japón, Jordania, Kazajistán, Kenia, Kirguistán, Líbano, Libia, Macao, Malasia, Maldivas, Marruecos, México, Mongolia, Myanmar, Nicaragua, Nigeria, Nueva Zelanda, Países Bajos, Pakistán, Perú, Puerto Rico, Reino Unido, Rumania, Rusia, Serbia, Singapur, Taiwán (provincia de China), Tayikistán, Tailandia, Túnez, Turquía, Ucrania, Uruguay, Venezuela, Vietnam, Zimbabue.
+
+El cuestionario WVS-7 consta de 290 preguntas que se dividen en 14 categorías que pretenden medir: "Valores sociales, actitudes y estereotipos"; "Felicidad y bienestar"; "Capital social, confianza y membresía organizacional"; "Valores económicos", "Corrupción"; "Migración"; "Seguridad"; "Índice postmaterial"; "Ciencia y tecnología"; "Valores culturales"; "Valores éticos y normas"; "Interés y participación política"; "Cultura política y régimenes políticos"; y "Demografía".
+
+Para los fines de esta investigación se ha decidido utilizar la categoría de "Capital social, confianza y membresía organizacional", en específico se ha seleccionado las preguntas entre Q58-Q63, Q65-74, y Q76-Q81)
+egundo, se eligieron las preguntas entre Q65-Q74 y Q76-81, que pregunta la confianza que personas sienten hacia instituciones locales de varias dimensiones como: las Fuerzas Armadas, la prensa, la Televisión, sindicatos, la policía, las cortes, el gobierno, partidos políticos, parlamento, servicio civil, elecciones, compañias grandes, bancos, organizaciones ambientales, organizaciones de mujeres, organizaciones humanitarias/caridad. Las respuestas varían en 4 grados desde "Sustancialmente", "Bastante", "No mucho", "Nada en absoluto".
+
+Primero, se eligieron las preguntas entre Q58-Q63, que busca averiguar la confianza que personas sienten hacia varios grupos interpersonales como la familia, vecindario, conocidos, personas que conocen por primera vez, personas de otras religiones y extranjeros. Las respuestas varían en 4 grados desde "Confío completamente", "Confío parcialmente", "No confío demasiado" hasta "No confío en absoluto".
+
+
+Se debe precisar que en esta investigación nos estamos concentrando en instituciones locales, por lo que estamos omitiendo la presencia de organismos internacionales. Asimismo, se ha decidido no agregar la confianza en las instituciones religiosas, puesto que influye desproporcionadamente sobre la confianza institucional, generando resultados atípicos. Por otro lado, las instituciones religiosas basan sus creencias en un poder sobrenatural y en interpretaciones metafísicas diferenciadas (Bruce, 2009). En tal sentido, esta variable, la cual fue implementada en un inicio, dificulta el análisis.
+
+**Abrimos las librerías:**
+
+```{r message=FALSE, warning=FALSE}
+library(rio)
+library(dplyr)
+library(tidyverse)
+library(car)
+library(countrycode)
+library(polycor)
+library(psych)
+library(GPArotation)
+library(lavaan)
+library(semPlot)
+library(rmdformats)
+library(dendextend)
+library(factoextra)
+library(ggdendro)
+library(NbClust)
+library(latexpdf)
+library(data.table)
+library(tidyr)
+library(sp)
+library(BBmisc)
+library(sf)
+library(rgdal)
+library(rgeos)
+library(maptools)
+library(ggplot2)
+library(sf)
+library(ggtext)
+library(kableExtra)
+library(magrittr)
+```
+
+```{r message=TRUE, warning=FALSE, include=FALSE, paged.print=FALSE}
+options(scipen = 999)
+```
+
+**Cargamos la base de datos:**
+
+```{r}
+WVS = import("WVS.rdata") 
+```
+
+**Seleccionamos las variables que se utilizarán:**
+
+```{r}
+WVS_A <- WVS%>%select(B_COUNTRY,Q58:Q63, Q65:Q74, Q76:Q81)
+```
+
+Las variables con las que trabajeremos son numéricas ordinales.
+
+**Limpiamos la base, eliminando los valores correspondientes a respuesta no contabilizables y los valores perdidos.**
+
+```{r message=FALSE, warning=FALSE}
+WVS_A <- WVS_A %>% 
+  mutate(across(everything(), ~if_else(. %in% c(-1, -2, -3, -4, -5), NA_integer_, .)))
+WVS_A <- na.omit(WVS_A)
+```
+
+**Renombramos las variables:**
+
+```{r}
+WVS_pais <- WVS_A%>%rename(Codigo=B_COUNTRY, familia=Q58, barrio=Q59, conocidos=Q60, rconocidos=Q61, preligion=Q62,nacionalidad=Q63,confianza_FFAA=Q65,confianza_prensa= Q66,confianza_television= Q67, confianza_sindicatos = Q68, confianza_policia = Q69, confianza_justicia = Q70, confianza_gobierno = Q71, confianza_partidos = Q72, confianza_parlamento = Q73, confianza_serviciocivil = Q74, confianza_elecciones = Q76, confianza_granempresa = Q77, confianza_bancos =Q78, confianza_org_ambiental =Q79, confianza_org_mujeres = Q80, confianza_org_humanitaria = Q81)
+```
+
+
+**
+**Asignamos una subdata tanto para trabajar la confianza en las instituciones como la interpersonal**
+
+[**A) Confianza interpersonal**]{.underline} Ordenamos de manera ascendente para hacer más comprensible la información.
+
+1.  Confianza en las Fuerzas Armadas
+
+```{r message=FALSE, warning=FALSE}
+WVS_pais$confianza_FFAA= recode(WVS_pais$confianza_FFAA, "1=4;2=3;3=2;4=1")
+FFAA.t=table(WVS_pais$confianza_FFAA)
+FFAA.t%>%
+  kbl() %>%
+  kable_minimal()
+```
+
+2.  Confianza en la prensa
+
+```{r message=FALSE, warning=FALSE}
+WVS_pais$confianza_prensa= recode(WVS_pais$confianza_prensa, "1=4;2=3;3=2;4=1")
+ConPrens=table(WVS_pais$confianza_prensa)
+ConPrens%>%
+  kbl() %>%
+  kable_minimal()
+```
+
+3.  Confianza en la televisión
+
+```{r message=FALSE, warning=FALSE}
+WVS_pais$confianza_television= recode(WVS_pais$confianza_television, "1=4;2=3;3=2;4=1")
+TeleTable=table(WVS_pais$confianza_television)
+TeleTable%>%
+  kbl() %>%
+  kable_minimal()
+```
+
+4.  Confianza en los sindicatos
+
+```{r message=FALSE, warning=FALSE}
+WVS_pais$confianza_sindicatos= recode(WVS_pais$confianza_sindicatos, "1=4;2=3;3=2;4=1")
+SinCon=table(WVS_pais$confianza_sindicatos)
+SinCon%>%
+  kbl() %>%
+  kable_minimal()
+```
+
+5.  Confianza en la policía
+
+```{r message=FALSE, warning=FALSE}
+WVS_pais$confianza_policia= recode(WVS_pais$confianza_policia, "1=4;2=3;3=2;4=1")
+PoliCon=table(WVS_pais$confianza_policia)
+PoliCon%>%
+  kbl() %>%
+  kable_minimal()
+```
+
+6.  Confianza en las cortes de justicia
+
+```{r message=FALSE, warning=FALSE}
+WVS_pais$confianza_justicia= recode(WVS_pais$confianza_justicia, "1=4;2=3;3=2;4=1")
+JusConf=table(WVS_pais$confianza_justicia)
+JusConf%>%
+  kbl() %>%
+  kable_minimal()
+```
+
+7.  Confianza en el gobierno
+
+```{r message=FALSE, warning=FALSE}
+WVS_pais$confianza_gobierno= recode(WVS_pais$confianza_gobierno, "1=4;2=3;3=2;4=1")
+GobConf=table(WVS_pais$confianza_gobierno)
+GobConf%>%
+  kbl() %>%
+  kable_minimal()
+```
+
+8.  Confianza en los partidos políticos
+
+```{r message=FALSE, warning=FALSE}
+WVS_pais$confianza_partidos= recode(WVS_pais$confianza_partidos, "1=4;2=3;3=2;4=1")
+PartConf=table(WVS_pais$confianza_partidos)
+PartConf%>%
+  kbl() %>%
+  kable_minimal()
+```
+
+9.  Confianza en el parlamento
+
+```{r message=FALSE, warning=FALSE}
+WVS_pais$confianza_parlamento= recode(WVS_pais$confianza_parlamento, "1=4;2=3;3=2;4=1")
+ParlaConf=table(WVS_pais$confianza_parlamento)
+ParlaConf%>%
+  kbl() %>%
+  kable_minimal()
+```
+
+10. Confianza en el servicio civil
+
+```{r message=FALSE, warning=FALSE}
+WVS_pais$confianza_serviciocivil= recode(WVS_pais$confianza_serviciocivil, "1=4;2=3;3=2;4=1")
+SCConf=table(WVS_pais$confianza_serviciocivil)
+SCConf%>%
+  kbl() %>%
+  kable_minimal()
+```
+
+11. Confianza en los mecanismos electorales
+
+```{r message=FALSE, warning=FALSE}
+WVS_pais$confianza_elecciones= recode(WVS_pais$confianza_elecciones, "1=4;2=3;3=2;4=1")
+ElecConf=table(WVS_pais$confianza_elecciones)
+ElecConf%>%
+  kbl() %>%
+  kable_minimal()
+```
+
+12. Confianza en las grandes empresas
+
+```{r message=FALSE, warning=FALSE}
+WVS_pais$confianza_granempresa= recode(WVS_pais$confianza_granempresa, "1=4;2=3;3=2;4=1")
+EmpreConf=table(WVS_pais$confianza_granempresa)
+EmpreConf%>%
+  kbl() %>%
+  kable_minimal()
+```
+
+13. Confianza en la banca
+
+```{r message=FALSE, warning=FALSE}
+WVS_pais$confianza_bancos= recode(WVS_pais$confianza_bancos, "1=4;2=3;3=2;4=1")
+BankConf=table(WVS_pais$confianza_bancos)
+BankConf%>%
+  kbl() %>%
+  kable_minimal()
+```
+
+14. Confianza en las organizaciones ambientales
+
+```{r message=FALSE, warning=FALSE}
+WVS_pais$confianza_org_ambiental= recode(WVS_pais$confianza_org_ambiental, "1=4;2=3;3=2;4=1")
+OrgAmCOnf=table(WVS_pais$confianza_org_ambiental)
+OrgAmCOnf%>%
+  kbl() %>%
+  kable_minimal()
+```
+
+15. Confianza en las organizaciones de mujeres
+
+```{r message=FALSE, warning=FALSE}
+WVS_pais$confianza_org_mujeres= recode(WVS_pais$confianza_org_mujeres, "1=4;2=3;3=2;4=1")
+OrgMujConf=table(WVS_pais$confianza_org_mujeres)
+OrgMujConf%>%
+  kbl() %>%
+  kable_minimal()
+```
+
+16. Confianza en las organizaciones humanitarias/caridad
+
+```{r message=FALSE, warning=FALSE}
+WVS_pais$confianza_org_humanitaria= recode(WVS_pais$confianza_org_humanitaria, "1=4;2=3;3=2;4=1")
+HumanOrgConf=table(WVS_pais$confianza_org_humanitaria)
+HumanOrgConf%>%
+  kbl() %>%
+  kable_minimal()
+```
+
+
+**b) [Confianza interpersonal]{.underline}**
+
+Ordenamos de manera ascendente.
+
+1.  Confianza en su familia
+
+```{r message=FALSE, warning=FALSE}
+WVS_pais$familia= recode(WVS_pais$familia, "1=4;2=3;3=2;4=1")
+FamilyCOnf=table(WVS_pais$familia)
+FamilyCOnf%>%
+  kbl() %>%
+  kable_minimal()
+```
+
+2.  Confianza en su vecindario
+
+```{r message=FALSE, warning=FALSE}
+WVS_pais$barrio= recode(WVS_pais$barrio, "1=4;2=3;3=2;4=1")
+BarrioConf=table(WVS_pais$barrio)
+BarrioConf%>%
+  kbl() %>%
+  kable_minimal()
+```
+
+3.  Confianza en conocidos
+
+```{r message=FALSE, warning=FALSE}
+WVS_pais$conocidos= recode(WVS_pais$conocidos, "1=4;2=3;3=2;4=1")
+ConoConf=table(WVS_pais$conocidos)
+ConoConf%>%
+  kbl() %>%
+  kable_minimal()
+```
+
+4.  Confianza en recién conocidos por primera vez
+
+```{r message=FALSE, warning=FALSE}
+WVS_pais$rconocidos= recode(WVS_pais$rconocidos, "1=4;2=3;3=2;4=1")
+RconConf=table(WVS_pais$rconocidos)
+RconConf%>%
+  kbl() %>%
+  kable_minimal()
+```
+
+5.  Confianza en personas de otra religión
+
+```{r message=FALSE, warning=FALSE}
+WVS_pais$preligion= recode(WVS_pais$preligion, "1=4;2=3;3=2;4=1")
+ReliConf=table(WVS_pais$preligion)
+ReliConf%>%
+  kbl() %>%
+  kable_minimal()
+```
+
+6.  Confianza en extranjeros
+
+```{r message=FALSE, warning=FALSE}
+WVS_pais$nacionalidad= recode(WVS_pais$nacionalidad, "1=4;2=3;3=2;4=1")
+NaConf=table(WVS_pais$nacionalidad)
+NaConf%>%
+  kbl() %>%
+  kable_minimal()
+```
+
+**Transformamos la información:**
+
+Para mayor comodidad y representatividad, agrupamos la data por país y convertimos 
+la información de nivel individual a a nivel país a través del promedio de sus resultados.
+
+```{r warning=FALSE}
+WVS_pais <- WVS_pais %>%
+  group_by(Codigo) %>%
+  summarize(across(c(familia:confianza_org_humanitaria), mean, na.rm = TRUE), .groups = "keep")
+```
+
+```{r message=FALSE, warning=FALSE, include=FALSE, paged.print=FALSE}
+WVS_pais <- as.data.frame(WVS_pais)
+```
+
+
+En el mismo sentido, agregamos una columna nueva para el nombre del país, de modo que sea más fácil identificar la correspondencia de los valores:
+
+```{r warning=FALSE}
+WVS_pais$Codigo <- as.character(WVS_pais$Codigo)
+data=import("https://github.com/nicosil02/trabajoest2/raw/main/all.csv")
+WVS_pais$Nombre <- data$name[match(WVS_pais$Codigo, data$`country-code`)]
+```
+
+En este apartado, configuramos los nombres de los países que no aparecen en la data y que cuentan con resultados, así como los que difieren de los nombres del mapa que usaremos para fines prácticos.
+
+```{r warning=FALSE}
+WVS_pais$Nombre <- case_when(
+  WVS_pais$Codigo == 909 ~ "Ireland",
+  WVS_pais$Codigo == 826 ~ "United Kingdom",
+  WVS_pais$Codigo == 68 ~ "Bolivia",
+  WVS_pais$Codigo == 862 ~ "Venezuela",  WVS_pais$Codigo == 643 ~ "Russia",WVS_pais$Codigo == 840 ~ "United States",
+  TRUE ~ WVS_pais$Nombre
+)
+
+```
+
+
+## 2.2. Métodos seleccionados
+
+Para responder a la pregunta de investigación en miras a determinar la agrupación de los países de acuerdo a sus niveles de confianza institucional e interpersonal, se utilizarrá el *Análisis Factorial Exploratorio* (AFE) como primer método para agrupar las 22 variables seleccionadas en un conjunto de variables latentes (factores) con el fin de reducir dimensiones. Por otro lado, complementaremos el AFE con el *Análisis Factorial Confirmatorio* (AFC) con el objetivo de revisar los factores provistos por R así como para proponer un modelo más adecuado en miras la distribución de factores no sea adecuada para nuestros objetivos de investigación. Con los factores determinados e incluidos en nuestra base de datos, se utilizará el *Análisis de Conglomerados Jerárquico*, el cual nos permitirá agrupar nuestros países respecto en grupos homogéneos por dentro y heterogéneos entre sí de acuerdo a sus resultados en los factores desarrollados previamente. Obtenida la distribución, desarrollaremos un *mapa* y unos *gráficos*, tanto de barras como de dispersión, con la finalidad de poder presentar nuestros resultados de forma visual, así como para poder extraer información importante respecto a las similitudes y diferencias entre los países para nuestra conclusión. Por último, optamos por utilizar el método de correlación, el cual nos permitirá contribuir a los resultados obtenidos mediante el análisis de la relación de nuestros factores correspondientes a las dimensiones de confianza.
+
+
+# 3. Presentación y análisis de resultados - Confianza institucional e interpersonal
+Con las variables configuradas previamente realizaremos el análisis factorial exploratorio
+
+A continuación, realizaremos en Análisis Factorial Exploratorio con nuestras 22 variables correspondientes a confianza institucional e interpersonal.
+
+## 3.1. Análisis Factorial Exploratorio:
+
+Creamos nuestra subdata para poder manipular los datos:
+
+```{r}
+WVS_total<- WVS_pais%>%select(-c(Codigo,Nombre))
+```
+
+### Calculamos la matriz de correlación
+
+
+```{r}
+
+corMatrix = hetcor(WVS_total)$correlations
+corMatrix 
+
+```
+
+Para poder observar de forma más ordenada nuestros resultados, realizaremos la matriz de correlación.
+
+**Creamos un gráfico con la matriz de correlaciones:**
+
+
+```{r}
+cor.plot(corMatrix,
+          numbers=T, #Se muestren los numeros de las correlaciones
+          upper=F, #Que aparezca la segunda parte
+          main= "Matriz de correlaciones",#Titulo
+          show.legend=T)#Mostrar leyenda
+```
+
+Con la matriz previa podemos observar la proporción de relación entre dos variabales. La relación se explica mediante la intensidad de los colores de la matriz y sus explicaciones en la leyenda. Mientras más azul, será más cercano a 1 y mayor será dicha proporción. Por el contrario, mientras más rojo, será menor la relación y cercana a -1. Esto se elaboró para buscar si existen grupos de variables correlacionadas, y posteriormente, conformar las variables latentes (factores). En nuestro gráfico, podemos observar que parece existir correlación en gran parte de nuestras variables, puesto que se evidencian tonos celestes y azules en la mayoría de recuadros.Estos resultados nos sugieren profundizar nuestro análisis en miras a determinar si es posible desarrollar factores.
+
+
+**Verificamos si los datos son factorizables:**
+
+Para poder establecer que nuestras variables son factorizables, es necesario realizar el Test KMO.
+
+Test de Kaiser-Meyer-Olkin factor adequacy (KMO):
+
+-   Escala - Test KMO
+
+    -   0 a 0.5= no se debe de realizar
+
+    -   0.5 a 0.7= aceptable
+
+    -   0.7 a 1= muy bueno
+
+
+```{r warning=FALSE}
+psych::KMO(WVS_total) 
+```
+
+Con esta prueba lo que buscamos es que la correlación parcial sea mayor a 0.5. Asimismo, se espera que los valores resultantes, esten más ceranos a 1.  En este caso, observamos que los resultados se encuentran 0.67 y 0.96, con un Overall MSA de 0.88, lo cual es ideal. Esto nos indica que los valores de las variables son factorizables.
+
+**Verificamos si la matriz de correlación es adecuada**
+
+Cuando nuestras variables son factorizables, como paso posterior, debemos verificar si la matriz de correlación desarrollada es adecuada mediante el Test de Bartlett.
+
+Test de Bartlett
+
+-   H0= Matriz de correlación es igual a la matriz de identidad
+
+-   Ha= Matriz de correlación NO es igual a la matriz de identidad (\<0.05)
+
+Con este test, lo que buscamos es que se rechace la H0, la cual implica que la matriz de correlacion es una matriz identidad.
+
+```{r}
+cortest.bartlett(corMatrix,n=nrow(WVS_total))$p.value>0.05
+```
+
+El resultado del test es "FALSE", lo que nos indica que existe un p-value mayor a 0.05, de modo que se rechaza la H0 y se acepta la Ha que indica que la matriz de correlación es diferente a la matriz de identidad. Podemos así confirmar que la matriz es adecuada y podemos factorizar.
+
+#### **Determinamos cuántos factores latentes puede redimensionar la data:**
+
+A continuación desarrollaremos diferentes métodos que nos permiten calcular en cuántos factores redimensionar nuestras variables.
+
+**Grafico de sedimentación:**
+
+Elaboramos este gráfico para determinar en cuántos factores podemos redimensionar nuestros variables y valores de nuestra subdata.
+
+
+```{r}
+fa.parallel(WVS_total, fa = 'fa',correct = T,plot = F)
+```
+
+
+```{r warning=FALSE}
+fa.parallel(corMatrix, fm="pa", fa="fa", main = "Scree Plot")
+```
+De acuerdo con la información obtenida, lo recomendable es desarrollar 3 factores. Para obtener un acercamiento adicional a la cantidad de factores, desarrollaremos el método de Eigen values.
+
+
+**Eigen values - Autovalores**
+
+(Criterio de Kaiser : se deben retener todos los factores que tengan un autovalor mayor de 1.0.)
+
+```{r}
+eigenf = eigen(cor(WVS_total, use="complete"))
+eigenf$values
+```
+
+Al observar los autovalores, vemos que hay 3 autovalores que superan a 1, de modo que se sugiere el desarrollo de 3
+
+Tras observar los autovalores y el gráfico de sedimentación podemos concluir que los más apropiado sería distribuir las variables en 3 factores. Elegir un número mayor a este, implicaría arriesgarnos a una menor exactitud y efectividad de los factores para responder a nuestra pregunta de investigación.
+
+#### **Solicitamos el número de componentes**
+
+Rotamos para acomodar las variables latentes para que se correlacionen con su respectivo grupo de datos.
+
+Utilizamos la rotación varimax, puesto que minimiza el número de variables con cargas altas en un factor, mejorando así la interpretación de factores.
+
+```{r}
+factorial_exp1 <- fa(WVS_total,nfactors = 3,rotate="varimax", fm="minres")
+factorial_exp1
+```
+
+Se nos muestra la capacidad explicativa de los factores respecto a las variables, de modo que se establecen relaciones entre estas.
+
+#### **Diagramamos**
+
+Observamos los factores y por cuáles variables se encuentran compuestas en relación a sus autovalores encontrados. Esto se hace en función de la varianza que comparten las variables con el factor. Todas las variables comparten varianza, pero algunas han compartido más con un factor que con los otros dos.
+
+```{r}
+fa.diagram(factorial_exp1)
+```
+
+```{r}
+print(factorial_exp1$loadings,cutoff = 0.6)
+```
+
+**Evaluamos el Análisis Factorial Exploratorio solicitado**
+
+-   ¿Qué variables aportaron más a los factores?
+
+    -   La variable que más aportó principalmente es confianza en personas de otra nacionalidad. Esto se explica matematicamente porque esta variable presenta un mayor coeficiente de correlación con el factor 2, como se observa en el diagrama desarrollado previamente. Esto podría explicarse también por las variables que conforman al factor, lo que denota que se trata de un factor relacionado con la confianza interpersonal, donde la confianza en persona de otra nacionalidad tiene una gran influencia.
+  
+
+```{r}
+sort(factorial_exp1$communality)
+```
+
+-   **¿Qué variables contribuyen a mas de un factor?**
+
+    -    La variable de confianza en la justicia es la que contribuye a más de un factor. Esto podría explicarse por su relación con los demás factores, los cuales, al contar con variables vinculadas a la confianza institucional e interpersonal, respectivamente, se vinculan con el grado de confianza hacia las FFAA, puesto que esta variable influye sobre la percepción de seguridad social como institucional.
+
+```{r}
+sort(factorial_exp1$complexity)
+```
+
+-   **¿Qué variables observables tiene un componente "único" más grande?**
+
+    -   La variable confianza en las FFAA se presenta con la que tiene un componente único más grande, de modo que tiene menor información en común con los factores extraídos del análisis. A diferencia de la variable confianza e familia, que se ubica como la segunda con mayor "uniqueness" porque su patrón de respuestas difiere en demasía al de las demás variables por estar entre 3 y 4 en todos sus casos, con una media de 3.753, la variable confianza en las FFAA, después de revisar sus resultados, tiene un componente único más grande porque los factores del análisis la influencian menos. 
+
+
+```{r}
+
+sort(factorial_exp1$uniquenesses)
+```
+
+## 3.2. Análisis Factorial Confirmatorio
+
+Una vez hecho el Análisis Factorial Exploratorio, pasaremos a realizar el Análisis Factorial Confirmatorio para corroborar si el modelo sugerido es adecuado.
+
+```{r message=FALSE, warning=FALSE}
+Modelo_confir1 = "FAC1 =~ confianza_org_ambiental+ confianza_org_mujeres+confianza_granempresa+ confianza_bancos+confianza_org_humanitaria+confianza_gobierno+ confianza_parlamento+ confianza_partidos+ confianza_sindicatos+ confianza_television+confianza_prensa+confianza_serviciocivil+ confianza_elecciones 
+
+FAC2 =~ nacionalidad+preligion+conocidos+rconocidos
+
+FAC3=~ familia+barrio+confianza_justicia+confianza_FFAA+ confianza_policia"
+
+
+Modelo_confir1
+```
+
+```{r}
+modelo=cfa(Modelo_confir1, data=WVS_total)
+summary(modelo,fit.measures=F)
+```
+
+A pesar de que las variables se adecúan apropiadamente a los factores propuestos al contar con p-values menores a 0.05, el modelo presentado no nos permite analizar las dimensiones de confianza interpersonal e institucional de forma adecuada, puesto que, como se evidencia en el factor 3, variables relacionadas con la confianza institucional son asignadas a este factor donde también se encuentran algunas referentes a la confianza interpersonal, lo que no permite responder a nuestros fines de investigación.
+
+En ese sentido, a continuación propondremos nuestro modelo estructurado en dos factores: confianza institucional y confianza interpersonal.
+
+
+
+```{r message=FALSE, warning=FALSE}
+Modelo_confir2 = "FAC1 =~ confianza_org_ambiental+ confianza_org_mujeres+confianza_granempresa+ confianza_bancos+confianza_org_humanitaria+confianza_gobierno+ confianza_parlamento+ confianza_partidos+ confianza_sindicatos+ confianza_television+confianza_prensa+confianza_serviciocivil+ confianza_elecciones + confianza_justicia+confianza_FFAA+ confianza_policia
+
+FAC2 =~ nacionalidad+preligion+conocidos+rconocidos+familia+barrio"
+
+
+Modelo_confir2
+
+
+```
+
+
+```{r warning=FALSE}
+modelo2=cfa(Modelo_confir2, data=WVS_total)
+summary(modelo2,fit.measures=F)
+
+```
+
+Se observa que la variable confianza en familia presenta un p-value mayor a 0.05 que podría ser problemático al armar el modelo. De esta manera, examinaremos las características de esta variable y los resultados de contempla para entender su p-value.
+
+```{r}
+print(WVS_pais$familia)
+```
+```{r}
+summary(WVS_pais$familia)
+sd(WVS_pais$familia)
+range(WVS_pais$familia)
+```
+Al examinar la variable observamos que los países tienen una confianza alta en su familia con valores que se ubican en un rango entre 3.26 - 3.98 y con una media de 3.75. Asimismo, esta confianza no muestra variabilidad entre países ya que la desviación estándar es de 0.14.
+
+```{r}
+boxplot(WVS_total$familia)
+```
+
+La poca variabilidad también se aprecia en el boxplot que presenta una altura estrecha, sin valores extremos y con bigotes cortos.
+
+En ese sentido, esta variable, al presentar valores homogéneamente altos y sin mucha variación entre los países, representaría un problema porque podría indicar que la variable no está capturando diferencias significativas en la muestra. Por ello, para el nuevo modelo esta será retirada con el fin de contar con variables que sí influyan potencialmente en los factores. 
+
+**Nuevo modelo sin variable "familia"**
+
+```{r message=FALSE, warning=FALSE}
+
+Modelo_confir3 = "FAC1 =~ confianza_org_ambiental+ confianza_org_mujeres+confianza_granempresa+ confianza_bancos+confianza_org_humanitaria+confianza_gobierno+ confianza_parlamento+ confianza_partidos+ confianza_sindicatos+ confianza_television+confianza_prensa+confianza_serviciocivil+ confianza_elecciones + confianza_justicia+confianza_FFAA+ confianza_policia
+
+FAC2 =~ nacionalidad+preligion+conocidos+rconocidos+barrio"
+
+
+Modelo_confir3
+
+```
+
+```{r warning=FALSE}
+modelo3=cfa(Modelo_confir3, data=WVS_total)
+summary(modelo3,fit.measures=F)
+```
+
+Tras lo realizado, se obtuvieron 2 factores:
+
+
+1.  **FAC1 - Confianza en las Instituciones** (Incluye confianza en: organizaciones ambientales, organizaciones de mujeres, grandes empresas, bancos, organizaciones humanitarias, gobierno, parlamento, partidos, sindicatos, television, prensa, servicio civil, elecciones, justicia, FFAA y policía)
+
+2.  **FAC2 - Confianza Interpersonal** (Incluye confianza en: personas de otra nacionalidad, de otra religión, conocidos, personas recién conocidas y en tu vecindario.)
+
+
+
+**Graficamos:**
+
+```{r echo=FALSE, warning=FALSE}
+semPaths(modelo3, intercepts = FALSE,edge.label.cex=1.5, optimizeLatRes = TRUE, groups = "lat",pastel = TRUE, exoVar = FALSE, sizeInt=5,edge.color ="black",esize = 6, label.prop=2,sizeLat = 6,"std", layout="circle2")
+```
+
+Observamos que los 2 factores cuentan con lineas gruesas en relación con sus variables, significando que hay una gran carga factorial. Asimismo, la información no explicada por el factor en la mayoría de casos es menor que la carga factorial. De esta manera, el modelo ofrece una correlación óptima y explicativa entre las variables y los factores.
+
+**Guardamos los componentes como nuevas variables:**
+
+
+```{r message=FALSE, warning=FALSE}
+factores_puntajes <- predict(modelo3)
+WVS_pais <- cbind(WVS_pais, factores_puntajes)
+```
+
+**Estandarizamos del 1 al 4:**
+
+
+```{r}
+
+WVS_pais$FAC1_Confianzainstitucional = normalize(WVS_pais$FAC1, 
+                                        method = "range", 
+                                        margin=2, # by column
+                                        range = c(1, 4))
+WVS_pais$FAC2_Confianzainterpersonal = normalize(WVS_pais$FAC2, 
+                                        method = "range", 
+                                        margin=2, # by column
+                                        range = c(1, 4))
+
+
+```
+
+
+
+Los niveles de confianza se clasifican de la siguiente manera:
+
+-   Nivel 4 - Muy Alta confianza
+
+-   Nivel 3 - Alta confianza
+
+-   Nivel 2 - Media-Baja Confianza
+
+-   NIvel 1 - Baja confianza
+
+
+
+## 3.3. Análisis de Conglomerados Jerárquicos
+
+AAhora aplicaremos el análisis de conglomerados jerárquicos por medio del método de agrupamiento "ward.D" para encontrar grupos de países que sean homogéneos entre sí y heterogéneos respecto a los otros grupos según los factores generados previamente.
+
+Asignamos el nombre de los países como primera columna para poder identificarlos en el proceso de crear los subgrupos.
+
+```{r}
+rownames(WVS_pais) = WVS_pais[,24]
+```
+
+Creamos una nueva subdata para realizar el análisis de clusters
+
+```{r}
+WVS_factores <- WVS_pais%>%select(FAC1_Confianzainstitucional,FAC2_Confianzainterpersonal)
+```
+
+#### **Elaboramos matriz de distancias**
+
+Calculamos la distancia:
+
+```{r}
+MATRI_dist <- get_dist(WVS_factores, method = "euclidean", stand = TRUE)
+```
+
+Graficamos la matriz:
+
+```{r}
+fviz_dist(MATRI_dist, gradient = list(low = "blue", mid = "white", high = "red"))
+```
+
+En esta matriz se puede visualizar cuáles países tienen valores de confianza institucional-interpersonal más homogéneos o heterogéneos entre sí. De esta forma, mientras más rojo el color, mayor será la homogeneidad. Por el contrario, mientras más azul, mayor será la heterogeneidad. En líneas generales, observamos cuadros tanto rojos como azules, indicando que es un adecuado primer acercamiento para el cálculo de clústers, puesto que existen grupos homogéneos por dentro y heterogéneos entre los demás.
+
+#### **Calculo de clúster**
+
+Después del desarrollo de nuestra matriz, pasamos a calcular el número de clusters.
+
+```{r}
+fviz_nbclust(WVS_factores, hcut, method = "silhouette", diss = MATRI_dist, k.max = 10, verbose = F)
+```
+
+
+
+```{r}
+resnumclust=NbClust(WVS_factores, distance = "euclidean", min.nc= 2, max.nc= 10, 
+                       method = "ward.D")
+```
+
+Tanto la métrica Sillhouete como d-index nos recomendaron, entre todos los índices posibles, realizar 3 clústers. No obstante, debido a que se desea realizar comparaciones entre múltiples categorías, se optó por escoger un mayor número de clusters que contengan información respecto a las tipologías "alto", "medio, "bajo", según la confianza tanto institucional como interpersonal. Por tanto, se optó por escoger 4 clusters.
+
+Si bien la elección para poder capturar todas las combinaciones de las 3 tipologías posibles respecto a las 2 dimensiones de confianza (interpersonal-institucional) debería ser 9,  después de probar con números entre 4-9 clústers, observamos que la data solo cuenta con 4 grupos de combinaciones posibles en relación con los niveles de confianza.
+
+
+```{r}
+res1 <- hcut(WVS_factores, k = 4, stand = TRUE, hc_method = "ward.D")
+```
+
+#### **Dendograma**
+
+Desarrollamos el dendograma con la formula a continuacion:
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+fviz_dend(res1, rect = T, cex = 0.5)
+```
+
+#### **Graficamos los clústers**
+
+```{r echo=FALSE}
+fviz_cluster(res1, data = WVS_factores)
+```
+
+#### **Agregamos a nuestra base y a nuestra subdata de factores**
+
+```{r}
+WVS_pais$Cluster=as.factor(res1$cluster)
+WVS_factores$Cluster=as.factor(res1$cluster)
+```
+
+#### **Vemos las características de los grupos**
+
+```{r}
+TableClus=table(WVS_pais$Cluster)
+TableClus%>%
+  kbl() %>%
+  kable_minimal()
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+fviz_silhouette(res1,print.summary = F)
+```
+En este gráfico se muestra qué tan útil es la clusterización según el nivel de casos mal clusterizados. Como se muestra en el gráfico, hay solo pocos casos mal clusterizados y estos solo se encuentran en el primer conglomerado. De esta manera, la clusterización realizada, en promedio, es adecuada.
+
+
+Países agrupados según los clústers
+
+**Clúster 1 ( 29 países):** Argentina, Chile, Taiwan, Chipre, Chequia, Etiopía, Alemania, Hong Kong, Iran, Japón, Jordania, Kenia, Corea, Kirguistán, Macao, Malasia, Mongolia, Nigeria, Pakistán, Puerto Rico, Rusia, Singapur, Eslovaquía, Zimbabue, Tailandia, Turquía, Ucrania, Estados Unidos y Uruguay.
+
+**Cluster 2 (6 países):** Australia, Canada, Países Bajos, Nueva Zelanda, Reino Unido e Irlanda.
+
+**Clúster 3 (8 países):** Bangladesh, Myanmar, China, Indonesia, Kazajistán, Filipinas, Vietnam y Tayikistán
+
+**Clúster 4 ( 19 países):** Armenia, Bolivia, Brazil, Colombia, Ecuador, Grecia, Guatemala, Irak, Líbano, Libia, Maldivas, México, Marruecos, Nicaragua, Perú, Rumania, Serbia, Túnez y Venezuela.
+
+
+
+#### **Observamos su distribución en función de los factores:**
+
+```{r}
+clust_car1=WVS_factores %>%
+  mutate(Cluster = res1$cluster) %>%
+  group_by(Cluster) %>%
+  summarise_all("mean")
+
+clust_car1
+```
+
+
+A partir de las características de los clusters, considerando los valores configurados previamente,hemos ordenado los niveles de confianza en tres categorías: 
+
+*Bajo*: Valores de confianza iguales o inferiores a 2.
+*Medio*: Valores de confianza superiores a 2 y menores o iguales a 3.
+*Alto*: Valores de confianza superiores a 3.
+
+De esta manera, encontramos en los clusters diferentes distribuciones de los niveles respecto a sus factores de confianza:
+
+
+**Cluster 1**: Confianza institucional media-Confianza interpersonal media
+
+**Cluster 2**: Confianza institucional media-Confianza interpersonal alta
+
+**Cluster 3**: Confianza institucional alta-Confianza interpersonal baja
+
+**Cluster 4**: Confianza institucional baja-Confianza interpersonal baja
+
+
+
+
+A pesar de las diferencias en la asignación y resultados de los clusters sobre distintos factores de forma individual, en promedio, estos se agrupan de acuerdo los niveles presentados.
+
+Frente a esta distribución, para poder observar las similitudes y diferencias respecto a las dos dimensiones de confianza, vamos a construir una variable para poder contabilizar y graficar adecuadamente:
+
+```{r}
+WVS_factores <- WVS_factores %>%
+  mutate(Resultados_Distribucion = ifelse(Cluster %in% c( 2, 3), "Diferencia", "Similitud"))
+```
+
+
+## 3.4. Mapas & Gráficos
+
+Procedemos a hacer mapas de acuerdo a la agrupación de los países en base a los clusters creados
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+
+proyeccion = cmdscale(MATRI_dist , k=4,add = T) 
+head(proyeccion$points,20)
+```
+
+
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+folder="world_map"
+file="world_map.shp"
+destination <- file.path("C:/Users/ASUS/Desktop/Estadística2_MAPAS_claseTeórica/world_map", file)
+file.copy(from = file.path(folder, file), to = destination)
+
+
+mapaMundo = rgdal::readOGR(destination,stringsAsFactors=FALSE) 
+
+plot(mapaMundo)
+```
+
+
+
+```{r message=FALSE, warning=FALSE}
+
+WVS_factores$NAME=rownames(WVS_factores)
+worldmap = st_read(destination,stringsAsFactors=FALSE)
+
+```
+
+Juntamos nuestro mapa con los resultados de los clusters en base a los factores:
+
+```{r warning=FALSE}
+cluster_map=inner_join(worldmap,WVS_factores)
+names(WVS_factores)
+```
+
+#### **Mapa según los diferencias y similitudes en los niveles de sus dimensiones de confianza:**
+
+
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+
+  map1= ggplot(cluster_map)+
+  geom_sf(aes(fill = Resultados_Distribucion), lwd = 0.2) +
+  geom_sf_text(aes(label =NAME), size = 3, family = "sans", fontface = "bold", check_overlap = TRUE) +
+  scale_fill_manual(values = c("darkolivegreen1", "darkolivegreen"), labels = c( "Diferencia", "Similitud")) +
+  labs(title = "Mapa 1: Grado de confianza institucional e interpersonal", subtitle = "Distribución por países según su agrupación en tres niveles para sus dos dimensiones de confianza",
+       caption = "",
+       fill = "Niveles de confianza: Institucional-Interpersonal") +   geom_sf(data=worldmap,color="black",lwd=0.1,alpha = 0) +
+  theme_bw() +
+  theme(
+    axis.text.x = element_blank(),
+    axis.text.y = element_blank(),
+    axis.ticks = element_blank(),
+    axis.title = element_blank(),
+    panel.border = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    legend.position = c(0.1, 0.3),
+    legend.title = element_text(colour = "black", size = 10, face = "bold")
+  )
+
+```
+
+```{r echo=FALSE, warning=FALSE}
+
+print(map1)
+```
+
+[Interpretación del mapa]
+
+   -  En el gráfico es posible observar como la distribución de los países se desarrolla según sus niveles de similitud y diferencia entre  las dimensiones de confianza interpersonal e institucional. Por un lado, en lo que respecta a los países con una similitud en ambas dimensiones de confianza, observamos países de América Latina, los cuales cuentan con niveles bajos de confianza institucional e interpersonal. Asimismo, encontramos países como Estados Unidos, Rusia y algunos pertenecientes a la Unión Europea que cuentan con confianza media en ambas dimensiones. Asimismo, países de África y algunos de Asía cuentan con resultados interesantes, puesto que algunos casos cuentan con similitud baja y en otros media, como se observa, por ejemplo, en Marruecos y Hong Kong, respectivamente.
+   
+Por otro lado, es posible observar,  países con resultados que difieren en sus dimensiones de confianza, los cuales se ubican de manera dispersa. Sin embargo, encontramos un patrón interesante en Asia, donde países como China y Kazajistán se presentan como "Diferentes" en torno a sus resultados de confianza. En esta dimensión, encontramos países en desarrollo y desarrollados que conforman el Cluster 2 y 3 (Confianza institucional media-Confianza interpersonal alta;Confianza institucional alta-Confianza interpersonal baja).
+
+A continuación, con el uso de gráficos varios, presentaremos a detalle los resultados obtenidos.
+
+####Gráficos de barras 
+
+Respecto a los países en cuanto a sus diferencias y similitudes en las dimensiones de confianza interpersonal e institucional, se obtuvieron los siguientes resultados:
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+recuento <- WVS_factores %>% count(Resultados_Distribucion)
+grafico <- ggplot(recuento, aes(x = Resultados_Distribucion, y = n, fill = Resultados_Distribucion)) +
+  geom_bar(stat = "identity", color = "black", width = 0.6) +
+  labs(title = "Recuento de Categorías",
+       x = "Categoría",
+       y = "Recuento") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5),
+        axis.text.x = element_markdown(size = 12, color = "black"),
+        axis.title = element_text(size = 14, face = "bold"),
+        legend.position = "none")
+
+# Añadir etiquetas con números
+grafico <- grafico +
+  geom_text(aes(label = n), vjust = -0.5, color = "black", size = 4, fontface = "bold")
+
+# Personalizar colores
+colores <- c("darkolivegreen1", "darkolivegreen")
+grafico <- grafico +
+  scale_fill_manual(values = colores)
+
+# Ajustar etiquetas de ejes en formato enriquecido
+grafico <- grafico +
+  scale_x_discrete(labels = function(x) paste0("<span style='font-size:12pt;'>", x, "</span>"))
+
+# Mostrar el gráfico
+print(grafico)
+```
+En este primer gráfico, en base a los 62 países del WVS (2017-2022), se observa que 14 corresponden a "Diferencia" y 48 a "Similitud". Esto quiere decir que 14 países cuentan con una distribución diferenciada de niveles (bajo-alto-medio) en torno a sus dimensiones de confianza institucional e interpersonal; mientra que 48 países cuentan con una distribución similar en los mismos términos. 
+
+
+En cuanto a la distribución de clusters:
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+# Calcular el recuento de cada cluster
+recuento2 <- WVS_factores %>% count(Cluster)
+
+# Crear el gráfico de barras
+grafico2 <- ggplot(recuento2, aes(x = Cluster, y = n, fill = Cluster)) +
+  geom_bar(stat = "identity", color = "black") +
+  labs(title = "Análisis de Clusters de Confianza",
+       x = "Clusters",
+       y = "Recuento") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5),
+        axis.text = element_text(size = 12),
+        axis.title = element_text(size = 14, face = "bold"),
+        legend.title = element_blank())
+# Añadir etiquetas con números
+etiquetas <- c("Similares", "Diferentes", "Diferentes",  "Similares")
+grafico2 <- grafico2 +
+  geom_text(aes(label = n), vjust = -0.5, color = "black", size = 4, fontface = "bold")
+
+# Personalizar colores
+colores <- c("darkolivegreen4", "darkolivegreen3", "darkolivegreen2", "darkolivegreen")
+grafico2 <- grafico2 +
+  scale_fill_manual(values = colores)
+
+grafico <- grafico +
+  scale_x_discrete(labels = function(x) paste0("<span style='font-size:12pt;'>", etiquetas[x], "</span>"))
+
+# Mostrar el gráfico
+print(grafico2)
+
+```
+
+Podemos observar en este gráfico que los clusters con tonos de verde más claros son los que corresponden a los casos con distribuciones diferentes; mientras que los verdes más oscuros, a los casos similares.
+
+En ese sentido, los clusters 1 y 4, con 29 y 19 países respectivamente, constituyen los casos con distribuciones similares en cuanto a sus niveles de confianza institucional e interpersonal. Por otro lado, los clusters 2 y 3 corresponden a los grupos de países con distribuciones diferenciadas respecto a los dos niveles de confianza.
+
+
+####Gráfico de dispersión:
+
+Al observar que la mayoría de los países seleccionados cuenta con una similitud respecto a sus niveles de confianza en torno a las dimensiones trabajadas, se optó por la utilización de un gráfico de dispersión, puesto que los resultados, así como las investigaciones previas del tema, parecen revelarnos la existencia de alguna correlación.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+# Crear el gráfico de dispersión con línea de regresión
+grafico3 <- ggplot(WVS_factores, aes(x = FAC1_Confianzainstitucional, y = FAC2_Confianzainterpersonal)) +
+  geom_point(color = "steelblue", alpha = 0.7, size = 3) +
+  geom_smooth(method = "lm", se = FALSE, color = "black", linetype = "dashed") +
+  labs(title = "Gráfico de Dispersión con Línea de Regresión",
+       x = "Confianza Institucional",
+       y = "Confianza Interpersonal") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5),
+        axis.title = element_text(size = 14, face = "bold"))
+
+# Mostrar el gráfico
+print(grafico3)
+
+
+```
+
+El gráfico de dispersión muestra la relación entre las variables. Como se puede observar, los puntos (casos) no se encuerran tan juntos ni separados, lo cual demuestra que existe algun tipo de relación entre la confianza en interpersonal e institucional, pero no llega a ser fuerte. Sin embargo, para poder corroborar este supuesto, se realizará un cálculo de correlación.
+
+
+###Cálculo de correlación
+
+Realizamos el test de normalidad para determinar qué prueba de correlación utilizaremos.
+```{r}
+shapiro.test(WVS_factores$FAC1_Confianzainstitucional)
+shapiro.test(WVS_factores$FAC2_Confianzainterpersonal)
+```
+  - H0: La variable se distribuye de manera normal
+  - Ha: La variable no se distribuye de manera normal
+  
+Al obtener que nuestra confianza institucional tiene un valor de 0.05, rechazamos la H0, de modo que nuestro factor se distribuye normalmente. Sin embargo, nuestra confianza interpersonal, al ser menor que 0.05, se distribuye normalmente. Frente a esto, optamos por utilizar el método de Spearman para medir nuestra correlación, ya que este es una medida de correlación no paramétrica, que se usa cuando no hay una distribución normal.
+
+###Correlación de Spearman
+
+```{r}
+correlacion <- cor(WVS_factores$FAC1_Confianzainstitucional, WVS_factores$FAC2_Confianzainterpersonal, method = "spearman")
+print(correlacion)
+```
+Recordamos el criteiro de Cohen para coeficientes de correlación: 
+
+¡ Si 0.0 ≤ |rxy| < 0.1 ⇒ La Correlación no es relevante
+¡ Si 0.1 ≤ |rxy| < 0.3 ⇒ La Correlación es pequeña
+¡ Si 0.3 ≤ |rxy| < 0.5 ⇒ La Correlación es mediana
+¡ Si 0.5 ≤ |rxy| < 1.0 ⇒ La Correlación es grande
+
+Al contar con un coeficiente de correlación de 0.23, concluimos que existe una correlación pequeña entre los factore de confianza institucional e interpersonal. Esto explicaría en parte la existencia de casos donde hay similitud en torno a los niveles en nuestras dimensiones de confianza; sin embargo, al ser un coeficiente débil, esto no sería suficiente para determinar esa relación, a pesar de influir en cierto grado.
+
+# 4. Conclusiones:
+
+Tras todo lo analizado se puede concluir que la hipótesis propuesta a la pregunta de investigación fue rebatida.La distribución de los países en términos de confianza en las instituciones y confianza interpersonal encuentra similitudes significativas lejos de presentar diferencias.En esa misma línea, encontramos que las distribuciones diferenciadas respecto a los niveles de las dimensiones de confianza seleccionadas ascienden a 14 casos, mientras que existen 48 países con similitudes. Observamos que las similitudes se encuentran en casi todas las regiones, a excepción de Oceanía. En lo que respecta a las distribuciones diferenciadas, encontramos países que difieren en sus niveles en las dos dimensiones de confianza en América del Norte, Europa, Asía y Oceanía. De esta manera, se expresa el predominio de los casos similares de acuerdo al total de países de nuestra muestra.
+
+Por otro lado, el número de casos donde encontramos el mismo nivel de confianza interpersonal como de interpersonal, consecuentemente, expresó la existencia de una correlación, confirmando y contribuyendo a los aportes teóricos sobre el tema. Sin embargo, se encontró una correlación baja, de modo que, ambas dimensiones de confianza no se explican por si solas. En ese sentido, una selección minuciosa de variables para los factores creados podría incrementar esta correlación. Asimismo, la utilización de variables adicionales podrían contribuir a entender qué factores explican los niveles de confianza institucional e interpersonal obtenidos.
+ 
+
+Los resultados obtenidos de este trabajo nos permiten acercanos a la confianza y sus implicancias en la realidad. Así, a pesar de que pueden existir casos mayoritarios de niveles de confianza similares en ambas dimensiones, esto no se traduce en una correlación alta.
+
+# Bibliografía:
+
+Haerpfer, C., Inglehart, R., Moreno, A., Welzel, C., Kizilova, K., Diez-Medrano J., M. Lagos, P. Norris, E. Ponarin & B. Puranen et al. (2022) *WVS wave 7 (2017-2022)*.
+
+Mannemar, K., & Thisted, P. (2016). Trusting the State, Trusting Each Other? The Effect of Institutional Trust on Social Trust. *Political Behavior*, 38,179-202. <https://link.springer.com/article/10.1007/s11109-015-9322-8>
+
+
+
